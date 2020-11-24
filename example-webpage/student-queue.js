@@ -93,3 +93,6 @@ function startTimeLimit(e) {
 		}
 	}, timeLimit * 1000)
 }
+
+const marker = new Mark("body");
+marker.setPosition("200px", "800px");

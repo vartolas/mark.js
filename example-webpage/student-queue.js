@@ -57,7 +57,6 @@ function addStudent(e) {
 	} catch (e) {
 		log('Invalid position')
 	}
-
 }
 
 
@@ -94,5 +93,6 @@ function startTimeLimit(e) {
 	}, timeLimit * 1000)
 }
 
-const marker = new Mark("body");
-marker.setPosition("200px", "800px");
+const mark = new Mark("body");
+mark.setPosition("200px", "800px");
+mark.setColours("#DDDDDD", "yellow", "lime");

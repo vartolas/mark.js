@@ -1,4 +1,9 @@
-function handleColourClick(markInstance, colourObject, otherColourObjects, colour) {
+const DEFAULT_COLOUR0 = "yellow";
+const DEFAULT_COLOUR1 = "cyan";
+const DEFAULT_COLOUR2 = "lime";
+
+
+function handleColourClick(markInstance, colourObject, otherColourObjects, newActiveColourIndex) {
   otherColourObjects.forEach(item => {
     if (item.classList.contains("activeColourBorder")) {
       item.classList.remove("activeColourBorder");
@@ -6,12 +11,11 @@ function handleColourClick(markInstance, colourObject, otherColourObjects, colou
     }
   });
 
-
-  if (markInstance.colour !== colour) {
+  if (markInstance.activeColourIndex !== newActiveColourIndex) {
     colourObject.classList.remove("inactiveColourBorder");
     colourObject.classList.add("activeColourBorder");
   }
-  markInstance.colour = colour;
+  markInstance.activeColourIndex = newActiveColourIndex;
 }
 
 function createDefaultPopUp(markInstance) {
@@ -27,20 +31,20 @@ function createDefaultPopUp(markInstance) {
   highlightSectionHeader.classList.add("sectionHeader");
   highlightSectionHeader.appendChild(document.createTextNode("Highlighter Settings"));
 
-  const yellow = document.createElement("div");
-  yellow.classList.add("highlighterColour");
-  yellow.classList.add("yellow");
-  yellow.classList.add("activeColourBorder");
+  const colour0 = document.createElement("div");
+  colour0.classList.add("highlighterColour");
+  colour0.style.backgroundColor = markInstance.colours[0];
+  colour0.classList.add("activeColourBorder");
 
-  const cyan = document.createElement("div");
-  cyan.classList.add("highlighterColour");
-  cyan.classList.add("cyan");
-  cyan.classList.add("inactiveColourBorder");
+  const colour1 = document.createElement("div");
+  colour1.classList.add("highlighterColour");
+  colour1.style.backgroundColor = markInstance.colours[1];
+  colour1.classList.add("inactiveColourBorder");
 
-  const lime = document.createElement("div");
-  lime.classList.add("highlighterColour");
-  lime.classList.add("lime");
-  lime.classList.add("inactiveColourBorder");
+  const colour2 = document.createElement("div");
+  colour2.classList.add("highlighterColour");
+  colour2.style.backgroundColor = markInstance.colours[2];
+  colour2.classList.add("inactiveColourBorder");
 
   const none = document.createElement("div");
   none.classList.add("highlighterColour");
@@ -50,15 +54,15 @@ function createDefaultPopUp(markInstance) {
   // noneChild.appendChild(document.createTextNode("OFF"));
   // none.appendChild(noneChild);
 
-  yellow.addEventListener("click", e => handleColourClick(markInstance, yellow, [cyan, lime, none], "yellow"));
-  cyan.addEventListener("click", e => handleColourClick(markInstance, cyan, [yellow, lime, none], "cyan"));
-  lime.addEventListener("click", e => handleColourClick(markInstance, lime, [yellow, cyan, none], "lime"));
-  none.addEventListener("click", e => handleColourClick(markInstance, none, [yellow, cyan, lime], "none"));
+  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, none], 0));
+  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, none], 1));
+  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, none], 2));
+  none.addEventListener("click", e => handleColourClick(markInstance, none, [colour0, colour1, colour2], -1));
 
   highlightSection.appendChild(highlightSectionHeader);
-  highlightSection.appendChild(yellow);
-  highlightSection.appendChild(cyan);
-  highlightSection.appendChild(lime);
+  highlightSection.appendChild(colour0);
+  highlightSection.appendChild(colour1);
+  highlightSection.appendChild(colour2);
   highlightSection.appendChild(none);
 
   // Create the undo button.
@@ -80,6 +84,7 @@ function createDefaultPopUp(markInstance) {
 
   return { popUp, highlightSection, undoBtn, resetBtn };
 }
+
 
 ///////////////////////////////////////////////////////
 //// FUNCTIONS THAT IMPLEMENT HIGHLIGHTING FEATURE ////
@@ -149,16 +154,11 @@ function insertNodeAtIndex(node, parent, i) {
 }
 
 function highlight(markInstance) {
-  // IF COLOUR IS NONE, RETURN
-  if (markInstance.colour === "none") {
-    return;
-  }
-
 	// TODO: Find out which browsers have window.getSelection function?
   const sel = window.getSelection();
 
 	// We don't want to count clicks as highlights.
-	if (sel.toString().trim() === "") {
+	if (sel.toString().trim() === "" || markInstance.activeColourIndex > 2 || markInstance.activeColourIndex < 0) {
 		return;
 	}
 
@@ -166,7 +166,7 @@ function highlight(markInstance) {
 	const intermediateTextNodes = getIntermediateTextNodes(document.body, sel.anchorNode, sel.focusNode);
 	const listOfSpansCreated = [];
 	intermediateTextNodes.map( t => {
-		const spanCreated = highlightTextNode(t, markInstance.colour);
+		const spanCreated = highlightTextNode(t, markInstance.colours[markInstance.activeColourIndex]);
 		if (spanCreated) {
 			listOfSpansCreated.push(spanCreated);
 		}
@@ -190,7 +190,7 @@ function highlight(markInstance) {
 		const firstTextNode = document.createTextNode(firstUnselectedText);
 
 		const span = document.createElement('span');
-		span.style.backgroundColor = markInstance.colour;
+		span.style.backgroundColor = markInstance.colours[markInstance.activeColourIndex];
 		const selectedTextNode = document.createTextNode(selectedText);
 		span.appendChild(selectedTextNode);
 
@@ -213,7 +213,7 @@ function highlight(markInstance) {
 			const unselectedTextNode = document.createTextNode(unselectedText);
 
 			const span = document.createElement('span');
-			span.style.backgroundColor = markInstance.colour;
+			span.style.backgroundColor = markInstance.colours[markInstance.activeColourIndex];
 			const selectedTextNode = document.createTextNode(selectedText);
 			span.appendChild(selectedTextNode);
 
@@ -232,7 +232,7 @@ function highlight(markInstance) {
 			const unselectedText = focusText.substring(focusOffset, focusText.length);
 
 			const span = document.createElement('span');
-			span.style.backgroundColor = markInstance.colour;
+			span.style.backgroundColor = markInstance.colours[markInstance.activeColourIndex];
 			const selectedTextNode = document.createTextNode(selectedText);
 			span.appendChild(selectedTextNode);
 
@@ -254,9 +254,14 @@ function highlight(markInstance) {
 	}
 }
 
+
+
+
+
 function Mark(selector) {
   this.highlights = [];
-  this.colour = "yellow";
+  this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2];
+  this.activeColourIndex = 0;
 
   const { popUp, highlightSection, undoBtn, resetBtn } = createDefaultPopUp(this);
   this.popUp = popUp;
@@ -269,6 +274,11 @@ function Mark(selector) {
 
   window.addEventListener('mouseup', () => highlight(this));
 }
+
+
+///////////////////////////////////////////////////////////////
+//// FUNCTIONS ADDED TO Mark.prototype (AVAILABLE TO DEVS) ////
+///////////////////////////////////////////////////////////////
 
 function hidePopUp() {
   if (this.popUp.parentElement == null) return;
@@ -287,16 +297,34 @@ function setPosition(top, left) {
   this.popUp.style.left = left;
 }
 
-function setHighlighterColour(colour) {
-  // if (colour is not valid) throw Error()
-  // else {
-  //
-  // }
+function setCurrentHighlighterColour(i) {
+  if (0 <= i && i <= 2) {
+    this.activeColourIndex = i;
+  }
+}
+
+function setColours(colour0, colour1, colour2) {
+  this.colours = [colour0, colour1, colour2];
+
+  const top = this.popUp.style.top;
+  const left = this.popUp.style.left;
+
+  this.element.removeChild(this.popUp);
+
+  const { popUp, highlightSection, undoBtn, resetBtn } = createDefaultPopUp(this);
+  this.popUp = popUp;
+  this.highlightSection = highlightSection;
+  this.undoBtn = undoBtn;
+  this.resetBtn = resetBtn;
+
+  this.setPosition(top, left);
+  this.element.appendChild(popUp);
 }
 
 Mark.prototype = {
-  setHighlighterColour,
+  setCurrentHighlighterColour,
   setPosition,
   hidePopUp,
-  showPopUp
+  showPopUp,
+  setColours
 }

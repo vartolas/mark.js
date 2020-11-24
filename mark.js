@@ -46,9 +46,9 @@ function createDefaultPopUp(markInstance) {
   none.classList.add("highlighterColour");
   none.classList.add("none");
   none.classList.add("inactiveColourBorder");
-  const noneChild = document.createElement("span");
-  noneChild.appendChild(document.createTextNode("OFF"));
-  none.appendChild(noneChild);
+  // const noneChild = document.createElement("span");
+  // noneChild.appendChild(document.createTextNode("OFF"));
+  // none.appendChild(noneChild);
 
   yellow.addEventListener("click", e => handleColourClick(markInstance, yellow, [cyan, lime, none], "yellow"));
   cyan.addEventListener("click", e => handleColourClick(markInstance, cyan, [yellow, lime, none], "cyan"));
@@ -81,6 +81,179 @@ function createDefaultPopUp(markInstance) {
   return { popUp, highlightSection, undoBtn, resetBtn };
 }
 
+///////////////////////////////////////////////////////
+//// FUNCTIONS THAT IMPLEMENT HIGHLIGHTING FEATURE ////
+///////////////////////////////////////////////////////
+
+function highlightTextNode(node, colour) {
+	if (node.nodeType === Node.TEXT_NODE) {
+		let i = getIndexInParentChildNodes(node);
+
+		const parent = node.parentNode;
+		parent.removeChild(node);
+		const span = document.createElement('span');
+		span.style.backgroundColor = colour;
+		span.appendChild(node);
+
+		insertNodeAtIndex(span, parent, i);
+
+		return span;
+	}
+
+	return null;
+}
+
+function getIntermediateTextNodes(root, start, end) {
+	let foundStart = false;
+	let foundEnd = false;
+	let result = [];
+
+	function preOrderTraverse(node) {
+		if (node === end) {
+			foundEnd = true;
+		}
+		if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== "" && foundStart && !foundEnd) {
+			result.push(node);
+		} else {
+			for (let i = 0; i < node.childNodes.length; i++) {
+				preOrderTraverse(node.childNodes[i]);
+			}
+		}
+		if (node === start) {
+			foundStart = true;
+		}
+	}
+
+	preOrderTraverse(root);
+	return result;
+}
+
+function getIndexInParentChildNodes(node) {
+	let parentIndex = 0;
+	let sibling = node.previousSibling;
+	while (sibling != null) {
+		sibling = sibling.previousSibling;
+		parentIndex++;
+	}
+	return parentIndex
+}
+
+function insertNodeAtIndex(node, parent, i) {
+	if (parent.childNodes.length === 0) {
+		parent.appendChild(node);
+	} else if (parent.childNodes.length === i) {
+		parent.appendChild(node);
+	} else {
+		parent.insertBefore(node, parent.childNodes[i]);
+	}
+}
+
+function highlight(markInstance) {
+  // IF COLOUR IS NONE, RETURN
+  if (markInstance.colour === "none") {
+    return;
+  }
+
+	// TODO: Find out which browsers have window.getSelection function?
+  const sel = window.getSelection();
+
+	// We don't want to count clicks as highlights.
+	if (sel.toString().trim() === "") {
+		return;
+	}
+
+  // Highlight text nodes that are between the selected anchor and focus nodes.
+	const intermediateTextNodes = getIntermediateTextNodes(document.body, sel.anchorNode, sel.focusNode);
+	const listOfSpansCreated = [];
+	intermediateTextNodes.map( t => {
+		const spanCreated = highlightTextNode(t, markInstance.colour);
+		if (spanCreated) {
+			listOfSpansCreated.push(spanCreated);
+		}
+	});
+
+  // Highlight the selected anchor and focus nodes (if they are text nodes).
+	const anchor = sel.anchorNode;
+	const anchorOffset = sel.anchorOffset;
+	const focus = sel.focusNode;
+	const focusOffset = sel.focusOffset;
+	const anchorText = anchor.nodeValue;
+	const focusText = focus.nodeValue;
+
+	if (anchor === focus && anchor.nodeType === Node.TEXT_NODE) {
+		const startIdx = Math.min(anchorOffset, focusOffset);
+		const endIdx = Math.max(anchorOffset, focusOffset);
+		const firstUnselectedText = anchorText.substring(0, startIdx);
+		const selectedText = anchorText.substring(startIdx, endIdx);
+		const lastUnselectedText = anchorText.substring(endIdx, anchorText.length);
+
+		const firstTextNode = document.createTextNode(firstUnselectedText);
+
+		const span = document.createElement('span');
+		span.style.backgroundColor = markInstance.colour;
+		const selectedTextNode = document.createTextNode(selectedText);
+		span.appendChild(selectedTextNode);
+
+		const lastTextNode = document.createTextNode(lastUnselectedText);
+
+		const anchorIdx = getIndexInParentChildNodes(anchor);
+		const parent = anchor.parentNode;
+		parent.removeChild(anchor);
+
+		insertNodeAtIndex(firstTextNode, parent, anchorIdx);
+		insertNodeAtIndex(span, parent, anchorIdx + 1);
+		insertNodeAtIndex(lastTextNode, parent, anchorIdx + 2);
+
+		listOfSpansCreated.push(span);
+	} else {
+		if (anchor.nodeType === Node.TEXT_NODE) {
+			const unselectedText = anchorText.substring(0, anchorOffset);
+			const selectedText = anchorText.substring(anchorOffset, anchorText.length);
+
+			const unselectedTextNode = document.createTextNode(unselectedText);
+
+			const span = document.createElement('span');
+			span.style.backgroundColor = markInstance.colour;
+			const selectedTextNode = document.createTextNode(selectedText);
+			span.appendChild(selectedTextNode);
+
+			const anchorIdx = getIndexInParentChildNodes(anchor);
+			const parent = anchor.parentNode;
+			parent.removeChild(anchor);
+
+			insertNodeAtIndex(unselectedTextNode, parent, anchorIdx);
+			insertNodeAtIndex(span, parent, anchorIdx + 1);
+
+			listOfSpansCreated.push(span);
+		}
+
+		if (focus.nodeType === Node.TEXT_NODE) {
+			const selectedText = focusText.substring(0, focusOffset);
+			const unselectedText = focusText.substring(focusOffset, focusText.length);
+
+			const span = document.createElement('span');
+			span.style.backgroundColor = markInstance.colour;
+			const selectedTextNode = document.createTextNode(selectedText);
+			span.appendChild(selectedTextNode);
+
+			const unselectedTextNode = document.createTextNode(unselectedText);
+
+			const focusIdx = getIndexInParentChildNodes(focus);
+			const parent = focus.parentNode;
+			parent.removeChild(focus);
+
+			insertNodeAtIndex(span, parent, focusIdx);
+			insertNodeAtIndex(unselectedTextNode, parent, focusIdx + 1);
+
+			listOfSpansCreated.push(span);
+		}
+	}
+
+	if (listOfSpansCreated.length !== 0) {
+		markInstance.highlights.push(listOfSpansCreated);
+	}
+}
+
 function Mark(selector) {
   this.highlights = [];
   this.colour = "yellow";
@@ -93,6 +266,8 @@ function Mark(selector) {
 
   this.element = document.querySelector(selector);
   this.element.appendChild(popUp);
+
+  window.addEventListener('mouseup', () => highlight(this));
 }
 
 function hidePopUp() {

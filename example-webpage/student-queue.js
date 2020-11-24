@@ -96,3 +96,5 @@ function startTimeLimit(e) {
 const mark = new Mark("body");
 mark.setPosition("200px", "800px");
 mark.setColours("#DDDDDD", "yellow", "lime");
+mark.setCurrentHighlighterColour(1);
+mark.showPopUp();

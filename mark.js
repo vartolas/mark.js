@@ -18,6 +18,19 @@ function handleColourClick(markInstance, colourObject, otherColourObjects, newAc
   markInstance.activeColourIndex = newActiveColourIndex;
 }
 
+function createHighlighterColourDiv(i, markInstance) {
+  const colour = document.createElement("div");
+  colour.classList.add("highlighterColour");
+  colour.style.backgroundColor = markInstance.colours[i];
+  if (i === markInstance.activeColourIndex) {
+    colour.classList.add("activeColourBorder");
+  } else {
+    colour.classList.add("inactiveColourBorder");
+  }
+
+  return colour
+}
+
 function createDefaultPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
@@ -31,20 +44,9 @@ function createDefaultPopUp(markInstance) {
   highlightSectionHeader.classList.add("sectionHeader");
   highlightSectionHeader.appendChild(document.createTextNode("Highlighter Settings"));
 
-  const colour0 = document.createElement("div");
-  colour0.classList.add("highlighterColour");
-  colour0.style.backgroundColor = markInstance.colours[0];
-  colour0.classList.add("activeColourBorder");
-
-  const colour1 = document.createElement("div");
-  colour1.classList.add("highlighterColour");
-  colour1.style.backgroundColor = markInstance.colours[1];
-  colour1.classList.add("inactiveColourBorder");
-
-  const colour2 = document.createElement("div");
-  colour2.classList.add("highlighterColour");
-  colour2.style.backgroundColor = markInstance.colours[2];
-  colour2.classList.add("inactiveColourBorder");
+  const colour0 = createHighlighterColourDiv(0, markInstance);
+  const colour1 = createHighlighterColourDiv(1, markInstance);
+  const colour2 = createHighlighterColourDiv(2, markInstance);
 
   const none = document.createElement("div");
   none.classList.add("highlighterColour");
@@ -283,12 +285,12 @@ function Mark(selector) {
 function hidePopUp() {
   if (this.popUp.parentElement == null) return;
 
-  this.element.removeChild(popUp);
+  this.element.removeChild(this.popUp);
 }
 
 function showPopUp() {
   if (this.popUp.parentElement == null) {
-    this.element.appendChild(popUp);
+    this.element.appendChild(this.popUp);
   }
 }
 
@@ -297,15 +299,7 @@ function setPosition(top, left) {
   this.popUp.style.left = left;
 }
 
-function setCurrentHighlighterColour(i) {
-  if (0 <= i && i <= 2) {
-    this.activeColourIndex = i;
-  }
-}
-
-function setColours(colour0, colour1, colour2) {
-  this.colours = [colour0, colour1, colour2];
-
+function resetPopUp() {
   const top = this.popUp.style.top;
   const left = this.popUp.style.left;
 
@@ -319,6 +313,18 @@ function setColours(colour0, colour1, colour2) {
 
   this.setPosition(top, left);
   this.element.appendChild(popUp);
+}
+
+function setCurrentHighlighterColour(i) {
+  if (0 <= i && i <= 2) {
+    this.activeColourIndex = i;
+    resetPopUp.call(this);
+  }
+}
+
+function setColours(colour0, colour1, colour2) {
+  this.colours = [colour0, colour1, colour2];
+  resetPopUp.call(this);
 }
 
 Mark.prototype = {

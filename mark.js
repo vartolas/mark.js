@@ -1,5 +1,4 @@
-function Mark() {
-  // const highlights = [];
-  // const popUp = null;
-  // const
+function Mark(selector) {
+  const highlights = [];
+  const popUp = document.createElement("div");
 }

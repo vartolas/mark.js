@@ -1,0 +1,95 @@
+.popUp {
+	width: 200px;
+	background-color: white;
+	border-radius: 30px;
+	box-shadow: 0 0 50px black;
+	box-sizing: border-box;
+	padding-top: 10px;
+	padding-bottom: 1px;
+}
+
+.popUpSection {
+	width: 180px;
+	margin-left: 10px;
+	border: gray solid 2px;
+	box-sizing: border-box;
+	border-radius: 20px;
+	margin-bottom: 10px;
+}
+
+.highlightSection {
+	height: 70px;
+}
+
+.sectionHeader {
+	font-weight: normal;
+	text-align: center;
+	margin: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	color: #555555;
+}
+
+.highlighterColour {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: 2px solid gray;
+	margin-left: 10px;
+	float: left;
+	position: relative;
+}
+
+.highlighterColour:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.yellow {
+	background-color: yellow;
+}
+
+.cyan {
+	background-color: cyan;
+}
+
+.lime {
+	background-color: lime;
+}
+
+.none span {
+	font-size: 10px;
+	color: gray;
+	position: absolute;
+	top: 7px;
+	left: 4px;
+}
+
+.undoBtn {
+	height: 30px;
+	text-align: center;
+	padding-top: 4px;
+	color: #555555;
+}
+
+.undoBtn:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.clearBtn {
+	height: 30px;
+	text-align: center;
+	padding-top: 4px;
+	color: #555555;
+}
+
+.clearBtn:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.noteSection {
+	height: 70px;
+}

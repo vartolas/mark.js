@@ -3,8 +3,87 @@ const DEFAULT_COLOUR1 = "cyan";
 const DEFAULT_COLOUR2 = "lime";
 const DEFAULT_COLOUR3 = "#FFBBBB";
 
+const TURN_ON_BTN_TEXT = "Turn On";
+const TURN_OFF_BTN_TEXT = "Turn Off";
+
+
+function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects) {
+  // Edit state and view of the highlighter section wrt to if it is being turned off or on.
+  markInstance.highlighterIsOn = !markInstance.highlighterIsOn;
+
+  // Change the appearance of the highlighter on/off switch.
+  if (markInstance.highlighterIsOn) {
+    highlighterSwtich.classList.remove("turnOnBtn");
+    highlighterSwtich.classList.add("turnOffBtn");
+    highlighterSwtich.removeChild(highlighterSwtich.childNodes[0]);
+    highlighterSwtich.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
+  } else {
+    highlighterSwtich.classList.remove("turnOffBtn");
+    highlighterSwtich.classList.add("turnOnBtn");
+    highlighterSwtich.removeChild(highlighterSwtich.childNodes[0]);
+    highlighterSwtich.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+  }
+
+  // Change the appearance of the highlighter colour buttons.
+  colourObjects.forEach((obj, i) => {
+    if (markInstance.highlighterIsOn) {
+      if (markInstance.activeColourIndex === i) {
+        obj.classList.remove("inactiveColourBorder");
+        obj.classList.add("activeColourBorder");
+      }
+    } else {
+      if (markInstance.activeColourIndex === i) {
+        obj.classList.remove("activeColourBorder");
+        obj.classList.add("inactiveColourBorder");
+      }
+    }
+
+  });
+
+  // Edit state and view of the highlighter section if it is being turned off as a result
+  // of turning the highlighter on.
+  if (markInstance.notetakerIsOn) {
+    markInstance.notetakerIsOn = false;
+
+    setOffNotetakerSwtichAppearance(notetakerSwtich)
+  }
+}
+
+function setOffNotetakerSwtichAppearance(notetakerSwtich) {
+  notetakerSwtich.classList.remove("turnOffBtn");
+  notetakerSwtich.classList.add("turnOnBtn");
+  notetakerSwtich.removeChild(notetakerSwtich.childNodes[0]);
+  notetakerSwtich.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+}
+
+function setOnNotetakerSwtichAppearance(notetakerSwtich) {
+  notetakerSwtich.classList.remove("turnOnBtn");
+  notetakerSwtich.classList.add("turnOffBtn");
+  notetakerSwtich.removeChild(notetakerSwtich.childNodes[0]);
+  notetakerSwtich.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
+}
+
+function handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects) {
+  // Turn off the highlighter function if it is on. We must turn on the notetaker AFTER clicking the
+  // highlighter switch, or else the highlighter switch click will turn off the notetaker immediately.
+  if (markInstance.highlighterIsOn) {
+    handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects);
+  }
+  
+  markInstance.notetakerIsOn = !markInstance.notetakerIsOn;
+
+  if (markInstance.notetakerIsOn) {
+    setOnNotetakerSwtichAppearance(notetakerSwtich);
+  } else {
+    setOffNotetakerSwtichAppearance(notetakerSwtich);
+  }
+}
 
 function handleColourClick(markInstance, colourObject, otherColourObjects, newActiveColourIndex) {
+  if (!markInstance.highlighterIsOn) {
+    return;
+  }
+
   otherColourObjects.forEach(item => {
     if (item.classList.contains("activeColourBorder")) {
       item.classList.remove("activeColourBorder");
@@ -23,7 +102,7 @@ function createHighlighterColourDiv(i, markInstance) {
   const colour = document.createElement("div");
   colour.classList.add("highlighterColour");
   colour.style.backgroundColor = markInstance.colours[i];
-  if (i === markInstance.activeColourIndex) {
+  if (i === markInstance.activeColourIndex && markInstance.highlighterIsOn) {
     colour.classList.add("activeColourBorder");
   } else {
     colour.classList.add("inactiveColourBorder");
@@ -78,13 +157,11 @@ function createDefaultPopUp(markInstance) {
   highlightSection.appendChild(colour3);
 
   // Create an on/off switch for the highlighter.
+  // Give the switch an onClick listner below, after the noteSwitch is defined.
   const highlighterSwtich = document.createElement("div");
   highlighterSwtich.classList.add("popUpSection");
   highlighterSwtich.classList.add("turnOnBtn");
-  highlighterSwtich.appendChild(document.createTextNode("Turn On"));
-  highlighterSwtich.addEventListener("click", e => {
-
-  });
+  highlighterSwtich.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
 
   // Create the note section header.
   const noteSectionHeader = document.createElement("h3");
@@ -111,10 +188,9 @@ function createDefaultPopUp(markInstance) {
   const noteSwitch = document.createElement("div");
   noteSwitch.classList.add("popUpSection");
   noteSwitch.classList.add("turnOnBtn");
-  noteSwitch.appendChild(document.createTextNode("Turn On"));
-  noteSwitch.addEventListener("click", e => {
-
-  });
+  noteSwitch.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+  highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, noteSwitch, [colour0, colour1, colour2, colour3]));
+  noteSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, noteSwitch, [colour0, colour1, colour2, colour3]));
 
   // Create the eraser section header.
   const eraserSectionHeader = document.createElement("h3");
@@ -236,7 +312,7 @@ function highlight(markInstance) {
   const sel = window.getSelection();
 
 	// We don't want to count clicks as highlights.
-	if (sel.toString().trim() === "" || markInstance.activeColourIndex > 3 || markInstance.activeColourIndex < 0) {
+	if (sel.toString().trim() === "" || markInstance.activeColourIndex > 3 || markInstance.activeColourIndex < 0 || !markInstance.highlighterIsOn) {
 		return;
 	}
 

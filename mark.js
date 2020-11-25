@@ -1,6 +1,7 @@
 const DEFAULT_COLOUR0 = "yellow";
 const DEFAULT_COLOUR1 = "cyan";
 const DEFAULT_COLOUR2 = "lime";
+const DEFAULT_COLOUR3 = "#FFBBBB";
 
 
 function handleColourClick(markInstance, colourObject, otherColourObjects, newActiveColourIndex) {
@@ -46,14 +47,19 @@ function createDefaultPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
 
+  // Create the highlight section header.
+  const highlightSectionHeader = document.createElement("h3");
+  highlightSectionHeader.appendChild(document.createTextNode("Highlighter"));
+  highlightSectionHeader.classList.add("sectionHeader");
+
   // Create the highlight section.
   const highlightSection = document.createElement("div");
   highlightSection.classList.add("popUpSection");
   highlightSection.classList.add("highlightSection");
 
-  const highlightSectionHeader = document.createElement("h4");
-  highlightSectionHeader.classList.add("sectionHeader");
-  highlightSectionHeader.appendChild(document.createTextNode("Highlighter Colour"));
+  const highlightColourBoxHeader = document.createElement("h4");
+  highlightColourBoxHeader.classList.add("boxHeader");
+  highlightColourBoxHeader.appendChild(document.createTextNode("Highlighter Colour"));
 
   const colour0 = createHighlighterColourDiv(0, markInstance);
   const colour1 = createHighlighterColourDiv(1, markInstance);
@@ -63,20 +69,62 @@ function createDefaultPopUp(markInstance) {
   none.classList.add("highlighterColour");
   none.classList.add("none");
   none.classList.add("inactiveColourBorder");
-  // const noneChild = document.createElement("span");
-  // noneChild.appendChild(document.createTextNode("OFF"));
-  // none.appendChild(noneChild);
 
   colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, none], 0));
   colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, none], 1));
   colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, none], 2));
   none.addEventListener("click", e => handleColourClick(markInstance, none, [colour0, colour1, colour2], -1));
 
-  highlightSection.appendChild(highlightSectionHeader);
+  highlightSection.appendChild(highlightColourBoxHeader);
   highlightSection.appendChild(colour0);
   highlightSection.appendChild(colour1);
   highlightSection.appendChild(colour2);
   highlightSection.appendChild(none);
+
+  // Create an on/off switch for the highlighter.
+  const highlighterSwtich = document.createElement("div");
+  highlighterSwtich.classList.add("popUpSection");
+  highlighterSwtich.classList.add("turnOnBtn");
+  highlighterSwtich.appendChild(document.createTextNode("Turn On"));
+  highlighterSwtich.addEventListener("click", e => {
+
+  });
+
+  // Create the note section header.
+  const noteSectionHeader = document.createElement("h3");
+  noteSectionHeader.appendChild(document.createTextNode("Notetaker"));
+  noteSectionHeader.classList.add("sectionHeader");
+  noteSectionHeader.classList.add("marginTop20px");
+
+  // Create the note section.
+  const noteSection = document.createElement("div");
+  noteSection.classList.add("popUpSection");
+  noteSection.classList.add("noteSection");
+
+  const noteContentBoxHeader = document.createElement("h4");
+  noteContentBoxHeader.appendChild(document.createTextNode("Note Content"));
+  noteContentBoxHeader.classList.add("boxHeader");
+
+  const noteInput = document.createElement("textarea");
+  noteInput.setAttribute("placeholder", "Type your note here...");
+
+  noteSection.appendChild(noteContentBoxHeader);
+  noteSection.appendChild(noteInput);
+
+  // Create a on/off switch for the notetaker.
+  const noteSwitch = document.createElement("div");
+  noteSwitch.classList.add("popUpSection");
+  noteSwitch.classList.add("turnOnBtn");
+  noteSwitch.appendChild(document.createTextNode("Turn On"));
+  noteSwitch.addEventListener("click", e => {
+
+  });
+
+  // Create the eraser section header.
+  const eraserSectionHeader = document.createElement("h3");
+  eraserSectionHeader.appendChild(document.createTextNode("Eraser"));
+  eraserSectionHeader.classList.add("sectionHeader");
+  eraserSectionHeader.classList.add("marginTop20px");
 
   // Create an undo button.
   const undoBtn = document.createElement("div");
@@ -89,8 +137,8 @@ function createDefaultPopUp(markInstance) {
     }
 
     const lastHighlight = markInstance.highlights.pop();
-	  removeHighlight(lastHighlight);
-  })
+    removeHighlight(lastHighlight);
+  });
 
   // Create a reset button.
   const resetBtn = document.createElement("div");
@@ -103,8 +151,16 @@ function createDefaultPopUp(markInstance) {
     }
   });
 
-  // Add the 3 children to the popUp div.
+  // Add children to the popUp div.
+  popUp.appendChild(highlightSectionHeader);
   popUp.appendChild(highlightSection);
+  popUp.appendChild(highlighterSwtich);
+
+  popUp.appendChild(noteSectionHeader);
+  popUp.appendChild(noteSection);
+  popUp.appendChild(noteSwitch);
+
+  popUp.appendChild(eraserSectionHeader);
   popUp.appendChild(undoBtn);
   popUp.appendChild(resetBtn);
 

@@ -18,11 +18,25 @@
 	margin-bottom: 10px;
 }
 
+.sectionHeader {
+  margin: 5px;
+  text-align: center;
+  color: dimgray;
+}
+
+.marginTop20px {
+  margin-top: 20px;
+}
+
+.marginTop30px {
+  margin-top: 30px;
+}
+
 .highlightSection {
 	height: 70px;
 }
 
-.sectionHeader {
+.boxHeader {
 	font-weight: normal;
 	text-align: center;
 	margin: 0;
@@ -62,6 +76,32 @@
 	left: 4px;
 }
 
+.turnOnBtn {
+	height: 30px;
+	text-align: center;
+	padding-top: 4px;
+	color: #555555;
+  background-color: #FFDDDD;
+}
+
+.turnOnBtn:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.turnOffBtn {
+	height: 30px;
+	text-align: center;
+	padding-top: 4px;
+  color: #555555;
+  background-color: #DDFFDD;
+}
+
+.turnOffBtn:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
 .undoBtn {
 	height: 30px;
 	text-align: center;
@@ -87,5 +127,19 @@
 }
 
 .noteSection {
-	height: 70px;
+	height: 150px;
+}
+
+.noteSection textarea {
+  height: 110px;
+  padding: 10px;
+  box-sizing: border-box;
+  width: 90%;
+  margin-left: 5%;
+  resize: none;
+
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
 }

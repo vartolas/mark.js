@@ -31,6 +31,17 @@ function createHighlighterColourDiv(i, markInstance) {
   return colour
 }
 
+function removeHighlight(spans) {
+	spans.forEach(span => {
+
+		const i = getIndexInParentChildNodes(span);
+		const textNode = span.childNodes[0];
+		const parent = span.parentNode;
+		parent.removeChild(span);
+		insertNodeAtIndex(textNode, parent, i);
+	});
+}
+
 function createDefaultPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
@@ -42,7 +53,7 @@ function createDefaultPopUp(markInstance) {
 
   const highlightSectionHeader = document.createElement("h4");
   highlightSectionHeader.classList.add("sectionHeader");
-  highlightSectionHeader.appendChild(document.createTextNode("Highlighter Settings"));
+  highlightSectionHeader.appendChild(document.createTextNode("Highlighter Colour"));
 
   const colour0 = createHighlighterColourDiv(0, markInstance);
   const colour1 = createHighlighterColourDiv(1, markInstance);
@@ -67,17 +78,30 @@ function createDefaultPopUp(markInstance) {
   highlightSection.appendChild(colour2);
   highlightSection.appendChild(none);
 
-  // Create the undo button.
+  // Create an undo button.
   const undoBtn = document.createElement("div");
   undoBtn.classList.add("popUpSection");
   undoBtn.classList.add("undoBtn");
   undoBtn.appendChild(document.createTextNode("Undo"));
+  undoBtn.addEventListener("click", e => {
+    if (markInstance.highlights.length === 0) {
+      return;
+    }
 
-  // Create the reset button.
+    const lastHighlight = markInstance.highlights.pop();
+	  removeHighlight(lastHighlight);
+  })
+
+  // Create a reset button.
   const resetBtn = document.createElement("div");
   resetBtn.classList.add("popUpSection");
   resetBtn.classList.add("resetBtn");
   resetBtn.appendChild(document.createTextNode("Reset"));
+  resetBtn.addEventListener("click", e => {
+    while (markInstance.highlights.length > 0) {
+      removeHighlight(markInstance.highlights.pop());
+    }
+  });
 
   // Add the 3 children to the popUp div.
   popUp.appendChild(highlightSection);

@@ -54,18 +54,6 @@
 	cursor: pointer;
 }
 
-.yellow {
-	background-color: yellow;
-}
-
-.cyan {
-	background-color: cyan;
-}
-
-.lime {
-	background-color: lime;
-}
-
 .none span {
 	font-size: 10px;
 	color: gray;

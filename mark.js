@@ -64,22 +64,18 @@ function createDefaultPopUp(markInstance) {
   const colour0 = createHighlighterColourDiv(0, markInstance);
   const colour1 = createHighlighterColourDiv(1, markInstance);
   const colour2 = createHighlighterColourDiv(2, markInstance);
+  const colour3 = createHighlighterColourDiv(3, markInstance);
 
-  const none = document.createElement("div");
-  none.classList.add("highlighterColour");
-  none.classList.add("none");
-  none.classList.add("inactiveColourBorder");
-
-  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, none], 0));
-  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, none], 1));
-  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, none], 2));
-  none.addEventListener("click", e => handleColourClick(markInstance, none, [colour0, colour1, colour2], -1));
+  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, colour3], 0));
+  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, colour3], 1));
+  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, colour3], 2));
+  colour3.addEventListener("click", e => handleColourClick(markInstance, colour3, [colour0, colour1, colour2], 3));
 
   highlightSection.appendChild(highlightColourBoxHeader);
   highlightSection.appendChild(colour0);
   highlightSection.appendChild(colour1);
   highlightSection.appendChild(colour2);
-  highlightSection.appendChild(none);
+  highlightSection.appendChild(colour3);
 
   // Create an on/off switch for the highlighter.
   const highlighterSwtich = document.createElement("div");
@@ -240,7 +236,7 @@ function highlight(markInstance) {
   const sel = window.getSelection();
 
 	// We don't want to count clicks as highlights.
-	if (sel.toString().trim() === "" || markInstance.activeColourIndex > 2 || markInstance.activeColourIndex < 0) {
+	if (sel.toString().trim() === "" || markInstance.activeColourIndex > 3 || markInstance.activeColourIndex < 0) {
 		return;
 	}
 
@@ -342,14 +338,13 @@ function highlight(markInstance) {
 
 function Mark(selector) {
   this.highlights = [];
-  this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2];
+  this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2, DEFAULT_COLOUR3];
   this.activeColourIndex = 0;
+  this.highlighterIsOn = false;
+  this.notetakerIsOn = false;
 
-  const { popUp, highlightSection, undoBtn, resetBtn } = createDefaultPopUp(this);
+  const { popUp } = createDefaultPopUp(this);
   this.popUp = popUp;
-  this.highlightSection = highlightSection;
-  this.undoBtn = undoBtn;
-  this.resetBtn = resetBtn;
 
   this.element = document.querySelector(selector);
   this.element.appendChild(popUp);
@@ -385,25 +380,22 @@ function resetPopUp() {
 
   this.element.removeChild(this.popUp);
 
-  const { popUp, highlightSection, undoBtn, resetBtn } = createDefaultPopUp(this);
+  const { popUp } = createDefaultPopUp(this);
   this.popUp = popUp;
-  this.highlightSection = highlightSection;
-  this.undoBtn = undoBtn;
-  this.resetBtn = resetBtn;
 
   this.setPosition(top, left);
   this.element.appendChild(popUp);
 }
 
 function setCurrentHighlighterColour(i) {
-  if (0 <= i && i <= 2) {
+  if (0 <= i && i <= 3) {
     this.activeColourIndex = i;
     resetPopUp.call(this);
   }
 }
 
-function setColours(colour0, colour1, colour2) {
-  this.colours = [colour0, colour1, colour2];
+function setColours(colour0, colour1, colour2, colour3) {
+  this.colours = [colour0, colour1, colour2, colour3];
   resetPopUp.call(this);
 }
 

@@ -1,14 +1,32 @@
+//////////////////////////////
+//// Constant Definitions ////
+//////////////////////////////
+
 const DEFAULT_COLOUR0 = "yellow";
 const DEFAULT_COLOUR1 = "cyan";
 const DEFAULT_COLOUR2 = "lime";
 const DEFAULT_COLOUR3 = "#FFBBBB";
 
-const TURN_ON_BTN_TEXT = "Turn On";
-const TURN_OFF_BTN_TEXT = "Turn Off";
+const TURN_ON_BTN_TEXT = "Off";
+const TURN_OFF_BTN_TEXT = "On";
+
+const DEFAULT_VIEW = 0;
+const COLLAPSED_VIEW = 1;
+const HIDDEN_VIEW = 2;
 
 ////////////////////////////////////////
 //// Helpers for createDefaultPopUp ////
 ////////////////////////////////////////
+
+function setInitialSwitchAppearance(switchElement, on) {
+  if (on) {
+    switchElement.classList.add("turnOffBtn");
+    switchElement.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
+  } else {
+    switchElement.classList.add("turnOnBtn");
+    switchElement.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+  }
+}
 
 function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects) {
   // Edit state and view of the highlighter section wrt to if it is being turned off or on.
@@ -45,7 +63,7 @@ function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetaker
 
   // Edit state and view of the highlighter section if it is being turned off as a result
   // of turning the highlighter on.
-  if (markInstance.notetakerIsOn) {
+  if (notetakerSwtich && markInstance.notetakerIsOn) {
     markInstance.notetakerIsOn = false;
 
     setOffNotetakerSwtichAppearance(notetakerSwtich)
@@ -114,9 +132,19 @@ function createHighlighterColourDiv(i, markInstance) {
   return colour
 }
 
+function handleUndoButtonClick(markInstance) {
+    if (markInstance.highlightsAndNotes.length === 0) {
+      return;
+    }
+
+    const lastElement = markInstance.highlightsAndNotes.pop();
+    removeElementFromDOM(lastElement);
+}
+
 function createDefaultPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
+  popUp.classList.add("width200px");
 
   // Create the highlight section header.
   const highlightSectionHeader = document.createElement("h3");
@@ -152,8 +180,7 @@ function createDefaultPopUp(markInstance) {
   // Give the switch an onClick listner below, after the noteSwitch is defined.
   const highlighterSwtich = document.createElement("div");
   highlighterSwtich.classList.add("popUpSection");
-  highlighterSwtich.classList.add("turnOnBtn");
-  highlighterSwtich.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+  setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
 
   // Create the note section header.
   const noteSectionHeader = document.createElement("h3");
@@ -179,8 +206,7 @@ function createDefaultPopUp(markInstance) {
   // Create a on/off switch for the notetaker.
   const noteSwitch = document.createElement("div");
   noteSwitch.classList.add("popUpSection");
-  noteSwitch.classList.add("turnOnBtn");
-  noteSwitch.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+  setInitialSwitchAppearance(noteSwitch, markInstance.notetakerIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, noteSwitch, [colour0, colour1, colour2, colour3]));
   noteSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, noteSwitch, [colour0, colour1, colour2, colour3]));
 
@@ -195,14 +221,7 @@ function createDefaultPopUp(markInstance) {
   undoBtn.classList.add("popUpSection");
   undoBtn.classList.add("undoBtn");
   undoBtn.appendChild(document.createTextNode("Undo"));
-  undoBtn.addEventListener("click", e => {
-    if (markInstance.highlightsAndNotes.length === 0) {
-      return;
-    }
-
-    const lastElement = markInstance.highlightsAndNotes.pop();
-    removeElementFromDOM(lastElement);
-  });
+  undoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
 
   // Create a reset button.
   const resetBtn = document.createElement("div");
@@ -229,6 +248,50 @@ function createDefaultPopUp(markInstance) {
   popUp.appendChild(resetBtn);
 
   return { popUp, noteTextarea };
+}
+
+function createSmallPopUp(markInstance) {
+  // Turn off the notetaker function if it is on; it cannot be accessed from the
+  // small popUp.
+  if (markInstance.notetakerIsOn) {
+    markInstance.notetakerIsOn = false;
+  }
+
+  const popUp = document.createElement("div");
+  popUp.classList.add("popUp");
+  popUp.classList.add("width180px");
+
+  const colour0 = createHighlighterColourDiv(0, markInstance);
+  const colour1 = createHighlighterColourDiv(1, markInstance);
+  const colour2 = createHighlighterColourDiv(2, markInstance);
+  const colour3 = createHighlighterColourDiv(3, markInstance);
+
+  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, colour3], 0));
+  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, colour3], 1));
+  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, colour3], 2));
+  colour3.addEventListener("click", e => handleColourClick(markInstance, colour3, [colour0, colour1, colour2], 3));
+
+  const undoBtn = document.createElement("div");
+  undoBtn.appendChild(document.createTextNode("Undo"));
+  undoBtn.classList.add("smallButton");
+  undoBtn.classList.add("marginLeft20px");
+  undoBtn.classList.add("colorGray");
+  undoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
+
+  const highlighterSwtich = document.createElement("div");
+  highlighterSwtich.classList.add("smallButton");
+  highlighterSwtich.classList.add("colorGray");
+  setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
+  highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, undefined, [colour0, colour1, colour2, colour3]));
+
+  popUp.appendChild(colour0);
+  popUp.appendChild(colour1);
+  popUp.appendChild(colour2);
+  popUp.appendChild(colour3);
+  popUp.appendChild(undoBtn);
+  popUp.appendChild(highlighterSwtich);
+
+  return { popUp };
 }
 
 ///////////////////////////////////////////////////////
@@ -463,8 +526,13 @@ function Mark(selector) {
   this.highlights = [];
   this.notes = [];
   this.highlightsAndNotes = [];
+
+  this.displays = [DEFAULT_VIEW, SMALL_VIEW];
+  this.displayIndex = 0;
+
   this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2, DEFAULT_COLOUR3];
   this.activeColourIndex = 0;
+
   this.highlighterIsOn = false;
   this.notetakerIsOn = false;
 
@@ -525,10 +593,26 @@ function setColours(colour0, colour1, colour2, colour3) {
   resetPopUp.call(this);
 }
 
+// Displays is an array containing one or more instances of DEFAULT_VIEW,
+// SMALL_VIEW, and HIDDEN_VIEW. initialDisplay is the value of the display type
+// that the popUp should initially have. The popUp will cycle through the list
+// of displays, from front to back starting from the initial display.
+function setDisplayCycle(displays, initialDisplay) {
+  this.displays = displays;
+  this.displayIndex = 0;
+  while (displays[this.displayIndex] !== initialDisplay) {
+    this.displayIndex++;
+  }
+}
+
 Mark.prototype = {
   setCurrentHighlighterColour,
   setPosition,
   hidePopUp,
   showPopUp,
-  setColours
+  setColours,
+  setDisplayCycle,
+  DEFAULT_VIEW,
+  SMALL_VIEW,
+  HIDDEN_VIEW
 }

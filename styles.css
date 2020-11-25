@@ -1,5 +1,4 @@
 .popUp {
-	width: 200px;
 	background-color: white;
 	border-radius: 30px;
 	box-shadow: 0 0 50px black;
@@ -8,6 +7,14 @@
 	padding-bottom: 1px;
   position: absolute;
   z-index: 2;
+}
+
+.width200px {
+  width: 200px;
+}
+
+.width180px {
+  width: 170px;
 }
 
 .popUpSection {
@@ -155,4 +162,34 @@
   box-sizing: border-box;
   padding: 10px;
   border-bottom-right-radius: 20px;
+}
+
+.paddingBottom7px {
+  padding-bottom: 7px;
+}
+
+.smallButton {
+  width: 60px;
+  height: 30px;
+  margin: 10px;
+  margin-right: 0;
+  border: gray solid 2px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  float: left;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.colorGray {
+  color: #555555;
+}
+
+.smallButton:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.marginLeft20px {
+  margin-left: 20px;
 }

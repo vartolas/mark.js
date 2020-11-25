@@ -6,6 +6,9 @@ const DEFAULT_COLOUR3 = "#FFBBBB";
 const TURN_ON_BTN_TEXT = "Turn On";
 const TURN_OFF_BTN_TEXT = "Turn Off";
 
+////////////////////////////////////////
+//// Helpers for createDefaultPopUp ////
+////////////////////////////////////////
 
 function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects) {
   // Edit state and view of the highlighter section wrt to if it is being turned off or on.
@@ -69,7 +72,7 @@ function handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSw
   if (markInstance.highlighterIsOn) {
     handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects);
   }
-  
+
   markInstance.notetakerIsOn = !markInstance.notetakerIsOn;
 
   if (markInstance.notetakerIsOn) {
@@ -109,17 +112,6 @@ function createHighlighterColourDiv(i, markInstance) {
   }
 
   return colour
-}
-
-function removeHighlight(spans) {
-	spans.forEach(span => {
-
-		const i = getIndexInParentChildNodes(span);
-		const textNode = span.childNodes[0];
-		const parent = span.parentNode;
-		parent.removeChild(span);
-		insertNodeAtIndex(textNode, parent, i);
-	});
 }
 
 function createDefaultPopUp(markInstance) {
@@ -178,11 +170,11 @@ function createDefaultPopUp(markInstance) {
   noteContentBoxHeader.appendChild(document.createTextNode("Note Content"));
   noteContentBoxHeader.classList.add("boxHeader");
 
-  const noteInput = document.createElement("textarea");
-  noteInput.setAttribute("placeholder", "Type your note here...");
+  const noteTextarea = document.createElement("textarea");
+  noteTextarea.setAttribute("placeholder", "Type your note here...");
 
   noteSection.appendChild(noteContentBoxHeader);
-  noteSection.appendChild(noteInput);
+  noteSection.appendChild(noteTextarea);
 
   // Create a on/off switch for the notetaker.
   const noteSwitch = document.createElement("div");
@@ -204,12 +196,12 @@ function createDefaultPopUp(markInstance) {
   undoBtn.classList.add("undoBtn");
   undoBtn.appendChild(document.createTextNode("Undo"));
   undoBtn.addEventListener("click", e => {
-    if (markInstance.highlights.length === 0) {
+    if (markInstance.highlightsAndNotes.length === 0) {
       return;
     }
 
-    const lastHighlight = markInstance.highlights.pop();
-    removeHighlight(lastHighlight);
+    const lastElement = markInstance.highlightsAndNotes.pop();
+    removeElementFromDOM(lastElement);
   });
 
   // Create a reset button.
@@ -218,8 +210,8 @@ function createDefaultPopUp(markInstance) {
   resetBtn.classList.add("resetBtn");
   resetBtn.appendChild(document.createTextNode("Reset"));
   resetBtn.addEventListener("click", e => {
-    while (markInstance.highlights.length > 0) {
-      removeHighlight(markInstance.highlights.pop());
+    while (markInstance.highlightsAndNotes.length > 0) {
+      removeElementFromDOM(markInstance.highlightsAndNotes.pop());
     }
   });
 
@@ -236,13 +228,27 @@ function createDefaultPopUp(markInstance) {
   popUp.appendChild(undoBtn);
   popUp.appendChild(resetBtn);
 
-  return { popUp, highlightSection, undoBtn, resetBtn };
+  return { popUp, noteTextarea };
 }
 
+///////////////////////////////////////////////////////
+//// Functions that implement highlighting feature ////
+///////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////
-//// FUNCTIONS THAT IMPLEMENT HIGHLIGHTING FEATURE ////
-///////////////////////////////////////////////////////
+function removeElementFromDOM(element) {
+  if (Array.isArray(element)) {
+    element.forEach(span => {
+  		const i = getIndexInParentChildNodes(span);
+  		const textNode = span.childNodes[0];
+  		const parent = span.parentNode;
+  		parent.removeChild(span);
+  		insertNodeAtIndex(textNode, parent, i);
+  	});
+  } else {
+    document.body.removeChild(element);
+  }
+
+}
 
 function highlightTextNode(node, colour) {
 	if (node.nodeType === Node.TEXT_NODE) {
@@ -404,33 +410,77 @@ function highlight(markInstance) {
 	}
 
 	if (listOfSpansCreated.length !== 0) {
-		markInstance.highlights.push(listOfSpansCreated);
+		markInstance.highlightsAndNotes.push(listOfSpansCreated);
+    markInstance.highlights.push(listOfSpansCreated);
 	}
 }
 
+/////////////////////////////////////////////////////
+//// Functions that implement notetaking feature ////
+/////////////////////////////////////////////////////
+
+function isChildOf(node, potentialParent) {
+  let curr = node;
+  while (curr != null && curr != potentialParent) {
+    curr = curr.parentNode;
+  }
+
+  return curr != null;
+}
+
+function leaveNote(markInstance, target, x, y) {
+  // Don't leave a note if the popUp was clicked, or if the noteTaking function is not on,
+  // or if there is no note message.
+  if (!markInstance.notetakerIsOn || isChildOf(target, markInstance.popUp)) {
+    return;
+  }
+  // ALSO NEED
+  // if (markInstance.noteTextarea.value === "") {
+  //   return;
+  // }
+
+  log(markInstance.noteTextarea.value)
+
+  const note = document.createElement("div");
+  note.classList.add("note");
+  note.style.left = x + "px";
+  note.style.top = y + "px";
+
+  note.appendChild(document.createTextNode(markInstance.noteTextarea.value));
+  // markInstance.noteTextarea.value = "";
+
+  document.body.appendChild(note);
+  markInstance.notes.push(note);
+  markInstance.highlightsAndNotes.push(note);
+}
 
 
-
+////////////////////////////
+//// Library definition ////
+////////////////////////////
 
 function Mark(selector) {
   this.highlights = [];
+  this.notes = [];
+  this.highlightsAndNotes = [];
   this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2, DEFAULT_COLOUR3];
   this.activeColourIndex = 0;
   this.highlighterIsOn = false;
   this.notetakerIsOn = false;
 
-  const { popUp } = createDefaultPopUp(this);
+  const { popUp, noteTextarea } = createDefaultPopUp(this);
   this.popUp = popUp;
+  this.noteTextarea = noteTextarea;
 
   this.element = document.querySelector(selector);
   this.element.appendChild(popUp);
 
   window.addEventListener('mouseup', () => highlight(this));
+  window.addEventListener('click', e => leaveNote(this, e.target, e.pageX, e.pageY));
 }
 
-
 ///////////////////////////////////////////////////////////////
-//// FUNCTIONS ADDED TO Mark.prototype (AVAILABLE TO DEVS) ////
+//// Functions added to Mark.prototype (available to devs) ////
 ///////////////////////////////////////////////////////////////
 
 function hidePopUp() {

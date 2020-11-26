@@ -20,6 +20,7 @@ body {
   height: 1px;
   background-color: black;
   margin-bottom: 40px;
+  position: relative;
 }
 
 table {

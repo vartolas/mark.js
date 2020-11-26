@@ -2,6 +2,8 @@
 //// Constant Definitions ////
 //////////////////////////////
 
+const log = console.log;
+
 const DEFAULT_COLOUR0 = "yellow";
 const DEFAULT_COLOUR1 = "cyan";
 const DEFAULT_COLOUR2 = "lime";
@@ -545,8 +547,6 @@ function leaveNote(markInstance, target, x, y) {
   //   return;
   // }
 
-  log(markInstance.noteTextarea.value)
-
   const note = document.createElement("div");
   note.classList.add("note");
   note.style.left = x + "px";
@@ -586,8 +586,16 @@ function Mark(selector) {
   this.noteTextarea = noteTextarea;
   this.notetakerSwitch = notetakerSwitch;
 
-  this.element = document.querySelector(selector);
-  this.element.appendChild(popUp);
+  this.position = {
+    referenceElement: selector ? document.querySelector(selector) : document.body,
+    verticalDist: "0",
+    horizontalDist: "0",
+    positionRelativeToTop: true,
+    positionRelativeToLeft: true,
+    fixedPositioning: selector ? false : true
+  }
+
+  embedPopUpInDOM.call(this);
 
   window.addEventListener('mouseup', () => highlight(this));
   window.addEventListener('click', e => leaveNote(this, e.target, e.pageX, e.pageY));
@@ -600,26 +608,79 @@ function Mark(selector) {
 function hidePopUp() {
   if (this.popUp.parentElement == null) return;
 
-  this.element.removeChild(this.popUp);
+  this.position.referenceElement.removeChild(this.popUp);
 }
 
 function showPopUp() {
   if (this.popUp.parentElement == null) {
-    this.element.appendChild(this.popUp);
+    this.position.referenceElement.appendChild(this.popUp);
   }
 }
 
-function setPosition(top, left) {
-  this.popUp.style.top = top;
-  this.popUp.style.left = left;
+function setPosition() {
+  if (this.position.fixedPositioning) {
+    this.popUp.style.position = "fixed";
+  } else {
+    this.popUp.style.position = "absolute";
+  }
+
+  if (this.position.positionRelativeToLeft) {
+    this.popUp.style.left = this.position.horizontalDist;
+    this.popUp.style.right = "auto";
+  } else {
+    this.popUp.style.left = "auto";
+    this.popUp.style.right = this.position.horizontalDist;
+  }
+
+  if (this.position.positionRelativeToTop) {
+    this.popUp.style.top = this.position.verticalDist;
+    this.popUp.style.bottom = "auto";
+  } else {
+    this.popUp.style.top = "auto";
+    this.popUp.style.bottom = this.position.verticalDist;
+  }
 }
 
-function resetPopUp() {
-  const top = this.popUp.style.top;
-  const left = this.popUp.style.left;
+function setTop(d) {
+  this.position.positionRelativeToTop = true;
+  this.position.verticalDist = d;
+  resetPopUp.call(this);
+}
 
-  this.element.removeChild(this.popUp);
+function setBottom(d) {
+  this.position.positionRelativeToTop = false;
+  this.position.verticalDist = d;
+  resetPopUp.call(this);
+}
 
+function setLeft(d) {
+  this.position.positionRelativeToLeft = true;
+  this.position.horizontalDist = d;
+  resetPopUp.call(this);
+}
+
+function setRight(d) {
+  this.position.positionRelativeToLeft = false;
+  this.position.horizontalDist = d;
+  resetPopUp.call(this);
+}
+
+function applyFixedPositioning() {
+  this.position.fixedPositioning = true;
+  resetPopUp.call(this);
+}
+
+function applyAbsolutePositioning() {
+  this.position.fixedPositioning = false;
+  resetPopUp.call(this);
+}
+
+function setParentElement(selector) {
+  this.position.referenceElement = document.querySelector(selector);
+  resetPopUp.call(this);
+}
+
+function embedPopUpInDOM() {
   if (this.displayIndex === DEFAULT_VIEW) {
     const result = createDefaultPopUp(this);
     this.popUp = result.popUp
@@ -632,8 +693,15 @@ function resetPopUp() {
     this.notetakerSwitch = result.notetakerSwitch;
   }
 
-  this.setPosition(top, left);
-  this.element.appendChild(this.popUp);
+  setPosition.call(this);
+  log(this)
+  this.position.referenceElement.appendChild(this.popUp);
+}
+
+function resetPopUp() {
+  this.position.referenceElement.removeChild(this.popUp);
+
+  embedPopUpInDOM.call(this);
 }
 
 function setCurrentHighlighterColour(i) {
@@ -662,10 +730,16 @@ function setColours(colour0, colour1, colour2, colour3) {
 
 Mark.prototype = {
   setCurrentHighlighterColour,
-  setPosition,
   hidePopUp,
   showPopUp,
   setColours,
+  setTop,
+  setBottom,
+  setLeft,
+  setRight,
+  applyFixedPositioning,
+  applyAbsolutePositioning,
+  setParentElement,
   DEFAULT_VIEW,
   COLLAPSED_VIEW,
   HIDDEN_VIEW

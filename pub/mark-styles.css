@@ -166,15 +166,16 @@
 
 .note {
   width: 200px;
-  max-height: 150px;
+  max-height: 100px;
   background-color: #FFFFAA;
   z-index: 1;
   position: absolute;
-  box-shadow: 0 0 50px black;
+  box-shadow: 0 0 50px #333333;
   box-sizing: border-box;
   padding: 10px;
   border-bottom-right-radius: 20px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-wrap: break-word;
 }
 
 .paddingBottom7px {

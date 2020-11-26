@@ -9,10 +9,6 @@ const path = require('path');
 // Setting up a static directory for the files in /pub using Express middleware.
 app.use(express.static(path.join(__dirname, '/pub')));
 
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'pub', 'example.html'));
-// });
-
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
 	log(`Listening on port ${port}...`)

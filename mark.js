@@ -10,9 +10,12 @@ const DEFAULT_COLOUR3 = "#FFBBBB";
 const TURN_ON_BTN_TEXT = "Off";
 const TURN_OFF_BTN_TEXT = "On";
 
+const INACTIVE_NOTE_BTN_TEXT = "Paste note";
+const ACTIVE_NOTE_BTN_TEXT = "Cancel";
 const DEFAULT_VIEW = 0;
 const COLLAPSED_VIEW = 1;
 const HIDDEN_VIEW = 2;
+
 
 ////////////////////////////////////////
 //// Helpers for createDefaultPopUp ////
@@ -141,10 +144,22 @@ function handleUndoButtonClick(markInstance) {
     removeElementFromDOM(lastElement);
 }
 
+function handleChangeViewButtonClick(markInstance) {
+  markInstance.displayIndex = (markInstance.displayIndex + 1) % markInstance.displays.length;
+  resetPopUp.call(markInstance);
+}
+
+function switchToDefaultView(markInstance) {
+  const { popUp, noteTextarea } = createDefaultPopUp(markInstance);
+  markInstance.popUp = popUp;
+  markInstance.nodeTextarea = nodeTextarea;
+}
+
 function createDefaultPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
   popUp.classList.add("width200px");
+  popUp.classList.add("paddingTop10px");
 
   // Create the highlight section header.
   const highlightSectionHeader = document.createElement("h3");
@@ -204,11 +219,11 @@ function createDefaultPopUp(markInstance) {
   noteSection.appendChild(noteTextarea);
 
   // Create a on/off switch for the notetaker.
-  const noteSwitch = document.createElement("div");
-  noteSwitch.classList.add("popUpSection");
-  setInitialSwitchAppearance(noteSwitch, markInstance.notetakerIsOn);
-  highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, noteSwitch, [colour0, colour1, colour2, colour3]));
-  noteSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, noteSwitch, [colour0, colour1, colour2, colour3]));
+  const notetakerSwitch = document.createElement("div");
+  notetakerSwitch.classList.add("popUpSection");
+  setInitialSwitchAppearance(notetakerSwitch, markInstance.notetakerIsOn);
+  highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
+  notetakerSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
 
   // Create the eraser section header.
   const eraserSectionHeader = document.createElement("h3");
@@ -234,6 +249,15 @@ function createDefaultPopUp(markInstance) {
     }
   });
 
+  // Create a "change view" button.
+  const changeViewBtn = document.createElement("div");
+  changeViewBtn.classList.add("changeViewButton");
+  const spanText = document.createElement("span");
+  spanText.classList.add("minusSignPosition");
+  spanText.appendChild(document.createTextNode("-"));
+  changeViewBtn.appendChild(spanText);
+  changeViewBtn.addEventListener("click", e => handleChangeViewButtonClick(markInstance));
+
   // Add children to the popUp div.
   popUp.appendChild(highlightSectionHeader);
   popUp.appendChild(highlightSection);
@@ -241,16 +265,17 @@ function createDefaultPopUp(markInstance) {
 
   popUp.appendChild(noteSectionHeader);
   popUp.appendChild(noteSection);
-  popUp.appendChild(noteSwitch);
+  popUp.appendChild(notetakerSwitch);
 
   popUp.appendChild(eraserSectionHeader);
   popUp.appendChild(undoBtn);
   popUp.appendChild(resetBtn);
+  popUp.appendChild(changeViewBtn);
 
-  return { popUp, noteTextarea };
+  return { popUp, noteTextarea, notetakerSwitch };
 }
 
-function createSmallPopUp(markInstance) {
+function createCollapsedPopUp(markInstance) {
   // Turn off the notetaker function if it is on; it cannot be accessed from the
   // small popUp.
   if (markInstance.notetakerIsOn) {
@@ -260,6 +285,11 @@ function createSmallPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
   popUp.classList.add("width180px");
+  popUp.classList.add("paddingTop10px");
+
+  const highlightSectionHeader = document.createElement("h3");
+  highlightSectionHeader.appendChild(document.createTextNode("Highlighter"));
+  highlightSectionHeader.classList.add("sectionHeader");
 
   const colour0 = createHighlighterColourDiv(0, markInstance);
   const colour1 = createHighlighterColourDiv(1, markInstance);
@@ -284,15 +314,27 @@ function createSmallPopUp(markInstance) {
   setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, undefined, [colour0, colour1, colour2, colour3]));
 
+  // Create a "change view" button.
+  const changeViewBtn = document.createElement("div");
+  changeViewBtn.classList.add("changeViewButton");
+  const spanText = document.createElement("span");
+  spanText.classList.add("plusSignPosition");
+  spanText.appendChild(document.createTextNode("+"));
+  changeViewBtn.appendChild(spanText);
+  changeViewBtn.addEventListener("click", e => handleChangeViewButtonClick(markInstance));
+
+  popUp.appendChild(highlightSectionHeader);
   popUp.appendChild(colour0);
   popUp.appendChild(colour1);
   popUp.appendChild(colour2);
   popUp.appendChild(colour3);
   popUp.appendChild(undoBtn);
   popUp.appendChild(highlighterSwtich);
+  popUp.appendChild(changeViewBtn);
 
   return { popUp };
 }
+
 
 ///////////////////////////////////////////////////////
 //// Functions that implement highlighting feature ////
@@ -478,6 +520,7 @@ function highlight(markInstance) {
 	}
 }
 
+
 /////////////////////////////////////////////////////
 //// Functions that implement notetaking feature ////
 /////////////////////////////////////////////////////
@@ -515,6 +558,8 @@ function leaveNote(markInstance, target, x, y) {
   document.body.appendChild(note);
   markInstance.notes.push(note);
   markInstance.highlightsAndNotes.push(note);
+
+  handleNotetakerSwtichClick(markInstance, undefined, markInstance.notetakerSwitch, undefined);
 }
 
 
@@ -527,7 +572,7 @@ function Mark(selector) {
   this.notes = [];
   this.highlightsAndNotes = [];
 
-  this.displays = [DEFAULT_VIEW, SMALL_VIEW];
+  this.displays = [DEFAULT_VIEW, COLLAPSED_VIEW];
   this.displayIndex = 0;
 
   this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2, DEFAULT_COLOUR3];
@@ -536,9 +581,10 @@ function Mark(selector) {
   this.highlighterIsOn = false;
   this.notetakerIsOn = false;
 
-  const { popUp, noteTextarea } = createDefaultPopUp(this);
+  const { popUp, noteTextarea, notetakerSwitch } = createDefaultPopUp(this);
   this.popUp = popUp;
   this.noteTextarea = noteTextarea;
+  this.notetakerSwitch = notetakerSwitch;
 
   this.element = document.querySelector(selector);
   this.element.appendChild(popUp);
@@ -574,11 +620,20 @@ function resetPopUp() {
 
   this.element.removeChild(this.popUp);
 
-  const { popUp } = createDefaultPopUp(this);
-  this.popUp = popUp;
+  if (this.displayIndex === DEFAULT_VIEW) {
+    const result = createDefaultPopUp(this);
+    this.popUp = result.popUp
+    this.noteTextarea = result.noteTextarea;
+    this.notetakerSwitch = result.notetakerSwitch;
+  } else if (this.displayIndex === COLLAPSED_VIEW) {
+    const result = createCollapsedPopUp(this);
+    this.popUp = result.popUp
+    this.noteTextarea = result.noteTextarea;
+    this.notetakerSwitch = result.notetakerSwitch;
+  }
 
   this.setPosition(top, left);
-  this.element.appendChild(popUp);
+  this.element.appendChild(this.popUp);
 }
 
 function setCurrentHighlighterColour(i) {
@@ -593,17 +648,17 @@ function setColours(colour0, colour1, colour2, colour3) {
   resetPopUp.call(this);
 }
 
-// Displays is an array containing one or more instances of DEFAULT_VIEW,
-// SMALL_VIEW, and HIDDEN_VIEW. initialDisplay is the value of the display type
-// that the popUp should initially have. The popUp will cycle through the list
-// of displays, from front to back starting from the initial display.
-function setDisplayCycle(displays, initialDisplay) {
-  this.displays = displays;
-  this.displayIndex = 0;
-  while (displays[this.displayIndex] !== initialDisplay) {
-    this.displayIndex++;
-  }
-}
+// // Displays is an array containing one or more instances of DEFAULT_VIEW,
+// // COLLAPSED_VIEW, and HIDDEN_VIEW. initialDisplay is the value of the display type
+// // that the popUp should initially have. The popUp will cycle through the list
+// // of displays, from front to back starting from the initial display.
+// function defineDisplayCycle(displays, initialDisplay) {
+//   this.displays = displays;
+//   this.displayIndex = 0;
+//   while (displays[this.displayIndex] !== initialDisplay) {
+//     this.displayIndex++;
+//   }
+// }
 
 Mark.prototype = {
   setCurrentHighlighterColour,
@@ -611,8 +666,7 @@ Mark.prototype = {
   hidePopUp,
   showPopUp,
   setColours,
-  setDisplayCycle,
   DEFAULT_VIEW,
-  SMALL_VIEW,
+  COLLAPSED_VIEW,
   HIDDEN_VIEW
 }

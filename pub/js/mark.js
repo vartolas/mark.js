@@ -537,23 +537,27 @@ function isChildOf(node, potentialParent) {
 }
 
 function leaveNote(markInstance, target, x, y) {
-  // Don't leave a note if the popUp was clicked, or if the noteTaking function is not on,
-  // or if there is no note message.
+  // Don't leave a note if the popUp was clicked, or if the noteTaking function is not on.
   if (!markInstance.notetakerIsOn || isChildOf(target, markInstance.popUp)) {
     return;
   }
-  // ALSO NEED
-  // if (markInstance.noteTextarea.value === "") {
-  //   return;
-  // }
 
   const note = document.createElement("div");
   note.classList.add("note");
   note.style.left = x + "px";
   note.style.top = y + "px";
 
+  // const deleteNoteBtn = document.createElement("div");
+  // deleteNoteBtn.classList.add("deleteNoteButton");
+  // deleteNoteBtn.addEventListener("click", note => {
+  //   markInstance.notes.splice(markInstance.notes.indexOf(note), 1);
+  //   markInstance.highlightsAndNotes.splice(markInstance.highlightsAndNotes.indexOf(note), 1);
+  //   log(note.parentElement, note.parentNode)
+  //   note.parentElement.removeChild(note);
+  // });
+
   note.appendChild(document.createTextNode(markInstance.noteTextarea.value));
-  // markInstance.noteTextarea.value = "";
+  // note.appendChild(deleteNoteBtn);
 
   document.body.appendChild(note);
   markInstance.notes.push(note);

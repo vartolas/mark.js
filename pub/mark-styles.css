@@ -174,8 +174,26 @@
   box-sizing: border-box;
   padding: 10px;
   border-bottom-right-radius: 20px;
+
   overflow-y: scroll;
   overflow-wrap: break-word;
+}
+
+.deleteNoteButton {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #FFCCCC;
+  border: 1px gray solid;
+  z-index: 1.5;
+}
+
+.deleteNoteButton:hover {
+  background-color: #FFDDDD;
+  cursor: pointer;
 }
 
 .paddingBottom7px {

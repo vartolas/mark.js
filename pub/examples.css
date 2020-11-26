@@ -1,8 +1,21 @@
 body {
-	background-color: #e6ecf0;
-	margin-left: 20px;
+	background-color: #E0EEFF;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
-  padding-right: 30%;
+  margin: 0;
+}
+
+#docTitle {
+  font-weight: 400;
+  font-size: 46px;
+}
+
+#header {
+  float: left;
+  width: 93%;
+  padding-left: 7%;
+  position: fixed;
+  background-image: linear-gradient(#FFFFFF, #E0EEFF);
+  margin: 0;
 }
 
 #dateline {
@@ -11,20 +24,27 @@ body {
   position: relative;
 }
 
-#dateline span {
+/* #dateline span {
   font-style: oblique;
-}
+} */
 
 #datelineSeparator {
-  width: 95%;
+  width: 90%;
   height: 1px;
   background-color: black;
   margin-bottom: 40px;
   position: relative;
 }
 
+#articleContent {
+  padding-top: 180px;
+  width: 65%;
+  margin-left: 25%;
+}
+
 table {
   border: 1px solid black;
+  margin-bottom: 50px;
 }
 
 th, td {
@@ -32,4 +52,13 @@ th, td {
   text-align: center;
   border: 1px solid black;
   padding: 5px;
+}
+
+#descriptionHeader {
+  width: 100%;
+}
+
+.tableTitle {
+  padding-top: 15px;
+  text-align: center;
 }

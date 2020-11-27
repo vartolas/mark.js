@@ -37,11 +37,13 @@ body {
 
 #instructions {
 	box-sizing: border-box;
-	background-color: #FFCCCC;
+	/* background-color: #FFCCCC; */
+	border: 10px solid #FF8888;
 	padding: 20px;
 	width: 100%;
 	height: 100%;
 	font-size: 18px;
+	margin-top: 30px;
 }
 
 #instructions li {

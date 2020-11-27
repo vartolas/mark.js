@@ -698,7 +698,6 @@ function embedPopUpInDOM() {
   }
 
   setPosition.call(this);
-  log(this)
   this.position.referenceElement.appendChild(this.popUp);
 }
 

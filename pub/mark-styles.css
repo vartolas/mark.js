@@ -227,8 +227,8 @@
 }
 
 .changeViewButton {
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background-color: #EEEEAA;
   border: 2px gray solid;
@@ -251,12 +251,12 @@
 }
 
 .plusSignPosition {
-  top: -3px;
+  top: -4px;
   left: 4px;
 }
 
 .minusSignPosition {
-  top: -3px;
+  top: -4px;
   left: 6px;
 }
 

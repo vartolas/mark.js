@@ -1,5 +1,6 @@
 'use strict';
 
+// Note that most of the library's DOM manipulation occurs in end-user interactions with the library.
 const mark = new Mark("#datelineSeparator");
 mark.applyFixedPositioning(); // redundant because specifying a selector gives fixed positioning
 mark.setTop("220px");

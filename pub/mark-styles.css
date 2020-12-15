@@ -165,34 +165,88 @@
 }
 
 .note {
-  width: 200px;
-  max-height: 100px;
-  background-color: #FFFFAA;
-  z-index: 1;
-  position: absolute;
-  box-shadow: 0 0 50px #333333;
-  box-sizing: border-box;
-  padding: 10px;
-  border-bottom-right-radius: 20px;
+	position: absolute;
 
+	box-shadow: 0 0 50px #333333;
+	box-sizing: border-box;
+	padding: 10px;
+	border-bottom-right-radius: 20px;
+	background-color: #FFFFAA;
+	min-height: 30px;
+}
+
+.minimizedNote {
+	width: 55px;
+}
+
+.maximizedNote {
+	width: 200px;
+}
+
+.noteContent {
+  max-height: 100px;
+  z-index: 1;
   overflow-y: scroll;
   overflow-wrap: break-word;
 }
 
+.maximizedNoteContent {
+	width: 180px;
+	display: block;
+}
+
+.minimizedNoteContent {
+	display: none;
+}
+
+.noteButton {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 1px gray solid;
+	z-index: 1.5;
+	color: gray;
+	box-sizing: border-box;
+
+	/* Make text inside the button unselectable. */
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .deleteNoteButton {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: #FFCCCC;
-  border: 1px gray solid;
-  z-index: 1.5;
+	top: 5px;
+	left: 5px;
+	background-color: #FFCCCC;
+	padding-left: 4px;
+	padding-top: 3px;
+	font-size: 12px;
 }
 
 .deleteNoteButton:hover {
   background-color: #FFDDDD;
+  cursor: pointer;
+}
+
+.changeNoteViewButton {
+	font-size: 16px;
+	top: 5px;
+	left: 30px;
+	background-color: #CCFFCC;
+	padding-top: 0px;
+}
+
+.changeNoteViewButtonMaximized {
+	padding-left: 4px;
+}
+
+.changeNoteViewButtonMinimzed {
+	padding-left: 8px;
+}
+
+.changeNoteViewButton:hover {
+  background-color: #DDFFDD;
   cursor: pointer;
 }
 

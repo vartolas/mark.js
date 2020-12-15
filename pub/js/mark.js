@@ -344,14 +344,21 @@ function createCollapsedPopUp(markInstance) {
 
 function removeElementFromDOM(element) {
   if (Array.isArray(element)) {
+    /* Then we are removing a highlight from the DOM (represented in the
+    Mark instance's hihglights and highlightsAndNotes arrays as an array of
+    spans). */
     element.forEach(span => {
+      /* Put a textnode containing the text inside the span in the place of
+      the span. */
   		const i = getIndexInParentChildNodes(span);
-  		const textNode = span.childNodes[0];
+  		const textInSpan = span.innerText;
+      const textNode = document.createTextNode(textInSpan);
   		const parent = span.parentNode;
   		parent.removeChild(span);
   		insertNodeAtIndex(textNode, parent, i);
   	});
   } else {
+    /* Then we are removing a note from the DOM. */
     document.body.removeChild(element);
   }
 

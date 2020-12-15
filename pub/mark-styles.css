@@ -170,7 +170,7 @@
 	box-shadow: 0 0 50px #333333;
 	box-sizing: border-box;
 	padding: 10px;
-	border-bottom-right-radius: 20px;
+	border-bottom-right-radius: 10px;
 	background-color: #FFFFAA;
 	min-height: 30px;
 }

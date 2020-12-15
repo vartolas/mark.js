@@ -1,5 +1,4 @@
 .popUp {
-	background-color: white;
 	border-radius: 30px;
 	box-shadow: 0 0 50px black;
 	box-sizing: border-box;
@@ -32,7 +31,7 @@
 .popUpSection {
 	width: 180px;
 	margin-left: 10px;
-	border: gray solid 2px;
+	border: solid 2px;
 	box-sizing: border-box;
 	border-radius: 20px;
 	margin-bottom: 10px;
@@ -41,7 +40,6 @@
 .sectionHeader {
   margin: 5px;
   text-align: center;
-  color: dimgray;
 }
 
 .marginTop20px {
@@ -62,7 +60,6 @@
 	margin: 0;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	color: #555555;
 }
 
 .highlighterColour {
@@ -76,11 +73,11 @@
 }
 
 .inactiveColourBorder {
-  border: 2px solid gray;
+  border: 2px solid;
 }
 
 .activeColourBorder {
-  border: 4px solid gray;
+  border: 4px solid;
 }
 
 .highlighterColour:hover {
@@ -90,7 +87,6 @@
 
 .none span {
 	font-size: 10px;
-	color: gray;
 	position: absolute;
 	top: 7px;
 	left: 4px;
@@ -100,7 +96,6 @@
 	height: 30px;
 	text-align: center;
 	padding-top: 4px;
-	color: #555555;
   background-color: #FFDDDD;
 }
 
@@ -113,7 +108,6 @@
 	height: 30px;
 	text-align: center;
 	padding-top: 4px;
-  color: #555555;
   background-color: #DDFFDD;
 }
 
@@ -126,7 +120,6 @@
 	height: 30px;
 	text-align: center;
 	padding-top: 4px;
-	color: #555555;
 }
 
 .undoBtn:hover {
@@ -138,7 +131,6 @@
 	height: 30px;
 	text-align: center;
 	padding-top: 4px;
-	color: #555555;
 }
 
 .resetBtn:hover {
@@ -205,10 +197,10 @@
 	width: 20px;
 	height: 20px;
 	border-radius: 50%;
-	border: 1px gray solid;
+	border: 1px solid;
 	z-index: 1.5;
-	color: gray;
 	box-sizing: border-box;
+	color: #555555;
 
 	/* Make text inside the button unselectable. */
 	-moz-user-select: none;
@@ -260,7 +252,7 @@
   height: 30px;
   margin: 10px;
   margin-right: 0;
-  border: gray solid 2px;
+  border: solid 2px;
   box-sizing: border-box;
   border-radius: 20px;
   float: left;
@@ -286,7 +278,7 @@
   height: 24px;
   border-radius: 50%;
   background-color: #EEEEAA;
-  border: 2px gray solid;
+  border: 2px solid;
   box-sizing: border-box;
   position: absolute;
   top: 0;
@@ -300,7 +292,6 @@
 
 .changeViewButton span {
   font-size: 20px;
-  color: #555555;
   font-weight: bolder;
   position: absolute;
 }

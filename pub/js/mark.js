@@ -4,16 +4,21 @@
 
 const log = console.log;
 
-const DEFAULT_COLOUR0 = "yellow";
-const DEFAULT_COLOUR1 = "cyan";
-const DEFAULT_COLOUR2 = "lime";
-const DEFAULT_COLOUR3 = "#FFBBBB";
+const DEFAULT_HIGHLIGHTER_COLOUR0 = "yellow";
+const DEFAULT_HIGHLIGHTER_COLOUR1 = "cyan";
+const DEFAULT_HIGHLIGHTER_COLOUR2 = "lime";
+const DEFAULT_HIGHLIGHTER_COLOUR3 = "#FFBBBB";
+
+const DEFAULT_POPUP_BKG_COLOUR = "#FFFFFF";
+const DEFAULT_POPUP_TEXT_COLOUR = "red";
+
+const DEFAULT_POPUP_BORDER_COLOUR = "gray";
 
 const TURN_ON_BTN_TEXT = "Off";
 const TURN_OFF_BTN_TEXT = "On";
 
-const INACTIVE_NOTE_BTN_TEXT = "Paste note";
-const ACTIVE_NOTE_BTN_TEXT = "Cancel";
+const INACTIVE_NOTE_BTN_TEXT = "Off";
+const ACTIVE_NOTE_BTN_TEXT = "On";
 const DEFAULT_VIEW = 0;
 const COLLAPSED_VIEW = 1;
 const HIDDEN_VIEW = 2;
@@ -79,19 +84,19 @@ function setOffNotetakerSwtichAppearance(notetakerSwtich) {
   notetakerSwtich.classList.remove("turnOffBtn");
   notetakerSwtich.classList.add("turnOnBtn");
   notetakerSwtich.removeChild(notetakerSwtich.childNodes[0]);
-  notetakerSwtich.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
+  notetakerSwtich.appendChild(document.createTextNode(INACTIVE_NOTE_BTN_TEXT));
 }
 
 function setOnNotetakerSwtichAppearance(notetakerSwtich) {
   notetakerSwtich.classList.remove("turnOnBtn");
   notetakerSwtich.classList.add("turnOffBtn");
   notetakerSwtich.removeChild(notetakerSwtich.childNodes[0]);
-  notetakerSwtich.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
+  notetakerSwtich.appendChild(document.createTextNode(ACTIVE_NOTE_BTN_TEXT));
 }
 
 function handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects) {
-  // Turn off the highlighter function if it is on. We must turn on the notetaker AFTER clicking the
-  // highlighter switch, or else the highlighter switch click will turn off the notetaker immediately.
+  /* Turn off the highlighter function if it is on. We must turn on the notetaker AFTER clicking the
+  highlighter switch, or else the highlighter switch click will turn off the notetaker immediately. */
   if (markInstance.highlighterIsOn) {
     handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwtich, colourObjects);
   }
@@ -127,7 +132,8 @@ function handleColourClick(markInstance, colourObject, otherColourObjects, newAc
 function createHighlighterColourDiv(i, markInstance) {
   const colour = document.createElement("div");
   colour.classList.add("highlighterColour");
-  colour.style.backgroundColor = markInstance.colours[i];
+  colour.style.backgroundColor = markInstance.style.highlighterColours[i];
+  colour.style.borderColor = markInstance.style.popUpBorderColour;
   if (i === markInstance.activeColourIndex && markInstance.highlighterIsOn) {
     colour.classList.add("activeColourBorder");
   } else {
@@ -160,6 +166,8 @@ function switchToDefaultView(markInstance) {
 function createDefaultPopUp(markInstance) {
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
+  popUp.style.color = markInstance.style.popUpTextColour;
+  popUp.style.backgroundColor = markInstance.style.popUpBackgroundColour;
   popUp.classList.add("width200px");
   popUp.classList.add("paddingTop10px");
 
@@ -172,6 +180,7 @@ function createDefaultPopUp(markInstance) {
   const highlightSection = document.createElement("div");
   highlightSection.classList.add("popUpSection");
   highlightSection.classList.add("highlightSection");
+  highlightSection.style.borderColor = markInstance.style.popUpBorderColour;
 
   const highlightColourBoxHeader = document.createElement("h4");
   highlightColourBoxHeader.classList.add("boxHeader");
@@ -197,6 +206,7 @@ function createDefaultPopUp(markInstance) {
   // Give the switch an onClick listner below, after the noteSwitch is defined.
   const highlighterSwtich = document.createElement("div");
   highlighterSwtich.classList.add("popUpSection");
+  highlighterSwtich.style.borderColor = markInstance.style.popUpBorderColour;
   setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
 
   // Create the note section header.
@@ -208,6 +218,7 @@ function createDefaultPopUp(markInstance) {
   // Create the note section.
   const noteSection = document.createElement("div");
   noteSection.classList.add("popUpSection");
+  noteSection.style.borderColor = markInstance.style.popUpBorderColour;
   noteSection.classList.add("noteSection");
 
   const noteContentBoxHeader = document.createElement("h4");
@@ -223,6 +234,7 @@ function createDefaultPopUp(markInstance) {
   // Create a on/off switch for the notetaker.
   const notetakerSwitch = document.createElement("div");
   notetakerSwitch.classList.add("popUpSection");
+  notetakerSwitch.style.borderColor = markInstance.style.popUpBorderColour;
   setInitialSwitchAppearance(notetakerSwitch, markInstance.notetakerIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
   notetakerSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
@@ -236,6 +248,7 @@ function createDefaultPopUp(markInstance) {
   // Create an undo button.
   const undoBtn = document.createElement("div");
   undoBtn.classList.add("popUpSection");
+  undoBtn.style.borderColor = markInstance.style.popUpBorderColour;
   undoBtn.classList.add("undoBtn");
   undoBtn.appendChild(document.createTextNode("Undo"));
   undoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
@@ -243,6 +256,7 @@ function createDefaultPopUp(markInstance) {
   // Create a reset button.
   const resetBtn = document.createElement("div");
   resetBtn.classList.add("popUpSection");
+  resetBtn.style.borderColor = markInstance.style.popUpBorderColour;
   resetBtn.classList.add("resetBtn");
   resetBtn.appendChild(document.createTextNode("Reset"));
   resetBtn.addEventListener("click", e => {
@@ -254,6 +268,7 @@ function createDefaultPopUp(markInstance) {
   // Create a "change view" button.
   const changeViewBtn = document.createElement("div");
   changeViewBtn.classList.add("changeViewButton");
+  changeViewBtn.style.borderColor = markInstance.style.popUpBorderColour;
   const spanText = document.createElement("span");
   spanText.classList.add("minusSignPosition");
   spanText.appendChild(document.createTextNode("-"));
@@ -286,7 +301,9 @@ function createCollapsedPopUp(markInstance) {
 
   const popUp = document.createElement("div");
   popUp.classList.add("popUp");
+  popUp.style.color = markInstance.style.popUpTextColour;
   popUp.classList.add("width180px");
+  popUp.style.backgroundColor = markInstance.style.popUpBackgroundColour;
   popUp.classList.add("paddingTop10px");
 
   const highlightSectionHeader = document.createElement("h3");
@@ -305,19 +322,20 @@ function createCollapsedPopUp(markInstance) {
 
   const undoBtn = document.createElement("div");
   undoBtn.appendChild(document.createTextNode("Undo"));
+  undoBtn.style.borderColor = markInstance.style.popUpBorderColour;
   undoBtn.classList.add("smallButton");
   undoBtn.classList.add("marginLeft20px");
-  undoBtn.classList.add("colorGray");
   undoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
 
   const highlighterSwtich = document.createElement("div");
+  highlighterSwtich.style.borderColor = markInstance.style.popUpBorderColour;
   highlighterSwtich.classList.add("smallButton");
-  highlighterSwtich.classList.add("colorGray");
   setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, undefined, [colour0, colour1, colour2, colour3]));
 
   // Create a "change view" button.
   const changeViewBtn = document.createElement("div");
+  changeViewBtn.style.borderColor = markInstance.style.popUpBorderColour;
   changeViewBtn.classList.add("changeViewButton");
   const spanText = document.createElement("span");
   spanText.classList.add("plusSignPosition");
@@ -440,7 +458,7 @@ function highlight(markInstance) {
 	const intermediateTextNodes = getIntermediateTextNodes(document.body, sel.anchorNode, sel.focusNode);
 	const listOfSpansCreated = [];
 	intermediateTextNodes.map( t => {
-		const spanCreated = highlightTextNode(t, markInstance.colours[markInstance.activeColourIndex]);
+		const spanCreated = highlightTextNode(t, markInstance.style.highlighterColours[markInstance.activeColourIndex]);
 		if (spanCreated) {
 			listOfSpansCreated.push(spanCreated);
 		}
@@ -464,7 +482,7 @@ function highlight(markInstance) {
 		const firstTextNode = document.createTextNode(firstUnselectedText);
 
 		const span = document.createElement('span');
-		span.style.backgroundColor = markInstance.colours[markInstance.activeColourIndex];
+		span.style.backgroundColor = markInstance.style.highlighterColours[markInstance.activeColourIndex];
 		const selectedTextNode = document.createTextNode(selectedText);
 		span.appendChild(selectedTextNode);
 
@@ -487,7 +505,7 @@ function highlight(markInstance) {
 			const unselectedTextNode = document.createTextNode(unselectedText);
 
 			const span = document.createElement('span');
-			span.style.backgroundColor = markInstance.colours[markInstance.activeColourIndex];
+			span.style.backgroundColor = markInstance.style.highlighterColours[markInstance.activeColourIndex];
 			const selectedTextNode = document.createTextNode(selectedText);
 			span.appendChild(selectedTextNode);
 
@@ -506,7 +524,7 @@ function highlight(markInstance) {
 			const unselectedText = focusText.substring(focusOffset, focusText.length);
 
 			const span = document.createElement('span');
-			span.style.backgroundColor = markInstance.colours[markInstance.activeColourIndex];
+			span.style.backgroundColor = markInstance.style.highlighterColours[markInstance.activeColourIndex];
 			const selectedTextNode = document.createTextNode(selectedText);
 			span.appendChild(selectedTextNode);
 
@@ -630,8 +648,18 @@ function Mark(selector) {
   this.displays = [DEFAULT_VIEW, COLLAPSED_VIEW];
   this.displayIndex = 0;
 
-  this.colours = [DEFAULT_COLOUR0, DEFAULT_COLOUR1, DEFAULT_COLOUR2, DEFAULT_COLOUR3];
-  this.activeColourIndex = 0;
+  this.style = {
+    highlighterColours: [
+      DEFAULT_HIGHLIGHTER_COLOUR0,
+      DEFAULT_HIGHLIGHTER_COLOUR1,
+      DEFAULT_HIGHLIGHTER_COLOUR2,
+      DEFAULT_HIGHLIGHTER_COLOUR3
+    ],
+    activeColourIndex: 0,
+    popUpBackgroundColour: DEFAULT_POPUP_BKG_COLOUR,
+    popUpTextColour: DEFAULT_POPUP_TEXT_COLOUR,
+    popUpBorderColour: DEFAULT_POPUP_BORDER_COLOUR
+  }
 
   this.highlighterIsOn = false;
   this.notetakerIsOn = false;
@@ -766,7 +794,22 @@ function setCurrentHighlighterColour(i) {
 }
 
 function setColours(colour0, colour1, colour2, colour3) {
-  this.colours = [colour0, colour1, colour2, colour3];
+  this.style.highlighterColours = [colour0, colour1, colour2, colour3];
+  resetPopUp.call(this);
+}
+
+function setPopUpBackgroundColour(colour) {
+  this.style.popUpBackgroundColour = colour;
+  resetPopUp.call(this);
+}
+
+function setPopUpTextColour(colour) {
+  this.style.popUpTextColour = colour;
+  resetPopUp.call(this);
+}
+
+function setPopUpBorderColour(colour) {
+  this.style.popUpBorderColour = colour;
   resetPopUp.call(this);
 }
 
@@ -794,6 +837,9 @@ Mark.prototype = {
   applyFixedPositioning,
   applyAbsolutePositioning,
   setParentElement,
+  setPopUpBackgroundColour,
+  setPopUpTextColour,
+  setPopUpBorderColour,
   DEFAULT_VIEW,
   COLLAPSED_VIEW,
   HIDDEN_VIEW

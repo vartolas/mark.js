@@ -573,7 +573,7 @@ function leaveNote(markInstance, target, x, y) {
   changeNoteViewBtn.appendChild(document.createTextNode("-"));
   changeNoteViewBtn.addEventListener("click", e => {
     if (changeNoteViewBtn.innerText == "-") {
-      // minimize the note's view
+      // Minimize the note's view.
       note.classList.remove("maximizedNote");
       note.classList.add("minimizedNote");
 
@@ -585,7 +585,7 @@ function leaveNote(markInstance, target, x, y) {
       changeNoteViewBtn.classList.remove("changeNoteViewButtonMaximized");
       changeNoteViewBtn.classList.add("changeNoteViewButtonMinimized");
     } else {
-      // maximize the note's view
+      // Maximize the note's view.
       note.classList.remove("minimizedNote");
       note.classList.add("maximizedNote");
 

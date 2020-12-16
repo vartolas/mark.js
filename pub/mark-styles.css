@@ -223,19 +223,21 @@
 }
 
 .changeNoteViewButton {
-	font-size: 15px;
 	top: 5px;
 	left: 30px;
 	background-color: #CCFFCC;
-
 }
 
 .changeNoteViewButtonMaximized {
 	padding-left: 6px;
+	font-size: 14px;
+	padding-top: 1px;
 }
 
 .changeNoteViewButtonMinimized {
-	padding-left: 4px;
+	font-size: 13px;
+	padding-top: 1px;
+	padding-left: 5px;
 }
 
 .changeNoteViewButton:hover {

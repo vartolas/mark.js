@@ -9,6 +9,9 @@ const DEFAULT_HIGHLIGHTER_COLOUR1 = "cyan";
 const DEFAULT_HIGHLIGHTER_COLOUR2 = "lime";
 const DEFAULT_HIGHLIGHTER_COLOUR3 = "#FFBBBB";
 
+const DEFAULT_ON_BTN_COLOUR = "";
+const DEFAULT_OFF_BTN_COLOUR = "";
+
 const DEFAULT_POPUP_BKG_COLOUR = "#FFFFFF";
 const DEFAULT_POPUP_TEXT_COLOUR = "red";
 
@@ -28,12 +31,14 @@ const HIDDEN_VIEW = 2;
 //// Helpers for createDefaultPopUp ////
 ////////////////////////////////////////
 
-function setInitialSwitchAppearance(switchElement, on) {
+function setInitialSwitchAppearance(markInstance, switchElement, on) {
   if (on) {
     switchElement.classList.add("turnOffBtn");
+    switchElement.style.backgroundColor = markInstance.style.onButtonBackgroundColour;
     switchElement.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
   } else {
     switchElement.classList.add("turnOnBtn");
+    switchElement.style.backgroundColor = markInstance.style.offButtonBackgroundColour;
     switchElement.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
   }
 }
@@ -46,11 +51,13 @@ function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetaker
   if (markInstance.highlighterIsOn) {
     highlighterSwtich.classList.remove("turnOnBtn");
     highlighterSwtich.classList.add("turnOffBtn");
+    highlighterSwtich.style.backgroundColor = markInstance.style.onButtonBackgroundColour;
     highlighterSwtich.removeChild(highlighterSwtich.childNodes[0]);
     highlighterSwtich.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
   } else {
     highlighterSwtich.classList.remove("turnOffBtn");
     highlighterSwtich.classList.add("turnOnBtn");
+    highlighterSwtich.style.backgroundColor = markInstance.style.offButtonBackgroundColour;
     highlighterSwtich.removeChild(highlighterSwtich.childNodes[0]);
     highlighterSwtich.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
   }
@@ -76,20 +83,22 @@ function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetaker
   if (notetakerSwtich && markInstance.notetakerIsOn) {
     markInstance.notetakerIsOn = false;
 
-    setOffNotetakerSwtichAppearance(notetakerSwtich)
+    setOffNotetakerSwtichAppearance(markInstance, notetakerSwtich)
   }
 }
 
-function setOffNotetakerSwtichAppearance(notetakerSwtich) {
+function setOffNotetakerSwtichAppearance(markInstance, notetakerSwtich) {
   notetakerSwtich.classList.remove("turnOffBtn");
   notetakerSwtich.classList.add("turnOnBtn");
+  notetakerSwtich.style.backgroundColor = markInstance.style.offButtonBackgroundColour;
   notetakerSwtich.removeChild(notetakerSwtich.childNodes[0]);
   notetakerSwtich.appendChild(document.createTextNode(INACTIVE_NOTE_BTN_TEXT));
 }
 
-function setOnNotetakerSwtichAppearance(notetakerSwtich) {
+function setOnNotetakerSwtichAppearance(markInstance, notetakerSwtich) {
   notetakerSwtich.classList.remove("turnOnBtn");
   notetakerSwtich.classList.add("turnOffBtn");
+  notetakerSwtich.style.backgroundColor = markInstance.style.onButtonBackgroundColour;
   notetakerSwtich.removeChild(notetakerSwtich.childNodes[0]);
   notetakerSwtich.appendChild(document.createTextNode(ACTIVE_NOTE_BTN_TEXT));
 }
@@ -104,9 +113,9 @@ function handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSw
   markInstance.notetakerIsOn = !markInstance.notetakerIsOn;
 
   if (markInstance.notetakerIsOn) {
-    setOnNotetakerSwtichAppearance(notetakerSwtich);
+    setOnNotetakerSwtichAppearance(markInstance, notetakerSwtich);
   } else {
-    setOffNotetakerSwtichAppearance(notetakerSwtich);
+    setOffNotetakerSwtichAppearance(markInstance, notetakerSwtich);
   }
 }
 
@@ -207,7 +216,7 @@ function createDefaultPopUp(markInstance) {
   const highlighterSwtich = document.createElement("div");
   highlighterSwtich.classList.add("popUpSection");
   highlighterSwtich.style.borderColor = markInstance.style.popUpBorderColour;
-  setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
+  setInitialSwitchAppearance(markInstance, highlighterSwtich, markInstance.highlighterIsOn);
 
   // Create the note section header.
   const noteSectionHeader = document.createElement("h3");
@@ -235,7 +244,7 @@ function createDefaultPopUp(markInstance) {
   const notetakerSwitch = document.createElement("div");
   notetakerSwitch.classList.add("popUpSection");
   notetakerSwitch.style.borderColor = markInstance.style.popUpBorderColour;
-  setInitialSwitchAppearance(notetakerSwitch, markInstance.notetakerIsOn);
+  setInitialSwitchAppearance(markInstance, notetakerSwitch, markInstance.notetakerIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
   notetakerSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
 
@@ -330,7 +339,7 @@ function createCollapsedPopUp(markInstance) {
   const highlighterSwtich = document.createElement("div");
   highlighterSwtich.style.borderColor = markInstance.style.popUpBorderColour;
   highlighterSwtich.classList.add("smallButton");
-  setInitialSwitchAppearance(highlighterSwtich, markInstance.highlighterIsOn);
+  setInitialSwitchAppearance(markInstance, highlighterSwtich, markInstance.highlighterIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, undefined, [colour0, colour1, colour2, colour3]));
 
   // Create a "change view" button.
@@ -658,7 +667,9 @@ function Mark(selector) {
     activeColourIndex: 0,
     popUpBackgroundColour: DEFAULT_POPUP_BKG_COLOUR,
     popUpTextColour: DEFAULT_POPUP_TEXT_COLOUR,
-    popUpBorderColour: DEFAULT_POPUP_BORDER_COLOUR
+    popUpBorderColour: DEFAULT_POPUP_BORDER_COLOUR,
+    onButtonBackgroundColour: DEFAULT_ON_BTN_COLOUR,
+    offButtonBackgroundColour: DEFAULT_OFF_BTN_COLOUR
   }
 
   this.highlighterIsOn = false;
@@ -813,6 +824,16 @@ function setPopUpBorderColour(colour) {
   resetPopUp.call(this);
 }
 
+function setOffButtonBackgroundColour(colour) {
+  this.style.offButtonBackgroundColour = colour;
+  resetPopUp.call(this);
+}
+
+function setOnButtonBackgroundColour(colour) {
+  this.style.onButtonBackgroundColour = colour;
+  resetPopUp.call(this);
+}
+
 // // Displays is an array containing one or more instances of DEFAULT_VIEW,
 // // COLLAPSED_VIEW, and HIDDEN_VIEW. initialDisplay is the value of the display type
 // // that the popUp should initially have. The popUp will cycle through the list
@@ -840,6 +861,8 @@ Mark.prototype = {
   setPopUpBackgroundColour,
   setPopUpTextColour,
   setPopUpBorderColour,
+  setOffButtonBackgroundColour,
+  setOnButtonBackgroundColour,
   DEFAULT_VIEW,
   COLLAPSED_VIEW,
   HIDDEN_VIEW

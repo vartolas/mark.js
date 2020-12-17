@@ -804,7 +804,7 @@ function setCurrentHighlighterColour(i) {
   }
 }
 
-function setColours(colour0, colour1, colour2, colour3) {
+function setHighlighterColours(colour0, colour1, colour2, colour3) {
   this.style.highlighterColours = [colour0, colour1, colour2, colour3];
   resetPopUp.call(this);
 }
@@ -824,12 +824,12 @@ function setPopUpBorderColour(colour) {
   resetPopUp.call(this);
 }
 
-function setOffButtonBackgroundColour(colour) {
+function setOffButtonColour(colour) {
   this.style.offButtonBackgroundColour = colour;
   resetPopUp.call(this);
 }
 
-function setOnButtonBackgroundColour(colour) {
+function setOnButtonColour(colour) {
   this.style.onButtonBackgroundColour = colour;
   resetPopUp.call(this);
 }
@@ -850,7 +850,7 @@ Mark.prototype = {
   setCurrentHighlighterColour,
   hidePopUp,
   showPopUp,
-  setColours,
+  setHighlighterColours,
   setTop,
   setBottom,
   setLeft,
@@ -861,8 +861,8 @@ Mark.prototype = {
   setPopUpBackgroundColour,
   setPopUpTextColour,
   setPopUpBorderColour,
-  setOffButtonBackgroundColour,
-  setOnButtonBackgroundColour,
+  setOffButtonColour,
+  setOnButtonColour,
   DEFAULT_VIEW,
   COLLAPSED_VIEW,
   HIDDEN_VIEW

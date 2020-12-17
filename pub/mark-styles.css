@@ -316,3 +316,22 @@
   top: -3px;
   left: 4px;
 }
+
+.arrow {
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+}
+
+.arrow:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.leftArrow {
+	border-right-color: red;
+}
+
+.rightArrow {
+	border-left-color: green;
+}

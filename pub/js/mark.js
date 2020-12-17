@@ -26,6 +26,8 @@ const DEFAULT_VIEW = 0;
 const COLLAPSED_VIEW = 1;
 const HIDDEN_VIEW = 2;
 
+const DEFAULT_NUM_LAYERS = 3;
+
 
 ////////////////////////////////////////
 //// Helpers for createDefaultPopUp ////
@@ -75,7 +77,6 @@ function handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetaker
         obj.classList.add("inactiveColourBorder");
       }
     }
-
   });
 
   // Edit state and view of the highlighter section if it is being turned off as a result
@@ -298,6 +299,20 @@ function createDefaultPopUp(markInstance) {
   popUp.appendChild(resetBtn);
   popUp.appendChild(changeViewBtn);
 
+  // Temporary code for layers:
+  const decrementLayerButton = document.createElement("div");
+  decrementLayerButton.classList.add("leftArrow");
+  decrementLayerButton.classList.add("arrow");
+  decrementLayerButton.addEventListener("click", e => switchLayer(markInstance, -1));
+  popUp.appendChild(decrementLayerButton);
+
+
+  const incrementLayerButton = document.createElement("div");
+  incrementLayerButton.classList.add("rightArrow");
+  incrementLayerButton.classList.add("arrow");
+  incrementLayerButton.addEventListener("click", e => switchLayer(markInstance, 1));
+  popUp.appendChild(incrementLayerButton);
+
   return { popUp, noteTextarea, notetakerSwitch };
 }
 
@@ -364,12 +379,62 @@ function createCollapsedPopUp(markInstance) {
   return { popUp };
 }
 
+///////////////////////////////////////////////////////
+//// Functions that implement layer-switch feature ////
+///////////////////////////////////////////////////////
+
+function switchLayer(markInstance, offset) {
+  /*
+    Remove every highlight and note in this layer from the DOM.
+    Store this layer's removed highlights and notes.
+    NOTE: removed highlights are stored as a list of the textNodes that
+    were highlighted.
+  */
+  const highlightsAndNotes = markInstance.highlightsAndNotes[markInstance.currentLayer];
+
+  for (let i = highlightsAndNotes.length - 1; i >= 0; i--) {
+    const storedElement = removeElementFromDOM(highlightsAndNotes[i]);
+    markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer].splice(0, 0, storedElement);
+  }
+
+  // Set the current layer.
+  markInstance.currentLayer += offset;
+  if (markInstance.currentLayer === -1) {
+    markInstance.currentLayer = 2;
+  } else if (markInstance.currentLayer === 3) {
+    markInstance.currentLayer = 0;
+  }
+
+  // Add every highlight and note in this layer to the DOM.
+  const savedElements = markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer];
+  log(markInstance.storedHighlightedTextAndNotes, markInstance.currentLayer)
+
+  for (let i = savedElements.length - 1; i >= 0; i--) {
+    savedElement = savedElements.pop();
+    if (Array.isArray(savedElement)) {
+      /* savedElement is an array of textNodes. We have to replace these with their respective
+      spans in markInstance.highlightsAndNotes. */
+      for (let j = 0; j < savedElement.length; j++) {
+        textNode = savedElement[j]
+        const textNodeIdx = getIndexInParentChildNodes(textNode);
+        const parent = textNode.parentNode;
+        textNode.parentNode.removeChild(textNode);
+        insertNodeAtIndex(markInstance.highlightsAndNotes[markInstance.currentLayer][i][j], parent, textNodeIdx);
+      }
+    } else {
+      // savedElement is a note HTML element; append it to the document's body.
+      document.body.appendChild(savedElement);
+    }
+  }
+}
+
 
 ///////////////////////////////////////////////////////
 //// Functions that implement highlighting feature ////
 ///////////////////////////////////////////////////////
 
 function removeElementFromDOM(element) {
+  let storedElement = [];
   if (Array.isArray(element)) {
     /* Then we are removing a highlight from the DOM (represented in the
     Mark instance's hihglights and highlightsAndNotes arrays as an array of
@@ -383,12 +448,15 @@ function removeElementFromDOM(element) {
   		const parent = span.parentNode;
   		parent.removeChild(span);
   		insertNodeAtIndex(textNode, parent, i);
+      storedElement.push(textNode);
   	});
   } else {
     /* Then we are removing a note from the DOM. */
     document.body.removeChild(element);
+    storedElement = element;
   }
 
+  return storedElement;
 }
 
 function highlightTextNode(node, colour) {
@@ -650,14 +718,14 @@ function leaveNote(markInstance, target, x, y) {
 ////////////////////////////
 
 function Mark(selector) {
-  // this.highlights = [];
-  // this.notes = [];
   this.highlightsAndNotes = [[], [], []];
+  this.storedHighlightedTextAndNotes = [[], [], []];
   this.currentLayer = 0;
 
   this.displays = [DEFAULT_VIEW, COLLAPSED_VIEW];
   this.displayIndex = 0;
 
+  this.activeColourIndex = 0
   this.style = {
     highlighterColours: [
       DEFAULT_HIGHLIGHTER_COLOUR0,
@@ -665,7 +733,6 @@ function Mark(selector) {
       DEFAULT_HIGHLIGHTER_COLOUR2,
       DEFAULT_HIGHLIGHTER_COLOUR3
     ],
-    activeColourIndex: 0,
     popUpBackgroundColour: DEFAULT_POPUP_BKG_COLOUR,
     popUpTextColour: DEFAULT_POPUP_TEXT_COLOUR,
     popUpBorderColour: DEFAULT_POPUP_BORDER_COLOUR,

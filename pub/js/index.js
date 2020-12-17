@@ -1,4 +1,4 @@
-const NOTE_TEXT = "Click here ^ to try pasting notes like these yourself!"
+const NOTE_TEXT = "Click 'Examples' to try pasting notes like these yourself!"
 
 const note = document.createElement("div");
 note.classList.add("note");

@@ -13,7 +13,7 @@ const DEFAULT_ON_BTN_COLOUR = "";
 const DEFAULT_OFF_BTN_COLOUR = "";
 
 const DEFAULT_POPUP_BKG_COLOUR = "#FFFFFF";
-const DEFAULT_POPUP_TEXT_COLOUR = "red";
+const DEFAULT_POPUP_TEXT_COLOUR = "#555555";
 
 const DEFAULT_POPUP_BORDER_COLOUR = "gray";
 
@@ -153,11 +153,11 @@ function createHighlighterColourDiv(i, markInstance) {
 }
 
 function handleUndoButtonClick(markInstance) {
-    if (markInstance.highlightsAndNotes.length === 0) {
+    if (markInstance.highlightsAndNotes[markInstance.currentLayer].length === 0) {
       return;
     }
 
-    const lastElement = markInstance.highlightsAndNotes.pop();
+    const lastElement = markInstance.highlightsAndNotes[markInstance.currentLayer].pop();
     removeElementFromDOM(lastElement);
 }
 
@@ -269,8 +269,8 @@ function createDefaultPopUp(markInstance) {
   resetBtn.classList.add("resetBtn");
   resetBtn.appendChild(document.createTextNode("Reset"));
   resetBtn.addEventListener("click", e => {
-    while (markInstance.highlightsAndNotes.length > 0) {
-      removeElementFromDOM(markInstance.highlightsAndNotes.pop());
+    while (markInstance.highlightsAndNotes[markInstance.currentLayer].length > 0) {
+      removeElementFromDOM(markInstance.highlightsAndNotes[markInstance.currentLayer].pop());
     }
   });
 
@@ -551,8 +551,8 @@ function highlight(markInstance) {
 	}
 
 	if (listOfSpansCreated.length !== 0) {
-		markInstance.highlightsAndNotes.push(listOfSpansCreated);
-    markInstance.highlights.push(listOfSpansCreated);
+		markInstance.highlightsAndNotes[markInstance.currentLayer].push(listOfSpansCreated);
+    // markInstance.highlights.push(listOfSpansCreated);
 	}
 }
 
@@ -588,8 +588,8 @@ function leaveNote(markInstance, target, x, y) {
   deleteNoteBtn.classList.add("deleteNoteButton");
   deleteNoteBtn.appendChild(document.createTextNode("✕"));
   deleteNoteBtn.addEventListener("click", e => {
-    markInstance.notes.splice(markInstance.notes.indexOf(note), 1);
-    markInstance.highlightsAndNotes.splice(markInstance.highlightsAndNotes.indexOf(note), 1);
+    // markInstance.notes.splice(markInstance.notes.indexOf(note), 1);
+    markInstance.highlightsAndNotes[markInstance.currentLayer].splice(markInstance.highlightsAndNotes[markInstance.currentLayer].indexOf(note), 1);
     note.parentElement.removeChild(note);
   });
 
@@ -638,8 +638,8 @@ function leaveNote(markInstance, target, x, y) {
   note.appendChild(deleteNoteBtn);
 
   document.body.appendChild(note);
-  markInstance.notes.push(note);
-  markInstance.highlightsAndNotes.push(note);
+  // markInstance.notes.push(note);
+  markInstance.highlightsAndNotes[markInstance.currentLayer].push(note);
 
   handleNotetakerSwtichClick(markInstance, undefined, markInstance.notetakerSwitch, undefined);
 }
@@ -650,9 +650,10 @@ function leaveNote(markInstance, target, x, y) {
 ////////////////////////////
 
 function Mark(selector) {
-  this.highlights = [];
-  this.notes = [];
-  this.highlightsAndNotes = [];
+  // this.highlights = [];
+  // this.notes = [];
+  this.highlightsAndNotes = [[], [], []];
+  this.currentLayer = 0;
 
   this.displays = [DEFAULT_VIEW, COLLAPSED_VIEW];
   this.displayIndex = 0;

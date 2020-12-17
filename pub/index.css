@@ -3,6 +3,7 @@
 
 #landingBody {
   font-family: "Overpass", sans-serif;
+  font-weight: 300;
 	background-color: #EEEEEE;
   margin: 0;
   height: 100%;
@@ -13,9 +14,17 @@
 
 #landingHeader {
   text-align: center;
-  margin-top: 170px;
   font-size: 80px;
+
+  margin-top: 170px;
   margin-bottom: 5px;
+
+  /* position: absolute;
+  top: 100px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; */
 }
 
 #landingContainer {
@@ -24,7 +33,7 @@
 
 #landingDesc {
   width: 500px;
-  opacity: 50%;
+  color: #777777;
   font-size: 24px;
   text-align: center;
   position: absolute;
@@ -49,7 +58,7 @@
   margin: auto;
   width: 320px;
   padding: 0;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 #landingOptions li {
@@ -66,12 +75,14 @@
 }
 
 #documentationLink {
-  background-color: #5500FF;
+  /* background-color: #5500FF; */
+  background-color: black;
   color: #EEEEEE;
   margin-right: 20px;
 }
 
 #exampleLink {
   background-color: #EEEEEE;
-  color: #5500FF;
+  color: black;
+  /* color: #5500FF; */
 }

@@ -5,6 +5,8 @@
 	padding-bottom: 1px;
   position: absolute;
   z-index: 2;
+	font-family: Arial, sans-serif;
+	font-size: 17px;
 
   /* Make text inside the popUp unselectable. */
   -moz-user-select: none;
@@ -158,6 +160,7 @@
 
 .note {
 	position: absolute;
+	font-size: 16px;
 
 	box-shadow: 0 0 50px #333333;
 	box-sizing: border-box;
@@ -172,7 +175,7 @@
 }
 
 .maximizedNote {
-	width: 200px;
+	width: 250px;
 }
 
 .noteContent {
@@ -181,10 +184,11 @@
   z-index: 1;
   overflow-y: scroll;
   overflow-wrap: break-word;
+	/* font-family: Arial, sans-serif; */
 }
 
 .maximizedNoteContent {
-	width: 180px;
+	width: 230px;
 	display: block;
 }
 
@@ -299,13 +303,13 @@
 }
 
 .plusSignPosition {
-  top: -4px;
+  top: 0px;
   left: 4px;
 }
 
 .minusSignPosition {
-  top: -4px;
-  left: 6px;
+  top: -2px;
+  left: 7px;
 }
 
 .xSignPosition {

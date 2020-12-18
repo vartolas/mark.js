@@ -1,20 +1,20 @@
 const NOTES = [
   {
     text: "Try navigating between note layers!",
-    top: 250,
-    left: 1030
+    top: 140,
+    left: 900
   },
   {
     text: "Try highlighting this webpage's text with Mark.js! Turn the 'Highlighter' \
     on, select a colour, and highlight away.",
-    top: 25,
-    left: 370
+    top: 90,
+    left: 420
   },
   {
     text: "With Mark.js, you can leave notes like these. Try it! \
     Turn the 'Notetaker' on, write a note, then click anywhere to paste it.",
-    top: 500,
-    left: 500
+    top: 650,
+    left: 600
   }
 ];
 
@@ -30,3 +30,5 @@ for (let i = 0; i < NOTES.length; i++) {
   }, NOTES[i].text);
 }
 markInstance.setHighlighterColours("yellow", "cyan", "#EECEEE", "lime");
+markInstance.setPopUpBackgroundColour("#FFFFF2");
+markInstance.setPopUpTextColour("#555555");

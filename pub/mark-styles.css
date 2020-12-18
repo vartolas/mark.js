@@ -48,8 +48,16 @@
   margin-top: 20px;
 }
 
+.marginBottom20px {
+  margin-bottom: 20px;
+}
+
 .marginTop30px {
   margin-top: 30px;
+}
+
+.marginBottom30px {
+  margin-bottom: 30px;
 }
 
 .highlightSection {
@@ -253,30 +261,66 @@
   padding-bottom: 7px;
 }
 
-.smallButton {
+.smallButtonCollapsedView {
   width: 60px;
   height: 30px;
-  margin: 10px;
+	margin: 10px;
   margin-right: 0;
   border: solid 2px;
   box-sizing: border-box;
   border-radius: 20px;
-  float: left;
   text-align: center;
   padding-top: 4px;
 }
+
+.smallButtonExpandedView {
+  width: 85px;
+  height: 30px;
+  margin-right: 0;
+  border: solid 2px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.smallButtonCollapsedView:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.smallButtonExpandedView:hover {
+	opacity: 50%;
+	cursor: pointer;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.floatRight {
+	float: right;
+}
+
 
 .colorGray {
   color: #555555;
 }
 
-.smallButton:hover {
-	opacity: 50%;
-	cursor: pointer;
-}
-
 .marginLeft20px {
   margin-left: 20px;
+}
+
+.marginRight20px {
+  margin-right: 20px;
+}
+
+.marginLeft10px {
+  margin-left: 10px;
+}
+
+.marginRight10px {
+  margin-right: 10px;
 }
 
 .changeViewButton {
@@ -329,9 +373,21 @@
 }
 
 .leftArrow {
-	border-right-color: red;
+	border-right-color: #555555;
+	position: absolute;
+	left: 15px;
+	top: 0;
 }
 
 .rightArrow {
-	border-left-color: green;
+	border-left-color: #555555;
+	position: absolute;
+	right: 15px;
+	top: 0;
+}
+
+.layerTextContainer {
+	text-align: center;
+	position: relative;
+	margin-bottom: 10px;
 }

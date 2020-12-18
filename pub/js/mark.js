@@ -154,11 +154,11 @@ function createHighlighterColourDiv(i, markInstance) {
 }
 
 function handleUndoButtonClick(markInstance) {
-    if (markInstance.highlightsAndNotes[markInstance.currentLayer].length === 0) {
+    if (markInstance.highlights.length === 0) {
       return;
     }
 
-    const lastElement = markInstance.highlightsAndNotes[markInstance.currentLayer].pop();
+    const lastElement = markInstance.highlights.pop();
     removeElementFromDOM(lastElement);
 }
 
@@ -219,6 +219,29 @@ function createDefaultPopUp(markInstance) {
   highlighterSwtich.style.borderColor = markInstance.style.popUpBorderColour;
   setInitialSwitchAppearance(markInstance, highlighterSwtich, markInstance.highlighterIsOn);
 
+  // Create undo and reset buttons for the highlighter.
+  const higlighterUndoBtn = document.createElement("div");
+  higlighterUndoBtn.appendChild(document.createTextNode("Undo"));
+  higlighterUndoBtn.style.borderColor = markInstance.style.popUpBorderColour;
+  higlighterUndoBtn.classList.add("smallButtonExpandedView");
+  higlighterUndoBtn.classList.add("marginLeft10px");
+  higlighterUndoBtn.classList.add("marginBottom20px");
+  higlighterUndoBtn.classList.add("floatLeft");
+  higlighterUndoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
+
+  const higlighterResetBtn = document.createElement("div");
+  higlighterResetBtn.appendChild(document.createTextNode("Reset"));
+  higlighterResetBtn.style.borderColor = markInstance.style.popUpBorderColour;
+  higlighterResetBtn.classList.add("smallButtonExpandedView");
+  higlighterResetBtn.classList.add("marginRight10px");
+  higlighterResetBtn.classList.add("marginBottom20px");
+  higlighterResetBtn.classList.add("floatRight");
+  higlighterResetBtn.addEventListener("click", e => {
+    for (let i = 0; i < markInstance.highlights.length; i++) {
+      removeElementFromDOM(markInstance.highlights[i]);
+    }
+  });
+
   // Create the note section header.
   const noteSectionHeader = document.createElement("h3");
   noteSectionHeader.appendChild(document.createTextNode("Notetaker"));
@@ -249,28 +272,14 @@ function createDefaultPopUp(markInstance) {
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
   notetakerSwitch.addEventListener("click", e => handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSwitch, [colour0, colour1, colour2, colour3]));
 
-  // Create the eraser section header.
-  const eraserSectionHeader = document.createElement("h3");
-  eraserSectionHeader.appendChild(document.createTextNode("Eraser"));
-  eraserSectionHeader.classList.add("sectionHeader");
-  eraserSectionHeader.classList.add("marginTop20px");
-
-  // Create an undo button.
-  const undoBtn = document.createElement("div");
-  undoBtn.classList.add("popUpSection");
-  undoBtn.style.borderColor = markInstance.style.popUpBorderColour;
-  undoBtn.classList.add("undoBtn");
-  undoBtn.appendChild(document.createTextNode("Undo"));
-  undoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
-
-  // Create a reset button.
-  const resetBtn = document.createElement("div");
-  resetBtn.classList.add("popUpSection");
-  resetBtn.style.borderColor = markInstance.style.popUpBorderColour;
-  resetBtn.classList.add("resetBtn");
-  resetBtn.appendChild(document.createTextNode("Reset"));
-  resetBtn.addEventListener("click", e => {
-    while (markInstance.highlightsAndNotes[markInstance.currentLayer].length > 0) {
+  // Create a reset button for the Notetaker.
+  const resetNoteLayerBtn = document.createElement("div");
+  resetNoteLayerBtn.classList.add("popUpSection");
+  resetNoteLayerBtn.style.borderColor = markInstance.style.popUpBorderColour;
+  resetNoteLayerBtn.classList.add("resetBtn");
+  resetNoteLayerBtn.appendChild(document.createTextNode("Reset Note Layer"));
+  resetNoteLayerBtn.addEventListener("click", e => {
+    while (markInstance.notes[markInstance.currentLayer].length > 0) {
       removeElementFromDOM(markInstance.highlightsAndNotes[markInstance.currentLayer].pop());
     }
   });
@@ -285,33 +294,43 @@ function createDefaultPopUp(markInstance) {
   changeViewBtn.appendChild(spanText);
   changeViewBtn.addEventListener("click", e => handleChangeViewButtonClick(markInstance));
 
+  // Create pop-up layer text and decrement/increment layer buttons.
+  const layerTextContainer = document.createElement("div");
+  layerTextContainer.classList.add("layerTextContainer");
+  layerTextContainer.classList.add("sectionHeader");
+  const layerTextNode = document.createTextNode("Note Layer ");
+  const layerNumberTextNode = document.createTextNode(markInstance.currentLayer + 1);
+
+  const decrementLayerButton = document.createElement("div");
+  decrementLayerButton.classList.add("leftArrow");
+  decrementLayerButton.classList.add("arrow");
+  decrementLayerButton.addEventListener("click", e => switchLayer(markInstance, -1, layerTextContainer));
+
+  const incrementLayerButton = document.createElement("div");
+  incrementLayerButton.classList.add("rightArrow");
+  incrementLayerButton.classList.add("arrow");
+  incrementLayerButton.addEventListener("click", e => switchLayer(markInstance, 1, layerTextContainer));
+
+  layerTextContainer.appendChild(layerTextNode);
+  layerTextContainer.appendChild(layerNumberTextNode);
+  layerTextContainer.appendChild(decrementLayerButton);
+  layerTextContainer.appendChild(incrementLayerButton);
+
   // Add children to the popUp div.
   popUp.appendChild(highlightSectionHeader);
   popUp.appendChild(highlightSection);
   popUp.appendChild(highlighterSwtich);
+  popUp.appendChild(higlighterUndoBtn);
+  popUp.appendChild(higlighterResetBtn);
 
   popUp.appendChild(noteSectionHeader);
   popUp.appendChild(noteSection);
   popUp.appendChild(notetakerSwitch);
 
-  popUp.appendChild(eraserSectionHeader);
-  popUp.appendChild(undoBtn);
-  popUp.appendChild(resetBtn);
+  popUp.appendChild(layerTextContainer);
+  popUp.appendChild(resetNoteLayerBtn);
+
   popUp.appendChild(changeViewBtn);
-
-  // Temporary code for layers:
-  const decrementLayerButton = document.createElement("div");
-  decrementLayerButton.classList.add("leftArrow");
-  decrementLayerButton.classList.add("arrow");
-  decrementLayerButton.addEventListener("click", e => switchLayer(markInstance, -1));
-  popUp.appendChild(decrementLayerButton);
-
-
-  const incrementLayerButton = document.createElement("div");
-  incrementLayerButton.classList.add("rightArrow");
-  incrementLayerButton.classList.add("arrow");
-  incrementLayerButton.addEventListener("click", e => switchLayer(markInstance, 1));
-  popUp.appendChild(incrementLayerButton);
 
   return { popUp, noteTextarea, notetakerSwitch };
 }
@@ -347,13 +366,16 @@ function createCollapsedPopUp(markInstance) {
   const undoBtn = document.createElement("div");
   undoBtn.appendChild(document.createTextNode("Undo"));
   undoBtn.style.borderColor = markInstance.style.popUpBorderColour;
-  undoBtn.classList.add("smallButton");
+  undoBtn.classList.add("smallButtonCollapsedView");
   undoBtn.classList.add("marginLeft20px");
+  undoBtn.classList.add("floatLeft");
   undoBtn.addEventListener("click", e => handleUndoButtonClick(markInstance));
 
   const highlighterSwtich = document.createElement("div");
   highlighterSwtich.style.borderColor = markInstance.style.popUpBorderColour;
-  highlighterSwtich.classList.add("smallButton");
+  highlighterSwtich.classList.add("smallButtonCollapsedView");
+  highlighterSwtich.classList.add("floatRight");
+  highlighterSwtich.classList.add("marginRight20px");
   setInitialSwitchAppearance(markInstance, highlighterSwtich, markInstance.highlighterIsOn);
   highlighterSwtich.addEventListener("click", e => handleHighlighterSwitchClick(markInstance, highlighterSwtich, undefined, [colour0, colour1, colour2, colour3]));
 
@@ -383,50 +405,105 @@ function createCollapsedPopUp(markInstance) {
 //// Functions that implement layer-switch feature ////
 ///////////////////////////////////////////////////////
 
-function switchLayer(markInstance, offset) {
-  /*
-    Remove every highlight and note in this layer from the DOM.
-    Store this layer's removed highlights and notes.
-    NOTE: removed highlights are stored as a list of the textNodes that
-    were highlighted.
-  */
-  const highlightsAndNotes = markInstance.highlightsAndNotes[markInstance.currentLayer];
+function switchLayer(markInstance, offset, layerTextContainer) {
+  // Remove every note in the current layer from the DOM.
+  let notes = markInstance.notes[markInstance.currentLayer];
 
-  for (let i = highlightsAndNotes.length - 1; i >= 0; i--) {
-    const storedElement = removeElementFromDOM(highlightsAndNotes[i]);
-    markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer].splice(0, 0, storedElement);
+  for (let i = 0; i < notes.length; i++) {
+    removeElementFromDOM(notes[i]);
   }
 
   // Set the current layer.
   markInstance.currentLayer += offset;
   if (markInstance.currentLayer === -1) {
-    markInstance.currentLayer = 2;
-  } else if (markInstance.currentLayer === 3) {
+    markInstance.currentLayer = DEFAULT_NUM_LAYERS - 1;
+  } else if (markInstance.currentLayer === DEFAULT_NUM_LAYERS) {
     markInstance.currentLayer = 0;
   }
 
-  // Add every highlight and note in this layer to the DOM.
-  const savedElements = markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer];
-  log(markInstance.storedHighlightedTextAndNotes, markInstance.currentLayer)
+  // Update the layer number displayed by the pop-up.
+  layerTextContainer.removeChild(layerTextContainer.childNodes[1]);
+  insertNodeAtIndex(document.createTextNode(markInstance.currentLayer + 1), layerTextContainer, 1);
 
-  for (let i = savedElements.length - 1; i >= 0; i--) {
-    savedElement = savedElements.pop();
-    if (Array.isArray(savedElement)) {
-      /* savedElement is an array of textNodes. We have to replace these with their respective
-      spans in markInstance.highlightsAndNotes. */
-      for (let j = 0; j < savedElement.length; j++) {
-        textNode = savedElement[j]
-        const textNodeIdx = getIndexInParentChildNodes(textNode);
-        const parent = textNode.parentNode;
-        textNode.parentNode.removeChild(textNode);
-        insertNodeAtIndex(markInstance.highlightsAndNotes[markInstance.currentLayer][i][j], parent, textNodeIdx);
-      }
-    } else {
-      // savedElement is a note HTML element; append it to the document's body.
-      document.body.appendChild(savedElement);
-    }
+  // Add every note in this layer to the DOM.
+  notes = markInstance.notes[markInstance.currentLayer];
+  for (let i = 0; i < notes.length; i++) {
+    document.body.appendChild(notes[i]);
   }
 }
+
+
+// OLD IMPLEMENTATION:
+// function switchLayer(markInstance, offset) {
+//   /*
+//     Remove every highlight and note in this layer from the DOM.
+//     Store this layer's removed highlights and notes.
+//     NOTE: removed highlights are stored as a list of the textNodes that
+//     were highlighted.
+//   */
+//   const highlightsAndNotes = markInstance.highlightsAndNotes[markInstance.currentLayer];
+//
+//   for (let i = highlightsAndNotes.length - 1; i >= 0; i--) {
+//     const storedElement = removeElementFromDOM(highlightsAndNotes[i]);
+//     markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer].splice(0, 0, storedElement);
+//   }
+//
+//   // Set the current layer.
+//   markInstance.currentLayer += offset;
+//   if (markInstance.currentLayer === -1) {
+//     markInstance.currentLayer = DEFAULT_NUM_LAYERS - 1;
+//   } else if (markInstance.currentLayer === DEFAULT_NUM_LAYERS) {
+//     markInstance.currentLayer = 0;
+//   }
+//
+//   // Add every highlight and note in this layer to the DOM.
+//   const savedElements = markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer];
+//   log(markInstance.highlightsAndNotes, markInstance.storedHighlightedTextAndNotes, markInstance.currentLayer)
+//
+//   for (let i = savedElements.length - 1; i >= 0; i--) {
+//     savedElement = savedElements.pop();
+//     if (Array.isArray(savedElement)) {
+//       /* savedElement is an array of textNodes. We have to replace these with their respective
+//       spans in markInstance.highlightsAndNotes. */
+//       for (let j = 0; j < savedElement.length; j++) {
+//         const textNodeAndParentPair = savedElement[j];
+//         const textNode = textNodeAndParentPair.textNode;
+//         const parent = textNodeAndParentPair.parent;
+//
+//         const textNodeIdx = getIndexInParentChildNodes(textNode);
+//         parent.removeChild(textNode);
+//         insertNodeAtIndex(markInstance.highlightsAndNotes[markInstance.currentLayer][i][j], parent, textNodeIdx);
+//       }
+//     } else {
+//       // savedElement is a note HTML element; append it to the document's body.
+//       document.body.appendChild(savedElement);
+//     }
+//   }
+// }
+
+// // NEW IMPLEMENTATION:
+// function switchLayer(markInstance, offset, layerTextContainer) {
+//   // Remove the pop-up from the current layer.
+//   let referenceElement = getReferenceElement.call(markInstance);
+//   referenceElement.removeChild(markInstance.popUp);
+//
+//   // Set the current layer.
+//   markInstance.currentLayer += offset;
+//   if (markInstance.currentLayer === -1) {
+//     markInstance.currentLayer = DEFAULT_NUM_LAYERS - 1;
+//   } else if (markInstance.currentLayer === DEFAULT_NUM_LAYERS) {
+//     markInstance.currentLayer = 0;
+//   }
+//
+//   // Update the layer number displayed by the pop-up.
+//   layerTextContainer.removeChild(layerTextContainer.childNodes[1]);
+//   insertNodeAtIndex(document.createTextNode(markInstance.currentLayer + 1), layerTextContainer, 1);
+//
+//   // Add the pop-up to the current layer, and show the current layer.
+//   referenceElement = getReferenceElement.call(markInstance);
+//   referenceElement.appendChild(markInstance.popUp);
+//   document.body = markInstance.bodies[markInstance.currentLayer];
+// }
 
 
 ///////////////////////////////////////////////////////
@@ -434,7 +511,6 @@ function switchLayer(markInstance, offset) {
 ///////////////////////////////////////////////////////
 
 function removeElementFromDOM(element) {
-  let storedElement = [];
   if (Array.isArray(element)) {
     /* Then we are removing a highlight from the DOM (represented in the
     Mark instance's hihglights and highlightsAndNotes arrays as an array of
@@ -448,15 +524,11 @@ function removeElementFromDOM(element) {
   		const parent = span.parentNode;
   		parent.removeChild(span);
   		insertNodeAtIndex(textNode, parent, i);
-      storedElement.push(textNode);
   	});
   } else {
     /* Then we are removing a note from the DOM. */
     document.body.removeChild(element);
-    storedElement = element;
   }
-
-  return storedElement;
 }
 
 function highlightTextNode(node, colour) {
@@ -619,8 +691,8 @@ function highlight(markInstance) {
 	}
 
 	if (listOfSpansCreated.length !== 0) {
-		markInstance.highlightsAndNotes[markInstance.currentLayer].push(listOfSpansCreated);
-    // markInstance.highlights.push(listOfSpansCreated);
+		// markInstance.highlightsAndNotes.push(listOfSpansCreated);
+    markInstance.highlights.push(listOfSpansCreated);
 	}
 }
 
@@ -656,8 +728,8 @@ function leaveNote(markInstance, target, x, y) {
   deleteNoteBtn.classList.add("deleteNoteButton");
   deleteNoteBtn.appendChild(document.createTextNode("✕"));
   deleteNoteBtn.addEventListener("click", e => {
-    // markInstance.notes.splice(markInstance.notes.indexOf(note), 1);
-    markInstance.highlightsAndNotes[markInstance.currentLayer].splice(markInstance.highlightsAndNotes[markInstance.currentLayer].indexOf(note), 1);
+    markInstance.notes[markInstance.currentLayer].splice(markInstance.notes[markInstance.currentLayer].indexOf(note), 1);
+    // markInstance.notes[markInstance].splice(markInstance.highlightsAndNotes.indexOf(note), 1);
     note.parentElement.removeChild(note);
   });
 
@@ -706,8 +778,8 @@ function leaveNote(markInstance, target, x, y) {
   note.appendChild(deleteNoteBtn);
 
   document.body.appendChild(note);
-  // markInstance.notes.push(note);
-  markInstance.highlightsAndNotes[markInstance.currentLayer].push(note);
+  markInstance.notes[markInstance.currentLayer].push(note);
+  // markInstance.highlightsAndNotes.push(note);
 
   handleNotetakerSwtichClick(markInstance, undefined, markInstance.notetakerSwitch, undefined);
 }
@@ -718,9 +790,16 @@ function leaveNote(markInstance, target, x, y) {
 ////////////////////////////
 
 function Mark(selector) {
-  this.highlightsAndNotes = [[], [], []];
-  this.storedHighlightedTextAndNotes = [[], [], []];
+  this.selector = selector;
+
+  this.highlights = [];
+  this.notes = [];
+
+  this.numLayers = DEFAULT_NUM_LAYERS;
   this.currentLayer = 0;
+  for (let i = 0; i < this.numLayers; i++) {
+    this.notes.push([]);
+  }
 
   this.displays = [DEFAULT_VIEW, COLLAPSED_VIEW];
   this.displayIndex = 0;
@@ -767,17 +846,17 @@ function Mark(selector) {
 //// Functions added to Mark.prototype (available to devs) ////
 ///////////////////////////////////////////////////////////////
 
-function hidePopUp() {
-  if (this.popUp.parentElement == null) return;
-
-  this.position.referenceElement.removeChild(this.popUp);
-}
-
-function showPopUp() {
-  if (this.popUp.parentElement == null) {
-    this.position.referenceElement.appendChild(this.popUp);
-  }
-}
+// function hidePopUp() {
+//   if (this.popUp.parentElement == null) return;
+//
+//   this.position.referenceElement.removeChild(this.popUp);
+// }
+//
+// function showPopUp() {
+//   if (this.popUp.parentElement == null) {
+//     this.position.referenceElement.appendChild(this.popUp);
+//   }
+// }
 
 function setPosition() {
   if (this.position.fixedPositioning) {
@@ -838,7 +917,8 @@ function applyAbsolutePositioning() {
 }
 
 function setParentElement(selector) {
-  this.position.referenceElement = document.querySelector(selector);
+  this.selector = selector;
+  // this.position.referenceElement = document.querySelector(selector);
   resetPopUp.call(this);
 }
 
@@ -856,11 +936,20 @@ function embedPopUpInDOM() {
   }
 
   setPosition.call(this);
-  this.position.referenceElement.appendChild(this.popUp);
+  // Add the pop-up to the current layer.
+  const referenceElement = getReferenceElement.call(this);
+  referenceElement.appendChild(this.popUp);
+}
+
+function getReferenceElement() {
+  // const referenceElement = this.selector ? this.bodies[this.currentLayer].querySelector(this.selector) : this.bodies[this.currentLayer];
+  return this.position.referenceElement;
 }
 
 function resetPopUp() {
-  this.position.referenceElement.removeChild(this.popUp);
+  // Remove the pop-up from every layer.
+  const referenceElement = getReferenceElement.call(this);
+  referenceElement.removeChild(this.popUp);
 
   embedPopUpInDOM.call(this);
 }
@@ -916,8 +1005,8 @@ function setOnButtonColour(colour) {
 
 Mark.prototype = {
   setCurrentHighlighterColour,
-  hidePopUp,
-  showPopUp,
+  // hidePopUp,
+  // showPopUp,
   setHighlighterColours,
   setTop,
   setBottom,

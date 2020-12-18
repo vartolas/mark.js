@@ -278,7 +278,7 @@ function createDefaultPopUp(markInstance) {
   resetNoteLayerBtn.appendChild(document.createTextNode("Reset Note Layer"));
   resetNoteLayerBtn.addEventListener("click", e => {
     while (markInstance.notes[markInstance.currentLayer].length > 0) {
-      removeElementFromDOM(markInstance.highlightsAndNotes[markInstance.currentLayer].pop());
+      removeElementFromDOM(markInstance.notes[markInstance.currentLayer].pop());
     }
   });
 
@@ -994,6 +994,18 @@ function setOffButtonColour(colour) {
 function setOnButtonColour(colour) {
   this.style.onButtonBackgroundColour = colour;
   resetPopUp.call(this);
+}
+
+/*
+Format of position parameter:
+position = {
+  top/bottom: CSS distance,
+  left/right: CSS distance,
+  selector: Optional HTML selector (body is used if omitted)
+}
+*/
+function addNote(selector, position, layerNumber) {
+
 }
 
 // // Displays is an array containing one or more instances of DEFAULT_VIEW,

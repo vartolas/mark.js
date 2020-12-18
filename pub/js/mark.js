@@ -21,7 +21,7 @@ const TURN_ON_BTN_TEXT = "Off";
 const TURN_OFF_BTN_TEXT = "On";
 
 const INACTIVE_NOTE_BTN_TEXT = "Off";
-const ACTIVE_NOTE_BTN_TEXT = "On";
+const ACTIVE_NOTE_BTN_TEXT = "Click to paste!";
 const DEFAULT_VIEW = 0;
 const COLLAPSED_VIEW = 1;
 const HIDDEN_VIEW = 2;
@@ -124,6 +124,8 @@ function handleColourClick(markInstance, selectedColourObject, colourObjects, ne
   if (!markInstance.highlighterIsOn) {
     markInstance.activeColourIndex = newActiveColourIndex;
     handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwitch, colourObjects);
+    return;
+  } else if (markInstance.highlighterIsOn && colourObjects[markInstance.activeColourIndex] === selectedColourObject) {
     return;
   }
 
@@ -234,8 +236,9 @@ function createDefaultPopUp(markInstance) {
   higlighterResetBtn.classList.add("marginBottom20px");
   higlighterResetBtn.classList.add("floatRight");
   higlighterResetBtn.addEventListener("click", e => {
-    for (let i = 0; i < markInstance.highlights.length; i++) {
-      removeElementFromDOM(markInstance.highlights[i]);
+    while (markInstance.highlights.length > 0) {
+      const highlight = markInstance.highlights.pop();
+      removeElementFromDOM(highlight);
     }
   });
 
@@ -867,17 +870,17 @@ function Mark(selector) {
 //// Functions added to Mark.prototype (available to devs) ////
 ///////////////////////////////////////////////////////////////
 
-// function hidePopUp() {
-//   if (this.popUp.parentElement == null) return;
-//
-//   this.position.referenceElement.removeChild(this.popUp);
-// }
-//
-// function showPopUp() {
-//   if (this.popUp.parentElement == null) {
-//     this.position.referenceElement.appendChild(this.popUp);
-//   }
-// }
+function hidePopUp() {
+  if (this.popUp.parentElement == null) return;
+
+  this.position.referenceElement.removeChild(this.popUp);
+}
+
+function showPopUp() {
+  if (this.popUp.parentElement == null) {
+    this.position.referenceElement.appendChild(this.popUp);
+  }
+}
 
 function setPosition() {
   if (this.position.fixedPositioning) {
@@ -1047,8 +1050,8 @@ function addNote(position, text) {
 
 Mark.prototype = {
   setCurrentHighlighterColour,
-  // hidePopUp,
-  // showPopUp,
+  hidePopUp,
+  showPopUp,
   setHighlighterColours,
   setTop,
   setBottom,

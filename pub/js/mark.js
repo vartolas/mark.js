@@ -362,11 +362,6 @@ function createCollapsedPopUp(markInstance) {
   const colour2 = createHighlighterColourDiv(2, markInstance);
   const colour3 = createHighlighterColourDiv(3, markInstance);
 
-  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, colour3], 0));
-  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, colour3], 1));
-  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, colour3], 2));
-  colour3.addEventListener("click", e => handleColourClick(markInstance, colour3, [colour0, colour1, colour2], 3));
-
   const undoBtn = document.createElement("div");
   undoBtn.appendChild(document.createTextNode("Undo"));
   undoBtn.style.borderColor = markInstance.style.popUpBorderColour;
@@ -392,6 +387,12 @@ function createCollapsedPopUp(markInstance) {
   spanText.appendChild(document.createTextNode("+"));
   changeViewBtn.appendChild(spanText);
   changeViewBtn.addEventListener("click", e => handleChangeViewButtonClick(markInstance));
+
+  // Add event listeners to the highlighter colour option objects.
+  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour0, colour1, colour2, colour3], 0, highlighterSwtich, undefined));
+  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour1, colour2, colour3], 1, highlighterSwtich, undefined));
+  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, colour2, colour3], 2, highlighterSwtich, undefined));
+  colour3.addEventListener("click", e => handleColourClick(markInstance, colour3, [colour0, colour1, colour2, colour3], 3, highlighterSwtich, undefined));
 
   popUp.appendChild(highlightSectionHeader);
   popUp.appendChild(colour0);

@@ -120,12 +120,14 @@ function handleNotetakerSwtichClick(markInstance, highlighterSwtich, notetakerSw
   }
 }
 
-function handleColourClick(markInstance, colourObject, otherColourObjects, newActiveColourIndex) {
+function handleColourClick(markInstance, selectedColourObject, colourObjects, newActiveColourIndex, highlighterSwtich, notetakerSwitch) {
   if (!markInstance.highlighterIsOn) {
+    markInstance.activeColourIndex = newActiveColourIndex;
+    handleHighlighterSwitchClick(markInstance, highlighterSwtich, notetakerSwitch, colourObjects);
     return;
   }
 
-  otherColourObjects.forEach(item => {
+  colourObjects.forEach(item => {
     if (item.classList.contains("activeColourBorder")) {
       item.classList.remove("activeColourBorder");
       item.classList.add("inactiveColourBorder");
@@ -133,8 +135,8 @@ function handleColourClick(markInstance, colourObject, otherColourObjects, newAc
   });
 
   if (markInstance.activeColourIndex !== newActiveColourIndex) {
-    colourObject.classList.remove("inactiveColourBorder");
-    colourObject.classList.add("activeColourBorder");
+    selectedColourObject.classList.remove("inactiveColourBorder");
+    selectedColourObject.classList.add("activeColourBorder");
   }
   markInstance.activeColourIndex = newActiveColourIndex;
 }
@@ -200,11 +202,6 @@ function createDefaultPopUp(markInstance) {
   const colour1 = createHighlighterColourDiv(1, markInstance);
   const colour2 = createHighlighterColourDiv(2, markInstance);
   const colour3 = createHighlighterColourDiv(3, markInstance);
-
-  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour1, colour2, colour3], 0));
-  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour2, colour3], 1));
-  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, colour3], 2));
-  colour3.addEventListener("click", e => handleColourClick(markInstance, colour3, [colour0, colour1, colour2], 3));
 
   highlightSection.appendChild(highlightColourBoxHeader);
   highlightSection.appendChild(colour0);
@@ -277,6 +274,7 @@ function createDefaultPopUp(markInstance) {
   resetNoteLayerBtn.classList.add("popUpSection");
   resetNoteLayerBtn.style.borderColor = markInstance.style.popUpBorderColour;
   resetNoteLayerBtn.classList.add("resetBtn");
+  resetNoteLayerBtn.classList.add("marginBottom10px");
   resetNoteLayerBtn.appendChild(document.createTextNode("Reset Note Layer"));
   resetNoteLayerBtn.addEventListener("click", e => {
     while (markInstance.notes[markInstance.currentLayer].length > 0) {
@@ -315,6 +313,12 @@ function createDefaultPopUp(markInstance) {
   layerTextContainer.appendChild(layerNumberTextNode);
   layerTextContainer.appendChild(decrementLayerButton);
   layerTextContainer.appendChild(incrementLayerButton);
+
+  // Add event listeners to the highlighter colour option objects.
+  colour0.addEventListener("click", e => handleColourClick(markInstance, colour0, [colour0, colour1, colour2, colour3], 0, highlighterSwtich, notetakerSwitch));
+  colour1.addEventListener("click", e => handleColourClick(markInstance, colour1, [colour0, colour1, colour2, colour3], 1, highlighterSwtich, notetakerSwitch));
+  colour2.addEventListener("click", e => handleColourClick(markInstance, colour2, [colour0, colour1, colour2, colour3], 2, highlighterSwtich, notetakerSwitch));
+  colour3.addEventListener("click", e => handleColourClick(markInstance, colour3, [colour0, colour1, colour2, colour3], 3, highlighterSwtich, notetakerSwitch));
 
   // Add children to the popUp div.
   popUp.appendChild(highlightSectionHeader);

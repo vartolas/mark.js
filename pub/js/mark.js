@@ -715,17 +715,27 @@ function isChildOf(node, potentialParent) {
   return curr != null;
 }
 
-function leaveNote(markInstance, target, x, y) {
+function leaveNote(markInstance, target, x, y, relativeToRight, relativeToBottom, text) {
   // Don't leave a note if the popUp was clicked, nor if the noteTaking function is not on.
-  if (!markInstance.notetakerIsOn || isChildOf(target, markInstance.popUp)) {
+  if (target && (!markInstance.notetakerIsOn || isChildOf(target, markInstance.popUp))) {
     return;
   }
 
   const note = document.createElement("div");
   note.classList.add("note");
   note.classList.add("maximizedNote");
+  if (relativeToBottom) {
+    note.style.bottom = y + "px";
+  } else {
+    note.style.top = y + "px";
+  }
+  if (relativeToRight) {
+    note.style.right = x + "px";
+  } else {
+    note.style.left = x + "px";
+  }
   note.style.left = x + "px";
-  note.style.top = y + "px";
+
 
   // Define functionality for deleting notes.
   const deleteNoteBtn = document.createElement("div");
@@ -742,7 +752,11 @@ function leaveNote(markInstance, target, x, y) {
   const noteContent = document.createElement("div");
   noteContent.classList.add("noteContent");
   noteContent.classList.add("maximizedNoteContent");
-  noteContent.appendChild(document.createTextNode(markInstance.noteTextarea.value));
+  if (text) {
+    noteContent.appendChild(document.createTextNode(text));
+  } else {
+    noteContent.appendChild(document.createTextNode(markInstance.noteTextarea.value));
+  }
 
   // Define functionality for changing note view (maximizing/minimizing).
   const changeNoteViewBtn = document.createElement("div");
@@ -786,7 +800,9 @@ function leaveNote(markInstance, target, x, y) {
   markInstance.notes[markInstance.currentLayer].push(note);
   // markInstance.highlightsAndNotes.push(note);
 
-  handleNotetakerSwtichClick(markInstance, undefined, markInstance.notetakerSwitch, undefined);
+  if (markInstance.notetakerIsOn) {
+    handleNotetakerSwtichClick(markInstance, undefined, markInstance.notetakerSwitch, undefined);
+  }
 }
 
 
@@ -844,7 +860,7 @@ function Mark(selector) {
   embedPopUpInDOM.call(this);
 
   window.addEventListener('mouseup', () => highlight(this));
-  window.addEventListener('click', e => leaveNote(this, e.target, e.pageX, e.pageY));
+  window.addEventListener('click', e => leaveNote(this, e.target, e.pageX, e.pageY, null, null));
 }
 
 ///////////////////////////////////////////////////////////////
@@ -996,16 +1012,25 @@ function setOnButtonColour(colour) {
   resetPopUp.call(this);
 }
 
+function setNoteLayerNumber(layerNumber) {
+  this.currentLayer = layerNumber - 1;
+  resetPopUp.call(this);
+}
+
 /*
 Format of position parameter:
 position = {
   top/bottom: CSS distance,
-  left/right: CSS distance,
-  selector: Optional HTML selector (body is used if omitted)
+  left/right: CSS distance
 }
 */
-function addNote(selector, position, layerNumber) {
+function addNote(position, text) {
+  const relativeToBottom = position.bottom ? true : false;
+  const relativeToRight = position.right ? true : false;
+  const x = position.right ? position.right : position.left;
+  const y = position.bottom ? position.bottom : position.top;
 
+  leaveNote(this, null, x, y, relativeToRight, relativeToBottom, text);
 }
 
 // // Displays is an array containing one or more instances of DEFAULT_VIEW,
@@ -1037,6 +1062,8 @@ Mark.prototype = {
   setPopUpBorderColour,
   setOffButtonColour,
   setOnButtonColour,
+  setNoteLayerNumber,
+  addNote,
   DEFAULT_VIEW,
   COLLAPSED_VIEW,
   HIDDEN_VIEW

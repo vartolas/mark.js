@@ -274,3 +274,30 @@
   margin-left: 10vw;
   margin-top: 40px;
 }
+
+#featureList {
+  padding-left: 350px;
+  padding-top: 40px;
+  font-size: 20px;
+  text-align: left;
+  padding-right: 100px;
+  list-style: none;
+}
+
+#featureList li {
+  margin-bottom: 30px;
+}
+
+.additionalNote {
+  font-size: 26px;
+  font-weight: bold;
+  padding-right: 10px;
+  color: #0033BB;
+}
+
+.feature {
+  font-size: 26px;
+  font-weight: bold;
+  padding-right: 10px;
+  color: #DD0000;
+}

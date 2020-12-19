@@ -1,4 +1,7 @@
+
+// Anonymous function that declares Mark.js
 (function(global, document) {
+
   //////////////////////////////
   //// Constant Definitions ////
   //////////////////////////////
@@ -450,79 +453,6 @@
       document.body.appendChild(notes[i]);
     }
   }
-
-
-  // OLD IMPLEMENTATION:
-  // function switchLayer(markInstance, offset) {
-  //   /*
-  //     Remove every highlight and note in this layer from the DOM.
-  //     Store this layer's removed highlights and notes.
-  //     NOTE: removed highlights are stored as a list of the textNodes that
-  //     were highlighted.
-  //   */
-  //   const highlightsAndNotes = markInstance.highlightsAndNotes[markInstance.currentLayer];
-  //
-  //   for (let i = highlightsAndNotes.length - 1; i >= 0; i--) {
-  //     const storedElement = removeElementFromDOM(highlightsAndNotes[i]);
-  //     markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer].splice(0, 0, storedElement);
-  //   }
-  //
-  //   // Set the current layer.
-  //   markInstance.currentLayer += offset;
-  //   if (markInstance.currentLayer === -1) {
-  //     markInstance.currentLayer = DEFAULT_NUM_LAYERS - 1;
-  //   } else if (markInstance.currentLayer === DEFAULT_NUM_LAYERS) {
-  //     markInstance.currentLayer = 0;
-  //   }
-  //
-  //   // Add every highlight and note in this layer to the DOM.
-  //   const savedElements = markInstance.storedHighlightedTextAndNotes[markInstance.currentLayer];
-  //   log(markInstance.highlightsAndNotes, markInstance.storedHighlightedTextAndNotes, markInstance.currentLayer)
-  //
-  //   for (let i = savedElements.length - 1; i >= 0; i--) {
-  //     savedElement = savedElements.pop();
-  //     if (Array.isArray(savedElement)) {
-  //       /* savedElement is an array of textNodes. We have to replace these with their respective
-  //       spans in markInstance.highlightsAndNotes. */
-  //       for (let j = 0; j < savedElement.length; j++) {
-  //         const textNodeAndParentPair = savedElement[j];
-  //         const textNode = textNodeAndParentPair.textNode;
-  //         const parent = textNodeAndParentPair.parent;
-  //
-  //         const textNodeIdx = getIndexInParentChildNodes(textNode);
-  //         parent.removeChild(textNode);
-  //         insertNodeAtIndex(markInstance.highlightsAndNotes[markInstance.currentLayer][i][j], parent, textNodeIdx);
-  //       }
-  //     } else {
-  //       // savedElement is a note HTML element; append it to the document's body.
-  //       document.body.appendChild(savedElement);
-  //     }
-  //   }
-  // }
-
-  // // NEW IMPLEMENTATION:
-  // function switchLayer(markInstance, offset, layerTextContainer) {
-  //   // Remove the pop-up from the current layer.
-  //   let referenceElement = getReferenceElement.call(markInstance);
-  //   referenceElement.removeChild(markInstance.popUp);
-  //
-  //   // Set the current layer.
-  //   markInstance.currentLayer += offset;
-  //   if (markInstance.currentLayer === -1) {
-  //     markInstance.currentLayer = DEFAULT_NUM_LAYERS - 1;
-  //   } else if (markInstance.currentLayer === DEFAULT_NUM_LAYERS) {
-  //     markInstance.currentLayer = 0;
-  //   }
-  //
-  //   // Update the layer number displayed by the pop-up.
-  //   layerTextContainer.removeChild(layerTextContainer.childNodes[1]);
-  //   insertNodeAtIndex(document.createTextNode(markInstance.currentLayer + 1), layerTextContainer, 1);
-  //
-  //   // Add the pop-up to the current layer, and show the current layer.
-  //   referenceElement = getReferenceElement.call(markInstance);
-  //   referenceElement.appendChild(markInstance.popUp);
-  //   document.body = markInstance.bodies[markInstance.currentLayer];
-  // }
 
 
   ///////////////////////////////////////////////////////
@@ -1133,18 +1063,6 @@
     this.style.frozen = false;
     resetPopUp.call(this);
   }
-
-  // // Displays is an array containing one or more instances of DEFAULT_VIEW,
-  // // COLLAPSED_VIEW, and HIDDEN_VIEW. initialDisplay is the value of the display type
-  // // that the popUp should initially have. The popUp will cycle through the list
-  // // of displays, from front to back starting from the initial display.
-  // function defineDisplayCycle(displays, initialDisplay) {
-  //   this.displays = displays;
-  //   this.displayIndex = 0;
-  //   while (displays[this.displayIndex] !== initialDisplay) {
-  //     this.displayIndex++;
-  //   }
-  // }
 
   Mark.prototype = {
     setCurrentHighlighterColour,

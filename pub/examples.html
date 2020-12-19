@@ -23,19 +23,40 @@
      </div>
 
      <ul id='exampleOptions'>
-       <li id='tutorialLink'>MARK.JS TUTORIAL</li>
+       <li id='tutorialLink'>USER TUTORIAL</li>
        <li id='example1Link'>EXAMPLE 1</li>
        <li id='example2Link'>EXAMPLE 2</li>
      </ul>
    </div>
 
-   <div class='viewportBox firstBackground'>
-     <h1 id='tutorialHeader' class='smallExampleHeader'>Tutorial</h1>
+   <div id='tutViewportBox' class='viewportBox firstBackground'>
+     <h1 id='tutorialHeader' class='smallExampleHeader'>User Tutorial</h1>
      <div id='tutorialDescription' class="exampleDescription">
        A description of how to use Mark.js features as an End-User.
      </div>
 
-     <p class='textPgph'></p>
+     <ul id='featureList'>
+       <li>
+         <span class="feature">Highlgihter</span> The Highlighter can be used when the pop-up is both maximized
+         and minimized. To perform a highlight: turn the Highlighter on (by pressing the Highlighter Switch or by selecting a colour)
+         and then select text to highlight. Highlights can be undone, or reset completely.
+       </li>
+       <li>
+         <span class="feature">Notetaker</span> The Notetaker can only be used when the pop-up is maximized.
+         To write a note: turn the Notetaker on; write your note under the 'Note Content' section of the pop-up;
+         and click anywhere on the viewport to attatch the top-left of your note. Notes can be erased or minimized
+         interactively via their GUI. Note that the Notetaker turns itself off once a note is pasted.
+       </li>
+       <li>
+         <span class="feature">Note Layers</span> Navigate between Note Layers via the arrows under the
+         'Notetaker' feature. 'What happens in a layer, stays in that layer.' The 'Reset' Note Layer button
+         erases all notes in the current Note Layer.
+       </li>
+
+       <li>
+         <span class="additionalNote">Additional Note</span> Turning the Highlighter on turns the Notetaker off, and vice-versa.
+       </li>
+     </ul>
 
 
    </div>

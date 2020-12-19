@@ -729,7 +729,7 @@
     return curr != null;
   }
 
-  function leaveNote(markInstance, target, x, y, relativeToRight, relativeToBottom, text) {
+  function leaveNote(markInstance, target, x, y, text) {
     // Don't leave a note if the popUp was clicked, nor if the noteTaking function is not on.
     if (target && (!markInstance.notetakerIsOn || isChildOf(target, markInstance.popUp))) {
       return;
@@ -738,16 +738,7 @@
     const note = document.createElement("div");
     note.classList.add("note");
     note.classList.add("maximizedNote");
-    if (relativeToBottom) {
-      note.style.bottom = y + "px";
-    } else {
-      note.style.top = y + "px";
-    }
-    if (relativeToRight) {
-      note.style.right = x + "px";
-    } else {
-      note.style.left = x + "px";
-    }
+    note.style.top = y + "px";
     note.style.left = x + "px";
 
 
@@ -1081,13 +1072,46 @@
     left/right: CSS distance
   }
   */
-  function addNote(position, text) {
+  function addNote(position, text, referenceSelector) {
     const relativeToBottom = position.bottom ? true : false;
     const relativeToRight = position.right ? true : false;
-    const x = position.right ? position.right : position.left;
-    const y = position.bottom ? position.bottom : position.top;
 
-    leaveNote(this, null, x, y, relativeToRight, relativeToBottom, text);
+    let reference, x, y;
+    if (referenceSelector) {
+      reference = document.querySelector(referenceSelector);
+      refRect = reference.getBoundingClientRect();
+      bodyRect = document.body.getBoundingClientRect();
+    }
+
+    if (position.top) {
+      if (referenceSelector) {
+        y = refRect.top - bodyRect.top + position.top;
+      } else {
+        y = position.top;
+      }
+    } else {
+      if (referenceSelector) {
+        y = refRect.bottom - bodyRect.top - position.bottom;
+      } else {
+        y = bodyRect.bottom - position.bottom;
+      }
+    }
+
+    if (position.left) {
+      if (referenceSelector) {
+        x = refRect.left - bodyRect.left + position.left;
+      } else {
+        x = position.left;
+      }
+    } else {
+      if (referenceSelector) {
+        x = refRect.right - bodyRect.left - position.right;
+      } else {
+        x = bodyRect.right - position.right;
+      }
+    }
+
+    leaveNote(this, null, x, y, text);
   }
 
   function maximize() {

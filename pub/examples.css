@@ -229,7 +229,7 @@
   left: 0;
   right: 0;
   margin: auto;
-  width: 320px;
+  width: 490px;
   padding: 0;
   margin-top: 5px;
 }
@@ -251,13 +251,26 @@
   cursor: pointer;
 }
 
-#example1Link {
+#tutorialLink {
   background-color: black;
   color: #EEEEEE;
+  margin-right: 20px;
+}
+
+#example1Link {
+  background-color: #EEEEEE;
+  color: black;
   margin-right: 20px;
 }
 
 #example2Link {
   background-color: #EEEEEE;
   color: black;
+}
+
+.textPgph {
+  width: 80vw;
+  text-align: left;
+  margin-left: 10vw;
+  margin-top: 40px;
 }

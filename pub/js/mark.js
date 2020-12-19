@@ -15,6 +15,7 @@
 
   const DEFAULT_POPUP_BKG_COLOUR = "#FFFFFF";
   const DEFAULT_POPUP_TEXT_COLOUR = "#555555";
+  const DEFAULT_SWITCH_TEXT_COLOUR = "#555555";
 
   const DEFAULT_POPUP_BORDER_COLOUR = "gray";
 
@@ -25,7 +26,6 @@
   const ACTIVE_NOTE_BTN_TEXT = "Click to paste!";
   const DEFAULT_VIEW = 0;
   const COLLAPSED_VIEW = 1;
-  const HIDDEN_VIEW = 2;
 
   const DEFAULT_NUM_LAYERS = 3;
 
@@ -38,10 +38,12 @@
     if (on) {
       switchElement.classList.add("turnOffBtn");
       switchElement.style.backgroundColor = markInstance.style.onButtonBackgroundColour;
+      switchElement.style.color = markInstance.style.switchTextColour;
       switchElement.appendChild(document.createTextNode(TURN_OFF_BTN_TEXT));
     } else {
       switchElement.classList.add("turnOnBtn");
       switchElement.style.backgroundColor = markInstance.style.offButtonBackgroundColour;
+      switchElement.style.color = markInstance.style.switchTextColour;
       switchElement.appendChild(document.createTextNode(TURN_ON_BTN_TEXT));
     }
   }
@@ -842,7 +844,8 @@
       popUpTextColour: DEFAULT_POPUP_TEXT_COLOUR,
       popUpBorderColour: DEFAULT_POPUP_BORDER_COLOUR,
       onButtonBackgroundColour: DEFAULT_ON_BTN_COLOUR,
-      offButtonBackgroundColour: DEFAULT_OFF_BTN_COLOUR
+      offButtonBackgroundColour: DEFAULT_OFF_BTN_COLOUR,
+      switchTextColour: DEFAULT_SWITCH_TEXT_COLOUR
     }
 
     this.highlighterIsOn = false;
@@ -1007,6 +1010,11 @@
     resetPopUp.call(this);
   }
 
+  function setSwitchTextColour(colour) {
+    this.style.switchTextColour = colour;
+    resetPopUp.call(this);
+  }
+
   function setOffButtonColour(colour) {
     this.style.offButtonBackgroundColour = colour;
     resetPopUp.call(this);
@@ -1024,10 +1032,11 @@
 
   function useDarkTheme() {
     this.setPopUpBackgroundColour("#222222");
-    this.setPopUpTextColour("#EEEEEE");
+    this.setPopUpTextColour("#CCCCCC");
     this.setPopUpBorderColour("gray")
-    this.setOffButtonColour("#FF0000");
-    this.setOnButtonColour("#00AA00");
+    this.setOffButtonColour("#FF6666");
+    this.setOnButtonColour("#AAFFAA");
+    this.setSwitchTextColour("#222222");
     resetPopUp.call(this);
   }
 
@@ -1037,6 +1046,7 @@
     this.setPopUpBorderColour(DEFAULT_POPUP_BORDER_COLOUR)
     this.setOffButtonColour(DEFAULT_OFF_BTN_COLOUR);
     this.setOnButtonColour(DEFAULT_ON_BTN_COLOUR);
+    this.setSwitchTextColour(DEFAULT_SWITCH_TEXT_COLOUR);
     resetPopUp.call(this);
   }
 
@@ -1054,6 +1064,16 @@
     const y = position.bottom ? position.bottom : position.top;
 
     leaveNote(this, null, x, y, relativeToRight, relativeToBottom, text);
+  }
+
+  function maximize() {
+    this.displayIndex = DEFAULT_VIEW;
+    resetPopUp.call(this);
+  }
+
+  function minimize() {
+    this.displayIndex = COLLAPSED_VIEW;
+    resetPopUp.call(this);
   }
 
   // // Displays is an array containing one or more instances of DEFAULT_VIEW,
@@ -1089,8 +1109,9 @@
     addNote,
     useDarkTheme,
     useLightTheme,
-    // maximize,
-    // minimize
+    maximize,
+    minimize,
+    setSwitchTextColour
   }
 
   // Add the library constructor to the global window object if it is not added already.

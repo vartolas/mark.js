@@ -3,7 +3,6 @@
  <head>
  	<meta charset="utf-8">
     <title>Mark.js</title>
-    <link rel="stylesheet" type="text/css" href="../node_modules/highlight.js/styles/default.css">
     <link rel="stylesheet" type="text/css" href="mark-styles.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <link rel="stylesheet" type="text/css" href="bank-statement.css">
@@ -20,23 +19,43 @@
    <div class='viewportBox firstBackground'>
      <h1 class='exampleHeader'>Examples</h1>
      <div class='exampleDescription'>
-       Using Mark.js in your app is easy; let's see some examples! <br> Scroll down to see Mark.js in action.
+       Using Mark.js in your app is easy. Scroll down to see it in action.
      </div>
      <div class='scrollDownArrow'></div>
    </div>
-   <div class='viewportBox lightGray'>
-     <h1 class='smallExampleHeader'>Header</h1>
-     <div class='exampleDescription'></div>
-     <div class='scrollDownArrow'></div>
+   <div class='viewportBox firstBackground'>
+     <h1 class='smallExampleHeader'>Attatching Mark.js to a Component</h1>
+     <div class="exampleDescription">
+       For when your web app has an important segment that you want to help your
+       users track.
+     </div>
+     <ul class='exampleList'>
+       <li></li>
+       <li></li>
+       <li></li>
+     </ul>
+     <div class='codeBox'>
+       <span class='comment'>// Instantiating Mark.js instance</span> <br>
+       <span class='constKeyword'>const</span> markInstance = <span class="newKeyword">new</span> <span class="yellow">Mark</span>(<span class="string">"#bankStatement"</span>); <br>
+       markInstance.<span class="function">useDarkTheme</span>(); <br>
+       <!-- markInstance.<span class="function">setHighlighterColours</span>(<span class="string">"yellow"</span>, <span class="string">"cyan"</span>,
+       <span class="string">"lime"</span>, <span class="string">"white"</span>); <br> -->
+       markInstance.<span class="function">minimize</span>(); <br>
+       markInstance.<span class="function">makeStatic</span>(); <br>
+       <br>
+     </div>
    </div>
-   <div class='viewportBox'>
+   <div class='viewportBox firstBackground'>
      <h1 class='exampleHeader'></h1>
      <div class='exampleDescription'></div>
    </div>
 
-
-   <script type="text/javascript" src="../node_modules/highlight.js/lib/core.js"></script>
-   <script type="text/javascript" src="js/bank-statement.js"></script>
+   <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous">
+    </script>
    <script type="text/javascript" src="js/mark.js"></script>
+   <script type="text/javascript" src="js/bank-statement.js"></script>
  </body>
 </html>

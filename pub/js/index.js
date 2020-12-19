@@ -29,5 +29,7 @@ for (let i = 0; i < NOTES.length; i++) {
     top: NOTES[i].top
   }, NOTES[i].text);
 }
+
 markInstance.setHighlighterColours("yellow", "cyan", "#EECEEE", "lime");
+markInstance.minimize();
 markInstance.useDarkTheme();

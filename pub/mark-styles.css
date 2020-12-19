@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Overpass&display=swap');
+
 .popUp {
 	border-radius: 30px;
 	box-shadow: 0 0 50px black;
@@ -5,7 +7,7 @@
 	padding-bottom: 1px;
   position: absolute;
   z-index: 2;
-	font-family: Arial, sans-serif;
+	font-family: "Overpass", sans-serif;
 	font-size: 17px;
 
   /* Make text inside the popUp unselectable. */
@@ -72,8 +74,8 @@
 	font-weight: normal;
 	text-align: center;
 	margin: 0;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 3px;
+	margin-bottom: 2px;
 }
 
 .highlighterColour {
@@ -109,7 +111,7 @@
 .turnOnBtn {
 	height: 30px;
 	text-align: center;
-	padding-top: 4px;
+	padding-top: 1px;
   background-color: #FFDDDD;
 }
 
@@ -144,7 +146,7 @@
 .resetBtn {
 	height: 30px;
 	text-align: center;
-	padding-top: 4px;
+	padding-top: 1px;
 }
 
 .resetBtn:hover {
@@ -180,7 +182,7 @@
 	border-bottom-right-radius: 10px;
 	background-color: #FFFFAA;
 	min-height: 30px;
-	font-family: Arial, sans-serif;
+	font-family: "Overpass", sans-serif;
 }
 
 .minimizedNote {
@@ -197,7 +199,7 @@
   z-index: 1;
   overflow-y: scroll;
   overflow-wrap: break-word;
-	/* font-family: Arial, sans-serif; */
+	/* font-family: "Overpass", sans-serif; */
 }
 
 .maximizedNoteContent {
@@ -275,7 +277,7 @@
   box-sizing: border-box;
   border-radius: 20px;
   text-align: center;
-  padding-top: 4px;
+  padding-top: 1px;
 }
 
 .smallButtonExpandedView {
@@ -286,7 +288,7 @@
   box-sizing: border-box;
   border-radius: 20px;
   text-align: center;
-  padding-top: 4px;
+  padding-top: 1px;
 }
 
 .smallButtonCollapsedView:hover {
@@ -357,13 +359,13 @@
 }
 
 .plusSignPosition {
-  top: 0px;
+  top: -4px;
   left: 4px;
 }
 
 .minusSignPosition {
-  top: -2px;
-  left: 7px;
+  top: -5px;
+  left: 6px;
 }
 
 .xSignPosition {

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&display=swap');
 
 #bankBody {
   font-family: "Overpass", sans-serif;
@@ -17,11 +18,11 @@
 }
 
 .firstBackground {
-  background-image: radial-gradient(#FFFFCF, #FFFFFF);
+  background-image: radial-gradient(#FFFFAF, #FFFFFF);
 }
 
 .lightGray {
-  background-image: radial-gradient(#FFFFFF, #FFDDDD);
+  background-image: radial-gradient(#FFFFAF, #FFFFFF);
 }
 
 .exampleHeader {
@@ -32,7 +33,6 @@
 }
 
 .smallExampleHeader {
-  padding-top: 3vh;
   font-size: 48px;
   text-align: center;
   margin-bottom: 0;
@@ -60,4 +60,49 @@
   position: absolute;
   bottom: 10px;
   left: 48vw;
+}
+
+.scrollDownArrow:hover {
+  opacity: 50%;
+  cursor: pointer;
+}
+
+.exampleList {
+  margin-left: 20px;
+}
+
+.codeBox {
+  width: 500px;
+  background-color: #222222;
+  border: 5px solid #444444;
+  color: #DDDDDD;
+  text-align: left;
+  padding: 15px;
+  line-height: 22px;
+  font-size: 18px;
+  font-family: "Inconsolata", monospace;
+}
+
+.comment {
+  color: gray;
+}
+
+.yellow {
+  color: #FFFF90
+}
+
+.string {
+  color: #66AA22
+}
+
+.newKeyword {
+  color: #DD33DD;
+}
+
+.function {
+  color: #9999FF;
+}
+
+.constKeyword {
+  color: #DD33DD;
 }

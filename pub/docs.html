@@ -20,7 +20,7 @@
     <div class='viewportBox firstBackground'>
       <h1 class='exampleHeader'>Documentation</h1>
       <div class='exampleDescription'>
-        Everything needed to become a Mark.js expert.
+        Everything you need to become a Mark.js expert.
       </div>
       <ul id='docsOptions'>
         <li id='gettingStartedLink'>GETTING STARTED</li>
@@ -45,8 +45,39 @@
         <span class='constKeyword'>const</span> markInstance = <span class='newKeyword'>new</span> <span class='yellow'>Mark</span>();
       </div>
       <p class='textPgph'>
-        This default pop-up will be fixed to the top-left of the viewport.
+        This pop-up is fixed to the top-left of the viewport by default. We can use the Mark.js API (defined below) to
+        edit the pop-up's state as follows:
       </p>
+      <div class="codeBox marginBottom70px">
+        <span class='comment'>// Fix the pop-up to the top-right of a specified HTML element.</span> <br>
+        markInstance.<span class="function">setParentElement</span>(<span class="string">"elementID"</span>); <br>
+        markInstance.<span class="function">setRight</span>(<span class="string">"0"</span>); <br>
+        markInstance.<span class="function">applyAbsolutePositioning</span>(); <br>
+        <br>
+
+        <span class='comment'>// Set its 4 available highlighter colours.</span> <br>
+        markInstance.<span class="function">setHighlighterColours</span>(<span class="string">"#FFFF00"</span>, <span class="string">"lime"</span>, <span class="string">"cyan"</span>, <span class="string">"#FF7777"</span>); <br>
+        <br>
+
+        <span class='comment'>// Match the pop-ups theme to fit some webpage's dark theme.</span> <br>
+        markInstance.<span class="function">setPopUpBackgroundColour</span>(<span class="string">"#222222"</span>); <br>
+        markInstance.<span class="function">setPopUpBorderColour</span>(<span class="string">"#gray"</span>); <br>
+        markInstance.<span class="function">setPopUpTextColour</span>(<span class="string">"#CCCCCC"</span>); <br>
+        markInstance.<span class="function">setOffButtonColour</span>(<span class="string">"#FF6666"</span>); <br>
+        markInstance.<span class="function">setOnButtonColour</span>(<span class="string">"#AAFFAA"</span>); <br>
+        markInstance.<span class="function">setSwitchTextColour</span>(<span class="string">"#222222"</span>); <br>
+        markInstance.<span class="function">setNoteInputColour</span>(<span class="string">"white"</span>);  <br>
+        <br>
+
+        <span class='comment'>// Paste a note for the user to see on the second note layer. (Both devs and users can paste notes!)</span> <br>
+        markInstance.<span class="function">setNoteLayerNumber</span>(2); <br>
+        markInstance.<span class="function">addNote</span>({ <br>
+        &emsp; <span class="red">left</span>: <span class="orange">400</span>, <br>
+        &emsp; <span class="red">top</span>: <span class="orange">120</span>, <br>
+        }, <span class="string">"Hey user!"</span>, <span class="string">"#elementID2"</span>); <br>
+        markInstance.<span class="function">setNoteLayerNumber</span>(1); <span class='comment'>// We want the user to start off on the first note layer.</span> <br>
+      </div>
+
       <h1 id='apiHeader' class='smallExampleHeader'>API</h1>
 
 

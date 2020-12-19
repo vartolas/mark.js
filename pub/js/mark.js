@@ -1083,12 +1083,12 @@
     setOnButtonColour,
     setNoteInputColour,
     setNoteLayerNumber,
+    setSwitchTextColour,
     addNote,
     useDarkTheme,
     useLightTheme,
     maximize,
     minimize,
-    setSwitchTextColour,
     freeze,
     unfreeze
   }

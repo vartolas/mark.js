@@ -1,0 +1,56 @@
+
+#bankBody {
+  font-family: "Overpass", sans-serif;
+  font-weight: 300;
+  margin: 0;
+  font-size: 18px;
+}
+
+.viewportBox {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.firstBackground {
+  background-image: radial-gradient(#FFFFCF, #FFFFFF);
+}
+
+.lightGray {
+  background-image: radial-gradient(#FFFFFF, #FFDDDD);
+}
+
+.exampleHeader {
+  padding-top: 23vh;
+  font-size: 72px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.exampleDescription {
+  width: 700px;
+  color: #777777;
+  font-size: 22px;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.scrollDownArrow {
+  text-align: center;
+  width: 0;
+  height: 0;
+  border: 30px solid transparent;
+  border-top-color: black;
+  display: inline-block;
+  position: absolute;
+  bottom: 10px;
+  left: 48.3vw;
+}

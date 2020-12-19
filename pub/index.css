@@ -16,6 +16,10 @@
   width: 100%;
   background-color: black;
   margin: 0;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  float: left;
 }
 
 #landingNavbarOptions {

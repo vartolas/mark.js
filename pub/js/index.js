@@ -30,5 +30,4 @@ for (let i = 0; i < NOTES.length; i++) {
   }, NOTES[i].text);
 }
 markInstance.setHighlighterColours("yellow", "cyan", "#EECEEE", "lime");
-markInstance.setPopUpBackgroundColour("#FFFFF2");
-markInstance.setPopUpTextColour("#555555");
+markInstance.useDarkTheme();

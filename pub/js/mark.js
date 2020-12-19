@@ -1022,6 +1022,24 @@
     resetPopUp.call(this);
   }
 
+  function useDarkTheme() {
+    this.setPopUpBackgroundColour("#222222");
+    this.setPopUpTextColour("#EEEEEE");
+    this.setPopUpBorderColour("gray")
+    this.setOffButtonColour("#FF0000");
+    this.setOnButtonColour("#00AA00");
+    resetPopUp.call(this);
+  }
+
+  function useLightTheme() {
+    this.setPopUpBackgroundColour(DEFAULT_POPUP_BKG_COLOUR);
+    this.setPopUpTextColour(DEFAULT_POPUP_TEXT_COLOUR);
+    this.setPopUpBorderColour(DEFAULT_POPUP_BORDER_COLOUR)
+    this.setOffButtonColour(DEFAULT_OFF_BTN_COLOUR);
+    this.setOnButtonColour(DEFAULT_ON_BTN_COLOUR);
+    resetPopUp.call(this);
+  }
+
   /*
   Format of position parameter:
   position = {
@@ -1069,9 +1087,10 @@
     setOnButtonColour,
     setNoteLayerNumber,
     addNote,
-    DEFAULT_VIEW,
-    COLLAPSED_VIEW,
-    HIDDEN_VIEW
+    useDarkTheme,
+    useLightTheme,
+    // maximize,
+    // minimize
   }
 
   // Add the library constructor to the global window object if it is not added already.

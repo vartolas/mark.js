@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Mark.js Library Example</title>
+    <link rel="stylesheet" type="text/css" href="examples.css">
+    <link rel="stylesheet" type="text/css" href="mark-styles.css">
+ </head>
+ <body>
+
+   <div id='header'>
+     <h1 id='docTitle'>Mark.js Library Demo</h1>
+     <h4 id='dateline'>Posted by <span>Mark Vartolas</span> on 19 November 2020 at 2:06 p.m.</h4>
+     <div id='datelineSeparator'></div>
+  </div>
+
+   <div id='articleContent'>
+
+     <div id='instructions'>
+       <h2>Instructions that Indicate How to Use the Toolbar to the Left</h2>
+
+       <p>
+         Most of the library's DOM manipulation occurs during end-user interactions, so I'm giving you
+         instructions to let you know how to use it!
+      </p>
+
+       <ul>
+         <li>You can turn the Highlighter and Notetaker on/off via the switches under
+           the “Highlighter” and “Notetaker” sections respectively, available in the toolbar. (It won't
+           let you turn both on.)</li>
+         <li>When the Highlighter is on, you can highlight text anywhere on the page by selecting it.</li>
+         <li>When the “Notetaker” is on, you can paste notes at any location on the page by clicking.
+           (Note that the Notetaker turns itself off once a note is pasted.) You can customize the note's
+            text by typing in the "Note Content" section.</li>
+          <li>You can undo your actions with the Eraser function!</li>
+       </ul>
+     </div>
+
+     <div id='filler'>
+       <h2>Try Out Mark.js on the Filler Text Below!</h2>
+
+       <p>Below I'll show some of my favourite LaTeX commands. They are commands that I either find interesting,
+       use often, or that I just felt like listing.</p>
+
+       <p>The next paragraph will just be filler text, before I get to the actual commands.</p>
+
+       <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu turpis
+        in nisl ornare imperdiet at sed enim. Maecenas varius gravida enim, a lacinia
+        lectus auctor vel. Donec porttitor vehicula tempor. Vivamus tincidunt aliquam
+        nulla sit amet rhoncus. Donec eu velit mattis diam luctus lobortis. Morbi
+        vestibulum mauris et convallis ultrices. Donec risus ipsum, consectetur in
+        quam eu, luctus fermentum magna. Aliquam vel pharetra massa. Cras odio ligula,
+        semper quis bibendum eget, mollis et elit. Donec id dui facilisis, laoreet elit
+        sed, consectetur turpis.
+       </p>
+
+       <h3 class='tableTitle'>Some Greek Letters</h3>
+
+       <table id='greekLetters'>
+          <tr>
+            <th>Symbol</th>
+            <th>Command</th>
+            <th id='descriptionHeader'>Additional Notes</th>
+          </tr>
+          <tr>
+            <td>μ</td>
+            <td>\mu</td>
+            <td>I used this in physics for coefficients of friction.</td>
+          </tr>
+          <tr>
+            <td>λ</td>
+            <td>\lambda</td>
+            <td>I used this in MAT237 when doing optimization.</td>
+          </tr>
+          <tr>
+            <td>π</td>
+            <td>\pi</td>
+            <td>3.14159265359...</td>
+          </tr>
+        </table>
+
+        <p>Here is some more filler.</p>
+
+        <p>
+         Nullam sed varius tellus. Nam mi lectus, dignissim nec sollicitudin at,
+         finibus non dolor. Cras fermentum dapibus imperdiet. Pellentesque luctus
+         magna vehicula accumsan sodales. Mauris consectetur arcu lectus, at tempor
+         tortor dignissim aliquet. In pulvinar ultrices dui, ac consectetur sem
+         tincidunt sit amet. Vivamus neque magna, gravida id massa et, vehicula
+         tempus neque.
+        </p>
+
+        <h3 class='tableTitle'>Some Math Symbols</h3>
+
+        <table id='mathSymbols'>
+           <tr>
+             <th>Symbol</th>
+             <th>Command</th>
+             <th id='descriptionHeader'>Additional Notes</th>
+           </tr>
+           <tr>
+             <td>⌊</td>
+             <td>\lfloor</td>
+             <td>I used this symbol a lot in 165 and 236.</td>
+           </tr>
+           <tr>
+             <td>ℕ</td>
+             <td>\mathbb{N}</td>
+             <td>{0, 1, 2, ...}</td>
+           </tr>
+           <tr>
+             <td>∞</td>
+             <td>\infty</td>
+             <td>Infinity.</td>
+           </tr>
+           <tr>
+             <td>⋅</td>
+             <td>\cdot</td>
+             <td>A symbol for multiplication.</td>
+           </tr>
+           <tr>
+             <td>∃</td>
+             <td>\exists</td>
+             <td>This symbol is read as 'there exists'.</td>
+           </tr>
+         </table>
+
+         <p>Here is even more filler.</p>
+
+        <p>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu turpis
+         in nisl ornare imperdiet at sed enim. Maecenas varius gravida enim, a lacinia
+         lectus auctor vel. Donec porttitor vehicula tempor. Vivamus tincidunt aliquam
+         nulla sit amet rhoncus. Donec eu velit mattis diam luctus lobortis. Morbi
+         vestibulum mauris et convallis ultrices. Donec risus ipsum, consectetur in
+         quam eu, luctus fermentum magna. Aliquam vel pharetra massa. Cras odio ligula,
+         semper quis bibendum eget, mollis et elit. Donec id dui facilisis, laoreet elit
+         sed, consectetur turpis.
+        </p>
+
+        <p>
+         Nullam sed varius tellus. Nam mi lectus, dignissim nec sollicitudin at,
+         finibus non dolor. Cras fermentum dapibus imperdiet. Pellentesque luctus
+         magna vehicula accumsan sodales. Mauris consectetur arcu lectus, at tempor
+         tortor dignissim aliquet. In pulvinar ultrices dui, ac consectetur sem
+         tincidunt sit amet. Vivamus neque magna, gravida id massa et, vehicula
+         tempus neque.
+        </p>
+
+        <p>
+          Donec pulvinar justo quis vestibulum vulputate. Aliquam neque tortor,
+          convallis euismod augue vitae, ultrices tincidunt enim. Quisque aliquet
+          porta luctus. Aenean egestas mauris sem, ac consequat tellus vestibulum
+          eleifend. Pellentesque in eros eget augue varius facilisis sit amet non
+          orci. Proin accumsan sem nulla, at bibendum diam convallis vel. Nam convallis
+          quam a nunc fringilla, a suscipit sapien volutpat. Phasellus sed justo eu
+          erat mattis eleifend. Nullam tristique volutpat ipsum, mattis ornare dolor
+          interdum gravida. Ut sodales congue facilisis. Morbi urna nisl, tempor et
+          tortor vel, placerat tincidunt risus. Cras non odio a orci lacinia sodales.
+          Duis dui libero, efficitur at quam ut, pulvinar tempor purus. Praesent sed
+          finibus nunc. Mauris justo dui, convallis sed dignissim non, cursus sed
+          urna.
+        </p>
+
+    </div>
+
+   <script type="text/javascript" src="js/mark.js"></script>
+   <script type="text/javascript" src="js/examples.js"></script>
+ </body>
+</html>

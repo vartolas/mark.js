@@ -1,84 +1,263 @@
-body {
-	background-color: #E0EEFF;
-	font-family: "Helvetica Neue", Helvetica, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@700&display=swap');
+
+#bankBody {
+  font-family: "Overpass", sans-serif;
+  font-weight: 300;
   margin: 0;
+  font-size: 18px;
 }
 
-#docTitle {
-  font-size: 46px;
+.viewportBox {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
 }
 
-#header {
+.bigBox {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.firstBackground {
+  background-image: radial-gradient(#FFFFAF, #FFFFFF);
+}
+
+.exampleHeader {
+  padding-top: 23vh;
+  font-size: 72px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.smallExampleHeader {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
+.exampleDescription {
+  width: 900px;
+  color: #777777;
+  font-size: 22px;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  margin-bottom: 30px;
+}
+
+.scrollDownArrow {
+  text-align: center;
+  width: 0;
+  height: 0;
+  border: 30px solid transparent;
+  border-top-color: black;
+  display: inline-block;
+  position: absolute;
+  bottom: 10px;
+  left: 48vw;
+}
+
+#arrow2 {
+  bottom: 40px;
+}
+
+.scrollDownArrow:hover {
+  opacity: 50%;
+  cursor: pointer;
+}
+
+.exampleList {
+  text-align: left;
+  font-size: 18px;
   float: left;
-  width: 93%;
-  padding-left: 7%;
-  position: fixed;
-  background-image: linear-gradient(#FFFFFF, #E0EEFF);
-  margin: 0;
+  margin: 0 20px;
+  margin-bottom: 20px;
 }
 
-#dateline {
-  font-weight: normal;
+.exampleList li {
+  margin-bottom: 10px;
+}
+
+.codeBox {
+  background-color: #222222;
+  border: 5px solid #444444;
+  color: #DDDDDD;
+  text-align: left;
+  padding: 15px;
+  line-height: 22px;
+  font-size: 18px;
+  font-family: "Inconsolata", monospace;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.exampleSectionHeader {
+  font-size: 28px;
+  text-align: center;
   margin-bottom: 5px;
+}
+
+.marginLeft40px {
+  margin-left: 40px;
+}
+
+.comment {
+  color: gray;
+}
+
+.yellow {
+  color: #FFFF90
+}
+
+.string {
+  color: #66AA22
+}
+
+.newKeyword {
+  color: #DD33DD;
+}
+
+.function {
+  color: #9999FF;
+}
+
+.constKeyword {
+  color: #DD33DD;
+}
+
+.red {
+  color: #FF4444;
+}
+
+.orange {
+  color: #FFAA22;
+}
+
+#bankStatementTable {
+  border-collapse: collapse;
+  margin-left: 10vw;
   position: relative;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: left;
 }
 
-#datelineSeparator {
-  width: 90%;
-  height: 1px;
-  background-color: black;
-  margin-bottom: 40px;
-  position: relative;
+#bankStatementTable tbody {
+  border: 5px solid gray;
 }
 
-#instructions h2 {
-	font-size: 24px;
+#bankStatementTable th, td {
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 25px;
 }
 
-#instructions {
-	box-sizing: border-box;
-	/* background-color: #FFCCCC; */
-	border: 10px solid #FF8888;
-	padding: 20px;
-	width: 100%;
-	height: 100%;
-	font-size: 18px;
-	margin-top: 30px;
+.tallyBorder {
+  border-bottom: 3px solid gray;
 }
 
-#instructions li {
-	margin-bottom: 10px;
+#bankStatementTable tr:nth-child(even) {
+  background-color: #CCCCFF;
 }
 
-#filler {
-	padding: 20px;
+#bankStatementTable tr:nth-child(odd) {
+  background-color: #BBBBEE;
 }
 
-#articleContent {
-  padding-top: 180px;
-  width: 65%;
-  margin-left: 25%;
+.slideComponent {
+  width: 50vw;
+  text-align: center;
+  float: left;
 }
 
-table {
-  border: 1px solid black;
+.newsArticle {
+  background-image: radial-gradient(#FFFFCF, #FFFFFF);
+  width: 95vw;
+  border: 5px solid gray;
+  float: left;
+  margin-left: 2.5vw;
   margin-bottom: 50px;
-	position: relative;
-	z-index: -1;
 }
 
-th, td {
-  min-width: 200px;
+#newsHeadline {
+  text-align: left;
+  margin-left: 50px;
+}
+
+.abc {
+  height: 500px;
+}
+
+#resultLink {
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 0 20px #999999;
   text-align: center;
-  border: 1px solid black;
-  padding: 5px;
-}
-
-#descriptionHeader {
-  width: 100%;
-}
-
-.tableTitle {
+  width: 150px;
+  height: 50px;
   padding-top: 15px;
+  box-sizing: border-box;
+  height: 50px;
+  border-radius: 10px;
+
+  background-color: black;
+  color: #EEEEEE;
+  text-decoration: none;
+  list-style: none;
+
+  margin: auto;
+}
+
+#exampleOptions {
+  list-style: none;
+  position: absolute;
+  top: 420px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 320px;
+  padding: 0;
+  margin-top: 5px;
+}
+
+#exampleOptions li {
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 0 20px #999999;
   text-align: center;
+  float: left;
+  width: 150px;
+  padding-top: 15px;
+  box-sizing: border-box;
+  height: 50px;
+  border-radius: 10px;
+}
+
+#exampleOptions li:hover {
+  cursor: pointer;
+}
+
+#example1Link {
+  background-color: black;
+  color: #EEEEEE;
+  margin-right: 20px;
+}
+
+#example2Link {
+  background-color: #EEEEEE;
+  color: black;
 }

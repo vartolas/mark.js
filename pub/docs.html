@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ 	<meta charset="utf-8">
+    <title>Mark.js</title>
+    <link rel="stylesheet" type="text/css" href="mark-styles.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="examples.css">
+    <link rel="stylesheet" type="text/css" href="docs.css">
+ </head>
+  <body id='docsBody'>
+    <div id='landingNavbar'>
+      <ul id='landingNavbarOptions'>
+        <a href='index.html'><li id='navbarHomeLink'>Mark.js</li></a>
+        <a href='examples.html'><li class='navbarOption' id='exampleNavbarLink'>EXAMPLES</li></a>
+        <a href='docs.html'><li class='navbarOption' id='documentationNavbarLink'>DOCS</li></a>
+      </ul>
+    </div>
+
+    <div class='viewportBox firstBackground'>
+      <h1 class='exampleHeader'>Documentation</h1>
+      <div class='exampleDescription'>
+        Everything needed to become a Mark.js expert.
+      </div>
+      <ul id='docsOptions'>
+        <li id='gettingStartedLink'>GETTING STARTED</li>
+        <li id='apiLink'>API</li>
+      </ul>
+    </div>
+
+    <div class='bigBox firstBackground'>
+      <h1 id='gettingStartedHeader' class='smallExampleHeader'>Getting Started</h1>
+      <p class='textPgph'>
+        To use Mark.js on your webpage, you must link to the library's stylesheet
+        and script file in your HTML as follows:
+      </p>
+      <div class="codeBox">
+        &lt<span class='red'>link</span> <span class='orange'>rel</span>=<span class='string'>"stylesheet"</span> <span class='orange'>type</span>=<span class='string'>"text/css"</span> <span class='orange'>href</span>=<span class='string'>"mark-styles.css"</span>&gt <br>
+        &lt<span class='red'>script</span> <span class='orange'>type</span>=<span class='string'>"text/javascript"</span> <span class='orange'>src</span>=<span class='string'>"js/mark.js"</span>&gt <br>
+      </div>
+      <p class='textPgph'>
+        Then, in your HTML's respective JS file, instantiate a default Mark.js pop-up.
+      </p>
+      <div class="codeBox">
+        <span class='constKeyword'>const</span> markInstance = <span class='newKeyword'>new</span> <span class='yellow'>Mark</span>();
+      </div>
+      <p class='textPgph'>
+        This default pop-up will be fixed to the top-left of the viewport.
+      </p>
+      <h1 id='apiHeader' class='smallExampleHeader'>API</h1>
+
+
+
+    </div>
+
+
+    <script
+       src="https://code.jquery.com/jquery-3.5.1.js"
+       integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+       crossorigin="anonymous">
+     </script>
+    <script type="text/javascript" src="js/mark.js"></script>
+    <script type="text/javascript" src="js/docs.js"></script>
+  </body>
+</html>

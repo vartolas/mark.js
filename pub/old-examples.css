@@ -1,0 +1,84 @@
+body {
+	background-color: #E0EEFF;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+  margin: 0;
+}
+
+#docTitle {
+  font-size: 46px;
+}
+
+#header {
+  float: left;
+  width: 93%;
+  padding-left: 7%;
+  position: fixed;
+  background-image: linear-gradient(#FFFFFF, #E0EEFF);
+  margin: 0;
+}
+
+#dateline {
+  font-weight: normal;
+  margin-bottom: 5px;
+  position: relative;
+}
+
+#datelineSeparator {
+  width: 90%;
+  height: 1px;
+  background-color: black;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+#instructions h2 {
+	font-size: 24px;
+}
+
+#instructions {
+	box-sizing: border-box;
+	/* background-color: #FFCCCC; */
+	border: 10px solid #FF8888;
+	padding: 20px;
+	width: 100%;
+	height: 100%;
+	font-size: 18px;
+	margin-top: 30px;
+}
+
+#instructions li {
+	margin-bottom: 10px;
+}
+
+#filler {
+	padding: 20px;
+}
+
+#articleContent {
+  padding-top: 180px;
+  width: 65%;
+  margin-left: 25%;
+}
+
+table {
+  border: 1px solid black;
+  margin-bottom: 50px;
+	position: relative;
+	z-index: -1;
+}
+
+th, td {
+  min-width: 200px;
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+#descriptionHeader {
+  width: 100%;
+}
+
+.tableTitle {
+  padding-top: 15px;
+  text-align: center;
+}

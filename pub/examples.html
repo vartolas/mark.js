@@ -2,169 +2,196 @@
 <html lang="en">
  <head>
  	<meta charset="utf-8">
-    <title>Mark.js Library Example</title>
-    <link rel="stylesheet" type="text/css" href="examples.css">
+    <title>Mark.js</title>
     <link rel="stylesheet" type="text/css" href="mark-styles.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="examples.css">
  </head>
- <body>
+ <body id='bankBody'>
+   <div id='landingNavbar'>
+     <ul id='landingNavbarOptions'>
+       <a href='index.html'><li id='navbarHomeLink'>Mark.js</li></a>
+       <a href='examples.html'><li class='navbarOption' id='exampleNavbarLink'>EXAMPLES</li></a>
+       <a href='docs.html'><li class='navbarOption' id='documentationNavbarLink'>DOCS</li></a>
+     </ul>
+   </div>
 
-   <div id='header'>
-     <h1 id='docTitle'>Mark.js Library Demo</h1>
-     <h4 id='dateline'>Posted by <span>Mark Vartolas</span> on 19 November 2020 at 2:06 p.m.</h4>
-     <div id='datelineSeparator'></div>
-  </div>
-
-   <div id='articleContent'>
-
-     <div id='instructions'>
-       <h2>Instructions that Indicate How to Use the Toolbar to the Left</h2>
-
-       <p>
-         Most of the library's DOM manipulation occurs during end-user interactions, so I'm giving you
-         instructions to let you know how to use it!
-      </p>
-
-       <ul>
-         <li>You can turn the Highlighter and Notetaker on/off via the switches under
-           the “Highlighter” and “Notetaker” sections respectively, available in the toolbar. (It won't
-           let you turn both on.)</li>
-         <li>When the Highlighter is on, you can highlight text anywhere on the page by selecting it.</li>
-         <li>When the “Notetaker” is on, you can paste notes at any location on the page by clicking.
-           (Note that the Notetaker turns itself off once a note is pasted.) You can customize the note's
-            text by typing in the "Note Content" section.</li>
-          <li>You can undo your actions with the Eraser function!</li>
-       </ul>
+   <div class='viewportBox firstBackground'>
+     <h1 class='exampleHeader'>Examples</h1>
+     <div class='exampleDescription'>
+       Using Mark.js is easy. Scroll down to see it in action.
      </div>
 
-     <div id='filler'>
-       <h2>Try Out Mark.js on the Filler Text Below!</h2>
+     <ul id='exampleOptions'>
+       <li id='example1Link'>EXAMPLE 1</li>
+       <li id='example2Link'>EXAMPLE 2</li>
+     </ul>
+   </div>
+   <div class='viewportBox firstBackground'>
+     <h1 id='example1Header' class='smallExampleHeader'>Attatching Mark.js to a Component</h1>
+     <div class="exampleDescription">
+       Ideal when your web app has an important segment that you want to help
+       users track.
+     </div>
+     <div class="slideComponent">
+       <h2 class='exampleSectionHeader'>Scenario</h2>
+       <ul class='exampleList'>
+         <li>
+           Say our webpage has a bank statement component that summarizes a user's
+           transactions over some time period.
+         </li>
+         <li>
+           Since the user may want to remember any questionable transactions,
+           we want to give them the ability to highlight the statement's text.
+         </li>
+         <li>
+           Since the component makes up a small part of our page, we also want to minimize
+           the Mark.js GUI.
+         </li>
+       </ul>
 
-       <p>Below I'll show some of my favourite LaTeX commands. They are commands that I either find interesting,
-       use often, or that I just felt like listing.</p>
+       <h2 class='exampleSectionHeader'>Mark.js Instantiation</h2>
+       <div class='codeBox'>
+         <span class='constKeyword'>const</span> markInstance = <span class="newKeyword">new</span> <span class="yellow">Mark</span>(<span class="string">"#bankStatement"</span>); <br>
+         markInstance.<span class="function">useDarkTheme</span>(); <br>
+         markInstance.<span class="function">minimize</span>(); <br>
+         markInstance.<span class="function">freeze</span>(); <span class='comment'>/* Don't allow user to maximize pop-up */</span> <br>
+         markInstance.<span class="function">setBottom</span>(<span class="string">"-150px"</span>); <br>
+         markInstance.<span class="function">setRight</span>(<span class="string">"0"</span>);
+       </div>
+     </div>
 
-       <p>The next paragraph will just be filler text, before I get to the actual commands.</p>
-
-       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu turpis
-        in nisl ornare imperdiet at sed enim. Maecenas varius gravida enim, a lacinia
-        lectus auctor vel. Donec porttitor vehicula tempor. Vivamus tincidunt aliquam
-        nulla sit amet rhoncus. Donec eu velit mattis diam luctus lobortis. Morbi
-        vestibulum mauris et convallis ultrices. Donec risus ipsum, consectetur in
-        quam eu, luctus fermentum magna. Aliquam vel pharetra massa. Cras odio ligula,
-        semper quis bibendum eget, mollis et elit. Donec id dui facilisis, laoreet elit
-        sed, consectetur turpis.
-       </p>
-
-       <h3 class='tableTitle'>Some Greek Letters</h3>
-
-       <table id='greekLetters'>
-          <tr>
-            <th>Symbol</th>
-            <th>Command</th>
-            <th id='descriptionHeader'>Additional Notes</th>
-          </tr>
-          <tr>
-            <td>μ</td>
-            <td>\mu</td>
-            <td>I used this in physics for coefficients of friction.</td>
-          </tr>
-          <tr>
-            <td>λ</td>
-            <td>\lambda</td>
-            <td>I used this in MAT237 when doing optimization.</td>
-          </tr>
-          <tr>
-            <td>π</td>
-            <td>\pi</td>
-            <td>3.14159265359...</td>
-          </tr>
-        </table>
-
-        <p>Here is some more filler.</p>
-
-        <p>
-         Nullam sed varius tellus. Nam mi lectus, dignissim nec sollicitudin at,
-         finibus non dolor. Cras fermentum dapibus imperdiet. Pellentesque luctus
-         magna vehicula accumsan sodales. Mauris consectetur arcu lectus, at tempor
-         tortor dignissim aliquet. In pulvinar ultrices dui, ac consectetur sem
-         tincidunt sit amet. Vivamus neque magna, gravida id massa et, vehicula
-         tempus neque.
-        </p>
-
-        <h3 class='tableTitle'>Some Math Symbols</h3>
-
-        <table id='mathSymbols'>
+     <div class="slideComponent">
+       <h2 class='exampleSectionHeader'>Result</h2>
+       <table id='bankStatementTable'>
+         <tbody>
            <tr>
-             <th>Symbol</th>
-             <th>Command</th>
-             <th id='descriptionHeader'>Additional Notes</th>
+             <th>Date</th>
+             <th>Description</th>
+             <th>Withdrawals</th>
+             <th>Deposits</th>
            </tr>
            <tr>
-             <td>⌊</td>
-             <td>\lfloor</td>
-             <td>I used this symbol a lot in 165 and 236.</td>
+             <td>2020-12-01</td>
+             <td>Sub King</td>
+             <td>$23.05</td>
+             <td></td>
            </tr>
            <tr>
-             <td>ℕ</td>
-             <td>\mathbb{N}</td>
-             <td>{0, 1, 2, ...}</td>
+             <td>2020-12-04</td>
+             <td>Steven's Jewellery</td>
+             <td></td>
+             <td>$55.89</td>
            </tr>
            <tr>
-             <td>∞</td>
-             <td>\infty</td>
-             <td>Infinity.</td>
+             <td>2020-12-04</td>
+             <td>E-transfer</td>
+             <td></td>
+             <td>$100.00</td>
            </tr>
            <tr>
-             <td>⋅</td>
-             <td>\cdot</td>
-             <td>A symbol for multiplication.</td>
+             <td>2020-12-10</td>
+             <td>Cam's Convenience</td>
+             <td>$14.71</td>
+             <td></td>
            </tr>
            <tr>
-             <td>∃</td>
-             <td>\exists</td>
-             <td>This symbol is read as 'there exists'.</td>
+             <td>2020-12-16</td>
+             <td>American Bumper</td>
+             <td>$100.11</td>
+             <td></td>
            </tr>
-         </table>
+           <tr>
+             <td>2020-12-20</td>
+             <td>E-transfer</td>
+             <td></td>
+             <td>$500.00</td>
+           </tr>
+           <tr class='tallyBorder'>
+             <td>2020-12-21</td>
+             <td>Steven's Jewellery</td>
+             <td></td>
+             <td>$23.11</td>
+           </tr>
+           <tr>
+             <td></td>
+             <td>TOTAL</td>
+             <td>$137.87</td>
+             <td>$679.00</td>
+           </tr>
+         </tbody>
+       </table>
+     </div>
 
-         <p>Here is even more filler.</p>
+   </div>
 
-        <p>
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eu turpis
-         in nisl ornare imperdiet at sed enim. Maecenas varius gravida enim, a lacinia
-         lectus auctor vel. Donec porttitor vehicula tempor. Vivamus tincidunt aliquam
-         nulla sit amet rhoncus. Donec eu velit mattis diam luctus lobortis. Morbi
-         vestibulum mauris et convallis ultrices. Donec risus ipsum, consectetur in
-         quam eu, luctus fermentum magna. Aliquam vel pharetra massa. Cras odio ligula,
-         semper quis bibendum eget, mollis et elit. Donec id dui facilisis, laoreet elit
-         sed, consectetur turpis.
-        </p>
+   <div class='viewportBox firstBackground'>
+     <h1 id='example2Header' class='smallExampleHeader'>Using Mark.js Throughout an Entire Page</h1>
+     <div class="exampleDescription">
+       Ideal when you want users to be able to make edits all over your webpage.
+     </div>
 
-        <p>
-         Nullam sed varius tellus. Nam mi lectus, dignissim nec sollicitudin at,
-         finibus non dolor. Cras fermentum dapibus imperdiet. Pellentesque luctus
-         magna vehicula accumsan sodales. Mauris consectetur arcu lectus, at tempor
-         tortor dignissim aliquet. In pulvinar ultrices dui, ac consectetur sem
-         tincidunt sit amet. Vivamus neque magna, gravida id massa et, vehicula
-         tempus neque.
-        </p>
+     <div class="abc">
 
-        <p>
-          Donec pulvinar justo quis vestibulum vulputate. Aliquam neque tortor,
-          convallis euismod augue vitae, ultrices tincidunt enim. Quisque aliquet
-          porta luctus. Aenean egestas mauris sem, ac consequat tellus vestibulum
-          eleifend. Pellentesque in eros eget augue varius facilisis sit amet non
-          orci. Proin accumsan sem nulla, at bibendum diam convallis vel. Nam convallis
-          quam a nunc fringilla, a suscipit sapien volutpat. Phasellus sed justo eu
-          erat mattis eleifend. Nullam tristique volutpat ipsum, mattis ornare dolor
-          interdum gravida. Ut sodales congue facilisis. Morbi urna nisl, tempor et
-          tortor vel, placerat tincidunt risus. Cras non odio a orci lacinia sodales.
-          Duis dui libero, efficitur at quam ut, pulvinar tempor purus. Praesent sed
-          finibus nunc. Mauris justo dui, convallis sed dignissim non, cursus sed
-          urna.
-        </p>
+       <div class="slideComponent">
+         <h2 class='exampleSectionHeader'>Scenario</h2>
+         <ul class='exampleList'>
+           <li>
+             Assume that our webpage is a news article.
+           </li>
+           <li>
+             The user may want to remember facts that they read, so we will provide them
+             with a Mark.js pop-up that moves with the viewport.
+           </li>
+           <li>
+             The user may also want to make notes about the article, so we will maximize the
+             pop-up so that the Notetaker feature is available.
+           </li>
+         </ul>
+       </div>
 
-    </div>
+       <div class="slideComponent">
+         <h2 class='exampleSectionHeader'>Mark.js Instantiation</h2>
+         <div class='codeBox marginBottom80px'>
+           <span class='comment'>/* By default, the pop-up has fixed positioning, and is maximized */</span> <br>
+           <span class='constKeyword'>const</span> markInstance = <span class="newKeyword">new</span> <span class="yellow">Mark</span>(); <br>
+           markInstance.<span class="function">useLightTheme</span>(); <br>
+           markInstance.<span class="function">useLightTheme</span>(); <br>
+           <br>
+         </div>
+       </div>
 
+     </div>
+
+     <a id='resultLink' href='examples.html'><li id='resultLink'>SEE RESULT</li></a>
+
+     <!-- <h2 class='exampleSectionHeader'>Result</h2>
+     <div class="newsArticle">
+       <h1 id='newsHeadline'>Mark.js </h1>
+         <p>
+          Mark.js provides end-users with the ability to keep track of the text
+          that they read on a webpage. Developers are able to attach instances
+          of the library to HTML elements of their choosing. This introduces
+          a collapsible pop-up GUI, allowing users to: highlight text on the
+          page; edit highlight colour and erase highlights; leave notes;
+          edit node content; delete and minimize pasted notes; and switch between
+          different layers when working with notes.
+         </p>
+
+       <h4 id='newsDateline'></h4>
+     </div> -->
+
+
+
+
+
+   </div>
+
+   <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous">
+    </script>
    <script type="text/javascript" src="js/mark.js"></script>
    <script type="text/javascript" src="js/examples.js"></script>
  </body>

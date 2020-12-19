@@ -16,6 +16,7 @@
   const DEFAULT_POPUP_BKG_COLOUR = "#FFFFFF";
   const DEFAULT_POPUP_TEXT_COLOUR = "#555555";
   const DEFAULT_SWITCH_TEXT_COLOUR = "#555555";
+  const DEFAULT_NOTE_INPUT_COLOUR = "#000000";
 
   const DEFAULT_POPUP_BORDER_COLOUR = "gray";
 
@@ -263,6 +264,7 @@
     noteContentBoxHeader.classList.add("boxHeader");
 
     const noteTextarea = document.createElement("textarea");
+    noteTextarea.style.color = markInstance.style.noteInputColour;
     noteTextarea.setAttribute("placeholder", "Type your note here...");
 
     noteSection.appendChild(noteContentBoxHeader);
@@ -341,7 +343,9 @@
     popUp.appendChild(layerTextContainer);
     popUp.appendChild(resetNoteLayerBtn);
 
-    popUp.appendChild(changeViewBtn);
+    if (!markInstance.style.frozen) {
+      popUp.appendChild(changeViewBtn);
+    }
 
     return { popUp, noteTextarea, notetakerSwitch };
   }
@@ -408,7 +412,10 @@
     popUp.appendChild(colour3);
     popUp.appendChild(undoBtn);
     popUp.appendChild(highlighterSwtich);
-    popUp.appendChild(changeViewBtn);
+
+    if (!markInstance.style.frozen) {
+      popUp.appendChild(changeViewBtn);
+    }
 
     return { popUp };
   }
@@ -834,6 +841,7 @@
 
     this.activeColourIndex = 0
     this.style = {
+      frozen: false,
       highlighterColours: [
         DEFAULT_HIGHLIGHTER_COLOUR0,
         DEFAULT_HIGHLIGHTER_COLOUR1,
@@ -845,7 +853,8 @@
       popUpBorderColour: DEFAULT_POPUP_BORDER_COLOUR,
       onButtonBackgroundColour: DEFAULT_ON_BTN_COLOUR,
       offButtonBackgroundColour: DEFAULT_OFF_BTN_COLOUR,
-      switchTextColour: DEFAULT_SWITCH_TEXT_COLOUR
+      switchTextColour: DEFAULT_SWITCH_TEXT_COLOUR,
+      noteInputColour: DEFAULT_NOTE_INPUT_COLOUR
     }
 
     this.highlighterIsOn = false;
@@ -1025,8 +1034,22 @@
     resetPopUp.call(this);
   }
 
+  function setNoteInputColour(colour) {
+    this.style.noteInputColour = colour;
+    resetPopUp.call(this);
+  }
+
   function setNoteLayerNumber(layerNumber) {
+    for (let i = 0; i < this.notes[this.currentLayer].length; i++) {
+      const note = this.notes[this.currentLayer][i];
+      removeElementFromDOM(note);
+    }
+
     this.currentLayer = layerNumber - 1;
+    for (let i = 0; i < this.notes[this.currentLayer].length; i++) {
+      const note = this.notes[this.currentLayer][i];
+      document.body.appendChild(note);
+    }
     resetPopUp.call(this);
   }
 
@@ -1037,6 +1060,7 @@
     this.setOffButtonColour("#FF6666");
     this.setOnButtonColour("#AAFFAA");
     this.setSwitchTextColour("#222222");
+    this.setNoteInputColour("white");
     resetPopUp.call(this);
   }
 
@@ -1076,6 +1100,16 @@
     resetPopUp.call(this);
   }
 
+  function freeze() {
+    this.style.frozen = true;
+    resetPopUp.call(this);
+  }
+
+  function unfreeze() {
+    this.style.frozen = false;
+    resetPopUp.call(this);
+  }
+
   // // Displays is an array containing one or more instances of DEFAULT_VIEW,
   // // COLLAPSED_VIEW, and HIDDEN_VIEW. initialDisplay is the value of the display type
   // // that the popUp should initially have. The popUp will cycle through the list
@@ -1105,13 +1139,16 @@
     setPopUpBorderColour,
     setOffButtonColour,
     setOnButtonColour,
+    setNoteInputColour,
     setNoteLayerNumber,
     addNote,
     useDarkTheme,
     useLightTheme,
     maximize,
     minimize,
-    setSwitchTextColour
+    setSwitchTextColour,
+    freeze,
+    unfreeze
   }
 
   // Add the library constructor to the global window object if it is not added already.

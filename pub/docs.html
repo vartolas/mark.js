@@ -46,8 +46,8 @@
           <span class='constKeyword'>const</span> markInstance = <span class='newKeyword'>new</span> <span class='yellow'>Mark</span>();
         </div>
         <p class='textPgph'>
-          This pop-up is fixed to the top-left of the viewport by default. We can use the Mark.js API (defined below) to
-          edit the pop-up's state as follows:
+          This pop-up is fixed to the top-left of the viewport by default. Now, we can use the Mark.js API (which is fully-defined below) to
+          edit the pop-up's state. Here is a code snippet of basic changes we can make to our Mark instances.
         </p>
         <div class="codeBox marginBottom70px">
           <span class='comment'>// Fix the pop-up to the top-right of a specified HTML element.</span> <br>
@@ -243,6 +243,42 @@
           </div>
         </div>
 
+        <h3 class='apiSubHeader'>Methods: Note-Pasting by the Developer</h3>
+
+        <h3 class='functionHeader'>addNote(position, text, referenceSelector)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li>
+              <span class='variable'>position</span>: an object containing a top property OR a bottom property (not both), and containing
+              a left propery OR a right property (not both).
+            </li>
+            <li><span class='variable'>text</span>: text to place in the note.</li>
+            <li><span class='variable'>referenceSelector</span>: the selector of an HTML element that we want
+              to use as a reference when attatching this note.
+            </li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Paste a new note, with the message <span class='variable'>text</span>, on the Note Layer that this Mark instance is currently set to (this can be set by both the developer
+            using setNoteLayerNumber, and the user via the Mark instance's pop-up).
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setNoteLayerNumber(layerNumber)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>layerNumber</span>: an integer from 1 to 3, inclusive.</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set this Mark instance's note layer to Note Layer &lt<span class='variable'>layerNumber</span>&gt.
+            After this method is run, the only notes written with this Mark instance visible to the user are those written when
+            this Mark instance was on Note Layer &lt<span class='variable'>layerNumber</span>&gt.
+          </div>
+        </div>
+
         <h3 class='apiSubHeader'>Methods: Pop-up Style</h3>
 
         <h3 class='functionHeader'>setCurrentHighlighterColour(i)</h3>
@@ -258,16 +294,19 @@
           </div>
         </div>
 
-        <h3 class='functionHeader'>setHighlighterColours(colours)</h3>
+        <h3 class='functionHeader'>setHighlighterColours(colour0, colour1, colour2, colour3)</h3>
         <div class="functionDesc">
           <span class='descHeader'>PARAMETERS</span>
           <ul>
-            <li><span class='variable'>colours</span>: a list of length 4 of CSS colour values (as strings).</li>
+            <li><span class='variable'>colour0</span>: a CSS colour value (as a string).</li>
+            <li><span class='variable'>colour1</span>: a CSS colour value (as a string).</li>
+            <li><span class='variable'>colour2</span>: a CSS colour value (as a string).</li>
+            <li><span class='variable'>colour3</span>: a CSS colour value (as a string).</li>
           </ul>
           <span class='descHeader'>BEHAVIOUR</span>
           <div class="indent4">
-            Set the colours provided to the user to be the ones provided in <span class='variable'>colours</span>. Display
-            them in the same order (left to right) that they are provided in <span class='variable'>colours</span>.
+            Set the colours provided to the user to be the ones provided. Display
+            them in the same order that they are provided as arguments (left to right).
           </div>
         </div>
 
@@ -415,42 +454,6 @@
           <span class='descHeader'>BEHAVIOUR</span>
           <div class="indent4">
             Give this Mark instance's pop-up a minimize/maximize button.
-          </div>
-        </div>
-
-        <h3 class='apiSubHeader'>Methods: Note-Pasting by the Developer</h3>
-
-        <h3 class='functionHeader'>setNoteLayerNumber(layerNumber)</h3>
-        <div class="functionDesc">
-          <span class='descHeader'>PARAMETERS</span>
-          <ul>
-            <li><span class='variable'>layerNumber</span>: an integer from 1 to 3, inclusive.</li>
-          </ul>
-          <span class='descHeader'>BEHAVIOUR</span>
-          <div class="indent4">
-            Set this Mark instance's note layer to Note Layer &lt<span class='variable'>layerNumber</span>&gt.
-            After this method is run, the only notes written with this Mark instance visible to the user are those written when
-            this Mark instance was on Note Layer &lt<span class='variable'>layerNumber</span>&gt.
-          </div>
-        </div>
-
-        <h3 class='functionHeader'>addNote(position, text, referenceSelector)</h3>
-        <div class="functionDesc">
-          <span class='descHeader'>PARAMETERS</span>
-          <ul>
-            <li>
-              <span class='variable'>position</span>: an object containing a top property OR a bottom property (not both), and containing
-              a left propery OR a right property (not both).
-            </li>
-            <li><span class='variable'>text</span>: text to place in the note.</li>
-            <li><span class='variable'>referenceSelector</span>: the selector of an HTML element that we want
-              to use as a reference when attatching this note.
-            </li>
-          </ul>
-          <span class='descHeader'>BEHAVIOUR</span>
-          <div class="indent4">
-            Paste a new note, with the message <span class='variable'>text</span>, on the Note Layer that this Mark instance is currently set to (this can be set by both the developer
-            using setNoteLayerNumber, and the user via the Mark instance's pop-up).
           </div>
         </div>
 

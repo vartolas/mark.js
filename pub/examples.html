@@ -171,17 +171,22 @@
          <h2 class='exampleSectionHeader'>Scenario</h2>
          <ul class='exampleList'>
            <li>
-             For this example, I want you, the user, to be able to keep track of any notes
-             you need to make while going over the Mark.js documentation.
+             For this example, we want to be able to keep track of any notes
+             we need to make while going over the Mark.js documentation.
            </li>
            <li>
-             You may for instance want to highlight a method so that you remember to make use of it later, or leave a note
-             next to a method description that doesn't sit well.
+             We may, for instance, want to highlight a method so that we remember to make use of it later, or leave a note
+             next to a method description that doesn't sit well with us.
            </li>
            <li>
-             Since I want to make both the Highlighter and Notetaker feature available, I will freeze the pop-up once it is
-             maximized. I will also choose the pop-up's dark theme; I think it sits well with the 'Docs' page.
-             Lastly, I'll fix its position to the left of the viewport.
+             Since we want to have access to both the Highlighter and Notetaker features, we will not freeze the pop-up this time. We will however
+             initially minimize the pop-up; we don't want it to interfere too much with the documentation.
+           </li>
+           <li>
+             We will will also choose the pop-up's (default) light theme; it fits well with the documentation page.
+           </li>
+           <li>
+             Lastly, we'll fix its position to the top-right of the viewport.
            </li>
          </ul>
        </div>
@@ -189,11 +194,22 @@
        <div class="slideComponent">
          <h2 class='exampleSectionHeader'>Mark.js Instantiation</h2>
          <div class='codeBox marginBottom80px'>
-           <span class='comment'>/* By default, the pop-up has fixed positioning, and is maximized */</span> <br>
            <span class='constKeyword'>const</span> markInstance = <span class="newKeyword">new</span> <span class="yellow">Mark</span>(); <br>
            markInstance.<span class="function">useLightTheme</span>(); <br>
            markInstance.<span class="function">useLightTheme</span>(); <br>
-           <br>
+           markInstance.<span class="function">highlighterColours</span>(<span class="string">"orange"</span>, <span class="string">"lime"</span>, <span class="string">"pink"</span>, <span class="string">"cyan"</span>); <br>
+
+
+           <span class='comment'>// Fix to top-right of viewport.</span> <br>
+           markInstance.<span class="function">setTop</span>(<span class="string">"80px"</span>); <br>
+           markInstance.<span class="function">setRight</span>(<span class="string">"20px"</span>); <br>
+           <span class='comment'>// Minimize initially.</span> <br>
+           markInstance.<span class="function">minimize</span>(); <br>
+           <span class='comment'>// Leave note for user to use the pop-up.</span> <br>
+           markInstance.<span class="function">addNote</span>({ <br>
+           &emsp; <span class="red">left</span>: <span class="orange">100</span>, <br>
+           &emsp; <span class="red">top</span>: <span class="orange">100</span>, <br>
+         }, <span class="string">"Use the pop-up!"</span>); <br>
          </div>
        </div>
 

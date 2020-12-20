@@ -1,3 +1,4 @@
+// Using jquery:
 const gettingStartedLink = document.querySelector("#gettingStartedLink");
 gettingStartedLink.addEventListener("click", e => {
   $('body, html').animate({scrollTop:$("#gettingStartedHeader").offset().top - 70}, 1000)

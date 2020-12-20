@@ -2,20 +2,20 @@ const NOTES = [
   {
     text: "Try navigating between note layers! First, \
     expand the pop-up. Then, click on the right arrow next to the 'Note Layer 1' text.",
-    top: 100,
-    left: 850
+    top: 70,
+    left: 1100
   },
   {
     text: "Try highlighting this webpage's text with Mark.js! Turn the 'Highlighter' \
     on, select a colour, and highlight away.",
-    top: 550,
-    left: 120
+    top: 600,
+    left: 420
   },
   {
     text: "With Mark.js, you can leave notes like these. Try it! \
     Turn the 'Notetaker' on, write a note, then click anywhere to paste it.",
     top: 630,
-    left: 800
+    left: 1100
   }
 ];
 

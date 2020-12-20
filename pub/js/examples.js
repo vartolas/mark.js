@@ -1,3 +1,4 @@
+// Using JQuery:
 const tutorialLink = document.querySelector("#tutorialLink");
 tutorialLink.addEventListener("click", e => {
   $('body, html').animate({scrollTop:$("#tutorialHeader").offset().top - 70}, 1000)

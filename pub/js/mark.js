@@ -1065,10 +1065,8 @@
   }
 
   Mark.prototype = {
-    setCurrentHighlighterColour,
     hidePopUp,
     showPopUp,
-    setHighlighterColours,
     setTop,
     setBottom,
     setLeft,
@@ -1076,21 +1074,23 @@
     applyFixedPositioning,
     applyAbsolutePositioning,
     setParentElement,
+    setCurrentHighlighterColour,
+    setHighlighterColours,
     setPopUpBackgroundColour,
     setPopUpTextColour,
     setPopUpBorderColour,
     setOffButtonColour,
     setOnButtonColour,
     setNoteInputColour,
-    setNoteLayerNumber,
     setSwitchTextColour,
-    addNote,
     useDarkTheme,
     useLightTheme,
     maximize,
     minimize,
     freeze,
-    unfreeze
+    unfreeze,
+    setNoteLayerNumber,
+    addNote,
   }
 
   // Add the library constructor to the global window object if it is not added already.

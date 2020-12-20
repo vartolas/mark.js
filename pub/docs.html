@@ -80,7 +80,95 @@
 
       <h1 id='apiHeader' class='smallExampleHeader'>API</h1>
 
+      <h3 class='apiSubHeader'>Constructor</h3>
+      <h3 class='functionHeader'>Mark(selector)</h3>
 
+      <div class="functionDesc">
+        <span class='descHeader'>PARAMETERS</span>
+        <ul>
+          <li><span class='variable'>selector</span>: an HTML selector</li>
+        </ul>
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          Instantiates a default Mark.js pop-up. If <span class="variable">selector</span> is provided,
+          the pop-up is positioned absolutely at the top-left of the corresponding HTML element. Otherwise,
+          the pop-up is fixed to the top-left of the viewport.
+        </div>
+      </div>
+
+      <h3 class='apiSubHeader'>Methods: Pop-up Positioning</h3>
+
+      <h3 class='functionHeader'>hidePopUp()</h3>
+      <div class="functionDesc">
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          Hides the Mark.js pop-up associated with the Mark.js object the method is called on.
+        </div>
+      </div>
+
+      <h3 class='functionHeader'>showPopUp()</h3>
+      <div class="functionDesc">
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          Shows the Mark.js pop-up associated with the Mark.js object the method is called on.
+        </div>
+      </div>
+
+      <h3 class='functionHeader'>setTop(value)</h3>
+      <div class="functionDesc">
+        <span class='descHeader'>PARAMETERS</span>
+        <ul>
+          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+        </ul>
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          If the Mark.js pop-up is positioned absolutely, this sets the y-coordinate of the top of the Mark.js pop-up to the y-coordinate of its "reference element" plus
+          <span class="variable">top</span>. Otherwise, the Mark.js pop-up has fixed positioning, and
+          its top property is set to <span class="variable">value</span>.
+        </div>
+      </div>
+
+      <h3 class='functionHeader'>setBottom(value)</h3>
+      <div class="functionDesc">
+        <span class='descHeader'>PARAMETERS</span>
+        <ul>
+          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+        </ul>
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          If the Mark.js pop-up is positioned absolutely, this sets the y-coordinate of the bottom of the Mark.js pop-up to the y-coordinate of its "reference element" minus
+          <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning, and
+          its bottom property is set to <span class="variable">value</span> px.
+        </div>
+      </div>
+
+      <h3 class='functionHeader'>setLeft(value)</h3>
+      <div class="functionDesc">
+        <span class='descHeader'>PARAMETERS</span>
+        <ul>
+          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+        </ul>
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          If the Mark.js pop-up is positioned absolutely, this sets the x-coordinate of the left of the Mark.js pop-up to the x-coordinate of its "reference element" plus
+          <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning, and
+          its left property is set to <span class="variable">value</span> px.
+        </div>
+      </div>
+
+      <h3 class='functionHeader'>setRight(value)</h3>
+      <div class="functionDesc">
+        <span class='descHeader'>PARAMETERS</span>
+        <ul>
+          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+        </ul>
+        <span class='descHeader'>BEHAVIOUR</span>
+        <div class="indent4">
+          If the Mark.js pop-up is positioned absolutely, this sets the x-coordinate of the right of the Mark.js pop-up to the x-coordinate of its "reference element" plus
+          <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning, and
+          its left property is set to <span class="variable">value</span> px.
+        </div>
+      </div>
 
     </div>
 

@@ -101,8 +101,6 @@
   padding: 10px;
 }
 
-
-
 .variable {
   font-family: "Inconsolata", monospace;
   padding: 2px;
@@ -135,3 +133,8 @@
 .descHeader {
   /* text-decoration: underline; */
 }
+
+/* .marginLeftDocsBox {
+  margin-left: 200px;
+  width: 100%;
+} */

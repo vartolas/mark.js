@@ -30,145 +30,432 @@
 
     <div class='bigBox firstBackground'>
       <h1 id='gettingStartedHeader' class='smallExampleHeader'>Getting Started</h1>
-      <p class='textPgph'>
-        To use Mark.js on your webpage, you must link to the library's stylesheet
-        and script file in your HTML as follows:
-      </p>
-      <div class="codeBox">
-        &lt<span class='red'>link</span> <span class='orange'>rel</span>=<span class='string'>"stylesheet"</span> <span class='orange'>type</span>=<span class='string'>"text/css"</span> <span class='orange'>href</span>=<span class='string'>"mark-styles.css"</span>&gt <br>
-        &lt<span class='red'>script</span> <span class='orange'>type</span>=<span class='string'>"text/javascript"</span> <span class='orange'>src</span>=<span class='string'>"js/mark.js"</span>&gt <br>
-      </div>
-      <p class='textPgph'>
-        Then, in your HTML's respective JS file, instantiate a default Mark.js pop-up.
-      </p>
-      <div class="codeBox">
-        <span class='constKeyword'>const</span> markInstance = <span class='newKeyword'>new</span> <span class='yellow'>Mark</span>();
-      </div>
-      <p class='textPgph'>
-        This pop-up is fixed to the top-left of the viewport by default. We can use the Mark.js API (defined below) to
-        edit the pop-up's state as follows:
-      </p>
-      <div class="codeBox marginBottom70px">
-        <span class='comment'>// Fix the pop-up to the top-right of a specified HTML element.</span> <br>
-        markInstance.<span class="function">setParentElement</span>(<span class="string">"elementID"</span>); <br>
-        markInstance.<span class="function">setRight</span>(<span class="string">"0"</span>); <br>
-        markInstance.<span class="function">applyAbsolutePositioning</span>(); <br>
-        <br>
+      <div class="marginLeftDocsBox">
+        <p class='textPgph'>
+          To use Mark.js on your webpage, you must link to the library's stylesheet
+          and script file in your HTML as follows:
+        </p>
+        <div class="codeBox">
+          &lt<span class='red'>link</span> <span class='orange'>rel</span>=<span class='string'>"stylesheet"</span> <span class='orange'>type</span>=<span class='string'>"text/css"</span> <span class='orange'>href</span>=<span class='string'>"mark-styles.css"</span>&gt <br>
+          &lt<span class='red'>script</span> <span class='orange'>type</span>=<span class='string'>"text/javascript"</span> <span class='orange'>src</span>=<span class='string'>"js/mark.js"</span>&gt <br>
+        </div>
+        <p class='textPgph'>
+          Then, in your HTML's respective JS file, instantiate a default Mark.js pop-up.
+        </p>
+        <div class="codeBox">
+          <span class='constKeyword'>const</span> markInstance = <span class='newKeyword'>new</span> <span class='yellow'>Mark</span>();
+        </div>
+        <p class='textPgph'>
+          This pop-up is fixed to the top-left of the viewport by default. We can use the Mark.js API (defined below) to
+          edit the pop-up's state as follows:
+        </p>
+        <div class="codeBox marginBottom70px">
+          <span class='comment'>// Fix the pop-up to the top-right of a specified HTML element.</span> <br>
+          markInstance.<span class="function">setParentElement</span>(<span class="string">"elementID"</span>); <br>
+          markInstance.<span class="function">setRight</span>(<span class="string">"0"</span>); <br>
+          markInstance.<span class="function">applyAbsolutePositioning</span>(); <br>
+          <br>
 
-        <span class='comment'>// Set its 4 available highlighter colours.</span> <br>
-        markInstance.<span class="function">setHighlighterColours</span>(<span class="string">"#FFFF00"</span>, <span class="string">"lime"</span>, <span class="string">"cyan"</span>, <span class="string">"#FF7777"</span>); <br>
-        <br>
+          <span class='comment'>// Set its 4 available highlighter colours.</span> <br>
+          markInstance.<span class="function">setHighlighterColours</span>(<span class="string">"#FFFF00"</span>, <span class="string">"lime"</span>, <span class="string">"cyan"</span>, <span class="string">"#FF7777"</span>); <br>
+          <br>
 
-        <span class='comment'>// Match the pop-ups theme to fit some webpage's dark theme.</span> <br>
-        markInstance.<span class="function">setPopUpBackgroundColour</span>(<span class="string">"#222222"</span>); <br>
-        markInstance.<span class="function">setPopUpBorderColour</span>(<span class="string">"#gray"</span>); <br>
-        markInstance.<span class="function">setPopUpTextColour</span>(<span class="string">"#CCCCCC"</span>); <br>
-        markInstance.<span class="function">setOffButtonColour</span>(<span class="string">"#FF6666"</span>); <br>
-        markInstance.<span class="function">setOnButtonColour</span>(<span class="string">"#AAFFAA"</span>); <br>
-        markInstance.<span class="function">setSwitchTextColour</span>(<span class="string">"#222222"</span>); <br>
-        markInstance.<span class="function">setNoteInputColour</span>(<span class="string">"white"</span>);  <br>
-        <br>
+          <span class='comment'>// Match the pop-ups theme to fit some webpage's dark theme.</span> <br>
+          markInstance.<span class="function">setPopUpBackgroundColour</span>(<span class="string">"#222222"</span>); <br>
+          markInstance.<span class="function">setPopUpBorderColour</span>(<span class="string">"#gray"</span>); <br>
+          markInstance.<span class="function">setPopUpTextColour</span>(<span class="string">"#CCCCCC"</span>); <br>
+          markInstance.<span class="function">setOffButtonColour</span>(<span class="string">"#FF6666"</span>); <br>
+          markInstance.<span class="function">setOnButtonColour</span>(<span class="string">"#AAFFAA"</span>); <br>
+          markInstance.<span class="function">setSwitchTextColour</span>(<span class="string">"#222222"</span>); <br>
+          markInstance.<span class="function">setNoteInputColour</span>(<span class="string">"white"</span>);  <br>
+          <br>
 
-        <span class='comment'>// Paste a note for the user to see on the second note layer. (Both devs and users can paste notes!)</span> <br>
-        markInstance.<span class="function">setNoteLayerNumber</span>(2); <br>
-        markInstance.<span class="function">addNote</span>({ <br>
-        &emsp; <span class="red">left</span>: <span class="orange">400</span>, <br>
-        &emsp; <span class="red">top</span>: <span class="orange">120</span>, <br>
-        }, <span class="string">"Hey user!"</span>, <span class="string">"#elementID2"</span>); <br>
-        markInstance.<span class="function">setNoteLayerNumber</span>(1); <span class='comment'>// We want the user to start off on the first note layer.</span> <br>
+          <span class='comment'>// Paste a note for the user to see on the second note layer. (Both devs and users can paste notes!)</span> <br>
+          markInstance.<span class="function">setNoteLayerNumber</span>(2); <br>
+          markInstance.<span class="function">addNote</span>({ <br>
+          &emsp; <span class="red">left</span>: <span class="orange">400</span>, <br>
+          &emsp; <span class="red">top</span>: <span class="orange">120</span>, <br>
+          }, <span class="string">"Hey user!"</span>, <span class="string">"#elementID2"</span>); <br>
+          markInstance.<span class="function">setNoteLayerNumber</span>(1); <span class='comment'>// We want the user to start off on the first note layer.</span> <br>
+        </div>
       </div>
 
       <h1 id='apiHeader' class='smallExampleHeader'>API</h1>
+      <div class="marginLeftDocsBox">
 
-      <h3 class='apiSubHeader'>Constructor</h3>
-      <h3 class='functionHeader'>Mark(selector)</h3>
 
-      <div class="functionDesc">
-        <span class='descHeader'>PARAMETERS</span>
-        <ul>
-          <li><span class='variable'>selector</span>: an HTML selector</li>
-        </ul>
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          Instantiates a default Mark.js pop-up. If <span class="variable">selector</span> is provided,
-          the pop-up is positioned absolutely at the top-left of the corresponding HTML element. Otherwise,
-          the pop-up is fixed to the top-left of the viewport.
+        <h3 class='apiSubHeader'>Constructor</h3>
+        <h3 class='functionHeader'>Mark(selector)</h3>
+
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>selector</span>: an HTML selector</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Instantiates a default Mark.js pop-up. If <span class="variable">selector</span> is provided,
+            the pop-up is positioned absolutely at the top-left of the corresponding HTML element. Otherwise,
+            the pop-up is fixed to the top-left of the viewport.
+          </div>
         </div>
+
+        <h3 class='apiSubHeader'>Methods: Pop-up Positioning</h3>
+
+        <h3 class='functionHeader'>hidePopUp()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Hides the Mark.js pop-up associated with the Mark.js object the method is called on.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>showPopUp()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Show the Mark.js pop-up associated with the Mark.js object the method is called on.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setTop(value)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            If the Mark.js pop-up is positioned absolutely, set the y-coordinate of the top of the Mark.js pop-up to the y-coordinate of the top edge of its "reference element" plus
+            <span class="variable">value</span>. Otherwise, the Mark.js pop-up has fixed positioning; set
+            its top property to <span class="variable">value</span>.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setBottom(value)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            If the Mark.js pop-up is positioned absolutely, set the y-coordinate of the bottom of the Mark.js pop-up to the y-coordinate of the bottom edge of its "reference element" minus
+            <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning; set
+            its bottom property to <span class="variable">value</span> px.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setLeft(value)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            If the Mark.js pop-up is positioned absolutely, set the x-coordinate of the left of the Mark.js pop-up to the x-coordinate of the left edge of its "reference element" plus
+            <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning; set
+            its left property to <span class="variable">value</span> px.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setRight(value)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            If the Mark.js pop-up is positioned absolutely, set the x-coordinate of the right of the Mark.js pop-up to the x-coordinate of the right edge of its "reference element" plus
+            <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning; set
+            its right property to <span class="variable">value</span> px.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>applyFixedPositioning()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Fix the position of the Mark.js pop-up. The pop-up is given one of top/bottom properties
+            according to the following rules.
+            <ul>
+              <li>
+                If setTop/setBottom has not been called on this Mark instance, give the pop-up
+                a top property of 0.
+              </li>
+              <li>
+                Otherwise, if setTop was called on the Mark instance more recently than setBottom was called, give the pop-up
+                a top property equal to the input of the argument used in the last call to setTop.
+              </li>
+              <li>
+                Otherwise, setBottom was called on the Mark instance more recently than setTop was called; give the pop-up
+                a bottom property equal to the input of the argument used in the last call to setBottom.
+              </li>
+            </ul>
+            The pop-up is given one of left/right properties according to the same idea with setLeft/setRight.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>applyAbsolutePositioning()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Position the Mark.js pop-up absolutely relative to the last reference element set. The last reference element is determined
+            according to the following rules.
+            <ul>
+              <li>
+                If setParent has been called on this Mark instance, the pop-up's reference element is the
+                one defined by the selector argument to the last call to setParent.
+              </li>
+              <li>
+                Otherwise, setParent has not been called on this Mark instance. The pop-up's reference element
+                is the one defined by the selector argument given to the constructor. If there was no selector
+                argument given to the constructor, the popup's reference element is the document's body.
+              </li>
+            </ul>
+
+            The pop-up is given one of top/bottom properties according to the following rules.
+            <ul>
+              <li>
+                If setTop/setBottom has not been called on this Mark instance, give the pop-up
+                a top property of 0.
+              </li>
+              <li>
+                Otherwise, if setTop was called on the Mark instance more recently than setBottom was called, give the pop-up
+                a top property equal to the input of the argument used in the last call to setTop.
+              </li>
+              <li>
+                Otherwise, setBottom was called on the Mark instance more recently than setTop was called; give the pop-up
+                a bottom property equal to the input of the argument used in the last call to setBottom.
+              </li>
+            </ul>
+            The pop-up is given one of left/right properties according to the same idea with setLeft/setRight.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setParentElement()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the parent element used when the Mark instance's pop-up is positioned absolutely.
+          </div>
+        </div>
+
+        <h3 class='apiSubHeader'>Methods: Pop-up Style</h3>
+
+        <h3 class='functionHeader'>setCurrentHighlighterColour(i)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>i</span>: an integer from 0 to 3, inclusive.</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the active highlighter colour (the one the user can currently highlight with) to be the (<span class='variable'>i</span> + 1)-th
+            that is displayed on this Mark instance' pop-up (viewing from left to right).
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setHighlighterColours(colours)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colours</span>: a list of length 4 of CSS colour values (as strings).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the colours provided to the user to be the ones provided in <span class='variable'>colours</span>. Display
+            them in the same order (left to right) that they are provided in <span class='variable'>colours</span>.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setPopUpBackgroundColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's background colour to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setPopUpTextColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's text colour to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setPopUpTextColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's text colour to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setPopUpBorderColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's border colours to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setOnButtonColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's on button colours to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setOffButtonColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's off button colours to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setNoteInputColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's note input text colour to the one specified by the <span class='variable'>colour</span> string.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>setSwitchTextColour(colour)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>colour</span>: a CSS colour value (string).</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set the pop-up's button text colours to the one specified by the <span class='variable'>colour</span> string.
+            This method does not apply to the pop-up's on/off switches.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>useDarkTheme()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Apply the default dark theme to this Mark instance's pop-up.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>useLightTheme()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Apply the default light theme to this Mark instance's pop-up.
+          </div>
+        </div>
+
+        <h3 class='apiSubHeader'>Methods: Pop-up View</h3>
+
+        <h3 class='functionHeader'>maximize()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Maximize the view of this Mark instance's pop-up.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>minimize()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Minimize the view of this Mark instance's pop-up.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>freeze()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Take away the minimize/maximize button from this Mark instance's pop-up.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>unfreeze()</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Give this Mark instance's pop-up a minimize/maximize button.
+          </div>
+        </div>
+
+        <h3 class='apiSubHeader'>Methods: Note-Pasting by the Developer</h3>
+
+        <h3 class='functionHeader'>setNoteLayerNumber(layerNumber)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li><span class='variable'>layerNumber</span>: an integer from 1 to 3, inclusive.</li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Set this Mark instance's note layer to Note Layer &lt<span class='variable'>layerNumber</span>&gt.
+            After this method is run, the only notes written with this Mark instance visible to the user are those written when
+            this Mark instance was on Note Layer &lt<span class='variable'>layerNumber</span>&gt.
+          </div>
+        </div>
+
+        <h3 class='functionHeader'>addNote(position, text, referenceSelector)</h3>
+        <div class="functionDesc">
+          <span class='descHeader'>PARAMETERS</span>
+          <ul>
+            <li>
+              <span class='variable'>position</span>: an object containing a top property OR a bottom property (not both), and containing
+              a left propery OR a right property (not both).
+            </li>
+            <li><span class='variable'>text</span>: text to place in the note.</li>
+            <li><span class='variable'>referenceSelector</span>: the selector of an HTML element that we want
+              to use as a reference when attatching this note.
+            </li>
+          </ul>
+          <span class='descHeader'>BEHAVIOUR</span>
+          <div class="indent4">
+            Paste a new note, with the message <span class='variable'>text</span>, on the Note Layer that this Mark instance is currently set to (this can be set by both the developer
+            using setNoteLayerNumber, and the user via the Mark instance's pop-up).
+          </div>
+        </div>
+
       </div>
 
-      <h3 class='apiSubHeader'>Methods: Pop-up Positioning</h3>
-
-      <h3 class='functionHeader'>hidePopUp()</h3>
-      <div class="functionDesc">
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          Hides the Mark.js pop-up associated with the Mark.js object the method is called on.
-        </div>
-      </div>
-
-      <h3 class='functionHeader'>showPopUp()</h3>
-      <div class="functionDesc">
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          Shows the Mark.js pop-up associated with the Mark.js object the method is called on.
-        </div>
-      </div>
-
-      <h3 class='functionHeader'>setTop(value)</h3>
-      <div class="functionDesc">
-        <span class='descHeader'>PARAMETERS</span>
-        <ul>
-          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
-        </ul>
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          If the Mark.js pop-up is positioned absolutely, this sets the y-coordinate of the top of the Mark.js pop-up to the y-coordinate of its "reference element" plus
-          <span class="variable">top</span>. Otherwise, the Mark.js pop-up has fixed positioning, and
-          its top property is set to <span class="variable">value</span>.
-        </div>
-      </div>
-
-      <h3 class='functionHeader'>setBottom(value)</h3>
-      <div class="functionDesc">
-        <span class='descHeader'>PARAMETERS</span>
-        <ul>
-          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
-        </ul>
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          If the Mark.js pop-up is positioned absolutely, this sets the y-coordinate of the bottom of the Mark.js pop-up to the y-coordinate of its "reference element" minus
-          <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning, and
-          its bottom property is set to <span class="variable">value</span> px.
-        </div>
-      </div>
-
-      <h3 class='functionHeader'>setLeft(value)</h3>
-      <div class="functionDesc">
-        <span class='descHeader'>PARAMETERS</span>
-        <ul>
-          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
-        </ul>
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          If the Mark.js pop-up is positioned absolutely, this sets the x-coordinate of the left of the Mark.js pop-up to the x-coordinate of its "reference element" plus
-          <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning, and
-          its left property is set to <span class="variable">value</span> px.
-        </div>
-      </div>
-
-      <h3 class='functionHeader'>setRight(value)</h3>
-      <div class="functionDesc">
-        <span class='descHeader'>PARAMETERS</span>
-        <ul>
-          <li><span class='variable'>value</span>: a number of pixels (of type Number).</li>
-        </ul>
-        <span class='descHeader'>BEHAVIOUR</span>
-        <div class="indent4">
-          If the Mark.js pop-up is positioned absolutely, this sets the x-coordinate of the right of the Mark.js pop-up to the x-coordinate of its "reference element" plus
-          <span class="variable">value</span> px. Otherwise, the Mark.js pop-up has fixed positioning, and
-          its left property is set to <span class="variable">value</span> px.
-        </div>
-      </div>
 
     </div>
 

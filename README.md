@@ -1,5 +1,5 @@
 # Mark.js
 
-### Landing Page: markjs.cyclic.app/index.html
+### [Landing Page](https://markjs.cyclic.app/index.html)
 
-### Documentation & Getting Started: markjs.cyclic.app/docs.html
+### [Documentation & Getting Started](https://markjs.cyclic.app/docs.html)

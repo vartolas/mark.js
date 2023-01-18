@@ -1,5 +1,5 @@
 # Mark.js
 
-### Landing Page: https://calm-gorge-17368.herokuapp.com/index.html
+### Landing Page: markjs.cyclic.app/index.html
 
-### Documentation & Getting Started: https://calm-gorge-17368.herokuapp.com/docs.html
+### Documentation & Getting Started: markjs.cyclic.app/docs.html
